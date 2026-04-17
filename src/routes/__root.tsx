@@ -34,6 +34,10 @@ export const Route = createRootRoute({
       { name: "author", content: "JollyZu" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:title", content: "JollyZu — Upcycled Handmade Bags from Edinburgh" },
+      { name: "twitter:title", content: "JollyZu — Upcycled Handmade Bags from Edinburgh" },
+      { property: "og:description", content: "Bold, handmade bags built from rescued textiles. Slow fashion with serious attitude — by indie maker Zuza in Edinburgh." },
+      { name: "twitter:description", content: "Bold, handmade bags built from rescued textiles. Slow fashion with serious attitude — by indie maker Zuza in Edinburgh." },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
