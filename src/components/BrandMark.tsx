@@ -3,77 +3,89 @@ import { cn } from "@/lib/utils";
 /**
  * JollyZu wordmark.
  *
- * Custom SVG logo: chunky stencil-style wordmark where the "O" is replaced
- * by a hand-stitched circle (dashed ring), nodding to the handmade /
- * upcycled craft. The dot of the "i" / accent becomes a tiny mustard
- * stitch knot. Designed to feel bold, playful, and crafted — not generic.
+ * Typographic logo: tight Archivo Black wordmark where the "O" in JOLLY is
+ * swapped for a hand-stitched dashed circle (nod to the handmade craft),
+ * and a small mustard "knot" sits as the accent. Reads bold, crafted, and
+ * unmistakably JollyZu — works on cream or ink backgrounds.
  */
 export function BrandMark({
   className,
   tone = "ink",
-  showTag = true,
+  size = "md",
 }: {
   className?: string;
   tone?: "ink" | "cream";
-  showTag?: boolean;
+  size?: "sm" | "md" | "lg";
 }) {
-  const fg = tone === "ink" ? "var(--ink)" : "var(--cream)";
-  const accent = "var(--mustard)";
-  const stitch = tone === "ink" ? "var(--purple-deep)" : "var(--mustard)";
+  const fg = tone === "ink" ? "text-ink" : "text-cream";
+  const stitch = tone === "ink" ? "text-purple-deep" : "text-mustard";
+
+  const sizeMap = {
+    sm: { text: "text-xl", ring: 14, stroke: 2.2 },
+    md: { text: "text-2xl md:text-[26px]", ring: 18, stroke: 2.6 },
+    lg: { text: "text-4xl md:text-5xl", ring: 28, stroke: 3.4 },
+  } as const;
+
+  const { text, ring, stroke } = sizeMap[size];
+  const dim = ring * 2 + 4;
 
   return (
-    <span className={cn("inline-flex items-center gap-2.5", className)} aria-label="JollyZu">
-      <svg
-        viewBox="0 0 220 56"
-        role="img"
-        aria-hidden="true"
-        className="h-7 w-auto md:h-8"
+    <span
+      aria-label="JollyZu"
+      className={cn(
+        "text-display inline-flex items-center leading-none tracking-[-0.04em]",
+        text,
+        fg,
+        className,
+      )}
+    >
+      <span>J</span>
+      {/* O → stitched ring */}
+      <span
+        className="relative inline-flex items-center justify-center"
+        style={{ width: dim, height: dim, marginInline: -2 }}
       >
-        {/* J */}
-        <path
-          d="M8 6 H28 V36 a14 14 0 0 1 -28 0 v-4 h10 v4 a4 4 0 0 0 8 0 V6 Z"
-          fill={fg}
-        />
-        {/* O — stitched ring */}
-        <g>
-          <circle cx="48" cy="28" r="14" fill="none" stroke={fg} strokeWidth="6" />
+        <svg
+          viewBox={`0 0 ${dim} ${dim}`}
+          width={dim}
+          height={dim}
+          aria-hidden="true"
+          className="absolute inset-0"
+        >
           <circle
-            cx="48"
-            cy="28"
-            r="14"
+            cx={dim / 2}
+            cy={dim / 2}
+            r={ring}
             fill="none"
-            stroke={stitch}
-            strokeWidth="2"
-            strokeDasharray="3 4"
+            className={fg}
+            stroke="currentColor"
+            strokeWidth={stroke + 1.4}
+          />
+          <circle
+            cx={dim / 2}
+            cy={dim / 2}
+            r={ring}
+            fill="none"
+            className={stitch}
+            stroke="currentColor"
+            strokeWidth={stroke - 0.6}
+            strokeDasharray="2.5 3.5"
             strokeLinecap="round"
           />
-        </g>
-        {/* L */}
-        <path d="M70 6 H80 V40 H94 V50 H70 Z" fill={fg} />
-        {/* L */}
-        <path d="M98 6 H108 V40 H122 V50 H98 Z" fill={fg} />
-        {/* Y */}
-        <path
-          d="M126 6 H137 L143 22 L149 6 H160 L148 32 V50 H138 V32 Z"
-          fill={fg}
-        />
-        {/* Z — slanted with mustard accent block */}
-        <path d="M166 6 H198 V14 L180 42 H198 V50 H166 V42 L184 14 H166 Z" fill={fg} />
-        {/* U */}
-        <path
-          d="M204 6 H214 V36 a4 4 0 0 0 8 0 V6 H214 Z"
-          fill={fg}
-          transform="translate(-2 0)"
-        />
-        {/* mustard stitch dot */}
-        <circle cx="217" cy="10" r="3" fill={accent} />
-      </svg>
-      {showTag && (
-        <span
-          className="hidden h-1.5 w-1.5 rounded-full md:inline-block"
-          style={{ background: "var(--leaf)" }}
-        />
-      )}
+        </svg>
+      </span>
+      <span>LLYZU</span>
+      {/* mustard accent dot — like a stitch knot */}
+      <span
+        aria-hidden="true"
+        className="ml-1 inline-block rounded-full bg-mustard"
+        style={{
+          width: size === "lg" ? 8 : 5,
+          height: size === "lg" ? 8 : 5,
+          alignSelf: "flex-start",
+          marginTop: size === "lg" ? 6 : 4,
+        }}
+      />
     </span>
   );
 }
