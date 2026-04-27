@@ -163,7 +163,7 @@ function Index() {
                 </div>
                 <div className="mt-8 flex items-end justify-between gap-4 border-t border-ink/15 pt-5">
                   <span className="text-xs font-bold uppercase tracking-widest text-ink/60">Starting from</span>
-                  <span className="text-display text-3xl text-purple-deep">£35</span>
+                  <span className="text-display text-3xl text-purple-deep">£40</span>
                 </div>
               </div>
             </div>
