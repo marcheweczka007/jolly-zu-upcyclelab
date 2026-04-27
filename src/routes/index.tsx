@@ -3,7 +3,9 @@ import { SiteHeader, SHOP_URL } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { Marquee } from "@/components/Marquee";
 import { ShopCTA } from "@/components/ShopCTA";
-import heroBag from "@/assets/hero-bag.jpg";
+// HERO IMAGE — replace src/assets/hero-product.jpg with your own product photo
+// (portrait orientation works best, ~1200x1600). Keep the filename to avoid edits here.
+import heroProduct from "@/assets/hero-product.jpg";
 import bagsFlatlay from "@/assets/bags-flatlay.jpg";
 import fabricStack from "@/assets/fabric-stack.jpg";
 
