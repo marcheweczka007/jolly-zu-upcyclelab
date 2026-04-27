@@ -28,24 +28,27 @@ function Index() {
 
       {/* HERO */}
       <section className="relative overflow-hidden">
-        <div className="mx-auto grid max-w-7xl gap-8 px-5 pb-12 pt-8 md:grid-cols-12 md:gap-6 md:px-8 md:pb-20 md:pt-16">
+        <div className="mx-auto grid max-w-7xl items-center gap-10 px-5 pb-16 pt-10 md:grid-cols-12 md:gap-12 md:px-8 md:pb-28 md:pt-20">
           <div className="md:col-span-7">
-            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-ink/20 bg-cream px-4 py-1.5 text-xs font-bold uppercase tracking-widest">
+            <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-ink/20 bg-cream px-4 py-1.5 text-xs font-bold uppercase tracking-widest">
               <span className="h-2 w-2 rounded-full bg-leaf" />
               Made in Edinburgh · 0% new fabric
             </div>
-            <h1 className="text-display text-[14vw] leading-[0.85] md:text-[9rem]">
-              BAGS<br />
-              <span className="text-purple-deep">WITH A</span><br />
-              <span className="bg-mustard px-3 inline-block -rotate-1">PAST.</span>
+            <h1 className="text-display text-[11vw] leading-[0.9] md:text-[5.5rem] lg:text-[6.5rem]">
+              Waterproof bags<br />
+              made from <span className="bg-mustard px-3 inline-block -rotate-1">waste</span> —<br />
+              <span className="text-purple-deep">built for real life.</span>
             </h1>
-            <p className="mt-8 max-w-md text-lg text-ink/70 md:text-xl">
-              Handmade in small batches from textiles the world threw away. Built bold. Built to last. Built by one person — Zuza.
+            <p className="mt-8 max-w-lg text-lg text-ink/70 md:text-xl">
+              Handmade in Edinburgh from upcycled materials. Durable, practical, and one of a kind.
             </p>
-            <div className="mt-10 flex flex-wrap items-center gap-4">
-              <ShopCTA variant="huge" />
-              <a href="#story" className="text-sm font-bold uppercase tracking-wider underline-offset-4 hover:underline">
-                Read the story →
+            <div className="mt-10 flex flex-wrap items-center gap-5">
+              <ShopCTA variant="huge" label="Shop bags" />
+              <a
+                href="#story"
+                className="text-sm font-bold uppercase tracking-wider underline-offset-4 hover:underline"
+              >
+                See how they're made →
               </a>
             </div>
           </div>
@@ -57,13 +60,16 @@ function Index() {
             <div className="absolute -bottom-4 -right-4 z-10 rotate-[8deg] bg-purple-deep px-4 py-2 text-xs font-bold uppercase tracking-wider text-cream shadow-brutal">
               New drop · live now
             </div>
-            <img
-              src={heroBag}
-              alt="Model wearing a handmade upcycled patchwork crossbody bag in mustard and purple"
-              width={1536}
-              height={1536}
-              className="h-full w-full rounded-2xl border-2 border-ink object-cover shadow-brutal-lg"
-            />
+            {/* Replace src/assets/hero-product.jpg with your own product photo */}
+            <div className="aspect-[3/4] w-full overflow-hidden rounded-2xl border-2 border-ink bg-muted shadow-brutal-lg">
+              <img
+                src={heroProduct}
+                alt="Handmade JollyZu waterproof crossbody bag in magenta with orange rope strap"
+                width={1200}
+                height={1600}
+                className="h-full w-full object-cover"
+              />
+            </div>
           </div>
         </div>
       </section>
