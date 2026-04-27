@@ -114,44 +114,56 @@ function Index() {
       {/* PRODUCT SHOWCASE */}
       <section id="story" className="bg-ink text-cream">
         <div className="mx-auto max-w-7xl px-5 py-20 md:px-8 md:py-32">
-          <div className="mb-12 flex flex-wrap items-end justify-between gap-6">
+          <div className="mb-14 flex flex-wrap items-end justify-between gap-6">
             <div>
-              <p className="mb-4 text-xs font-bold uppercase tracking-widest text-mustard">The Drop</p>
+              <p className="mb-4 text-xs font-bold uppercase tracking-widest text-mustard">The Collection</p>
               <h2 className="text-display text-5xl md:text-7xl">
-                Pick your<br />weapon.
+                Bags built<br />for everyday.
               </h2>
+              <p className="mt-5 max-w-md text-cream/70">
+                Small-batch crossbodies and waterproof packs — sewn one at a time from rescued fabrics. No two are the same.
+              </p>
             </div>
-            <ShopCTA variant="huge" label="Shop Now" />
+            <ShopCTA variant="huge" label="Shop the collection" />
           </div>
 
           <div className="grid gap-6 md:grid-cols-12">
+            {/* Replace src/assets/collection-flatlay.jpg with your own collection photo (3:2 landscape works best) */}
             <div className="relative md:col-span-7">
-              <img
-                src={bagsFlatlay}
-                alt="Flatlay of four upcycled fanny pack bags in purple, mustard, denim and blue wave fabric"
-                width={1536}
-                height={1024}
-                loading="lazy"
-                className="h-full w-full rounded-2xl border-2 border-cream object-cover"
-              />
-              <div className="absolute -bottom-4 left-4 rotate-[-3deg] bg-mustard px-4 py-2 text-xs font-black uppercase tracking-wider text-ink">
-                Waterproof Festival Bags
+              <div className="aspect-[3/2] w-full overflow-hidden rounded-2xl border-2 border-cream bg-cream/5">
+                <img
+                  src={collectionFlatlay}
+                  alt="Flatlay of five handmade upcycled JollyZu bags in magenta, denim patchwork, mustard and recycled jeans"
+                  width={1536}
+                  height={1024}
+                  loading="lazy"
+                  className="h-full w-full object-cover"
+                />
+              </div>
+              <div className="absolute -bottom-4 left-4 rotate-[-3deg] bg-mustard px-4 py-2 text-xs font-black uppercase tracking-wider text-ink shadow-brutal">
+                Latest pieces · 1 of 1
               </div>
             </div>
             <div className="grid gap-6 md:col-span-5">
-              <div className="flex flex-col justify-between rounded-2xl bg-purple-deep p-8">
+              <div className="flex flex-col justify-between rounded-2xl border-2 border-cream/10 bg-purple-deep p-8">
                 <div>
-                  <p className="text-display text-3xl">Crossbodies</p>
-                  <p className="mt-2 text-sm text-cream/70">Patchwork denim. Hits different.</p>
+                  <p className="text-xs font-bold uppercase tracking-widest text-mustard">Crossbodies</p>
+                  <p className="mt-3 text-display text-3xl text-cream">Patchwork denim,<br />reborn.</p>
                 </div>
-                <span className="mt-6 text-display text-2xl text-mustard">£40+</span>
+                <div className="mt-8 flex items-end justify-between gap-4 border-t border-cream/15 pt-5">
+                  <span className="text-xs font-bold uppercase tracking-widest text-cream/60">Starting from</span>
+                  <span className="text-display text-3xl text-mustard">£40</span>
+                </div>
               </div>
-              <div className="flex flex-col justify-between rounded-2xl bg-mustard p-8 text-ink">
+              <div className="flex flex-col justify-between rounded-2xl border-2 border-ink/10 bg-mustard p-8 text-ink">
                 <div>
-                  <p className="text-display text-3xl">Festival Packs</p>
-                  <p className="mt-2 text-sm text-ink/70">Waterproof. Rave-ready.</p>
+                  <p className="text-xs font-bold uppercase tracking-widest text-purple-deep">Waterproof packs</p>
+                  <p className="mt-3 text-display text-3xl">Built for rain,<br />rave & trail.</p>
                 </div>
-                <span className="mt-6 text-display text-2xl text-purple-deep">£35+</span>
+                <div className="mt-8 flex items-end justify-between gap-4 border-t border-ink/15 pt-5">
+                  <span className="text-xs font-bold uppercase tracking-widest text-ink/60">Starting from</span>
+                  <span className="text-display text-3xl text-purple-deep">£35</span>
+                </div>
               </div>
             </div>
           </div>
