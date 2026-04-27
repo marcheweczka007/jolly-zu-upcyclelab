@@ -48,7 +48,7 @@ function About() {
         </div>
         <div className="mt-12 space-y-6 text-lg text-ink/80 md:col-span-7 md:mt-0">
           <p className="text-display text-3xl text-ink md:text-4xl">
-            I started JollyZu because I couldn't stand watching good fabric get thrown out.
+            I started JollyZu because I couldn’t stand seeing good fabric go to waste.
           </p>
           <p>
             What began as a side project — sewing rave fanny packs for friends — turned into a small studio in Edinburgh making bags entirely from rescued textiles. Denim offcuts, factory rejects, deadstock nylon, your nan's curtains. If it can be cut and stitched, it can become a bag.
