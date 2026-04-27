@@ -153,7 +153,7 @@ function Index() {
                 </div>
                 <div className="mt-8 flex items-end justify-between gap-4 border-t border-cream/15 pt-5">
                   <span className="text-xs font-bold uppercase tracking-widest text-cream/60">Starting from</span>
-                  <span className="text-display text-3xl text-mustard">£40</span>
+                  <span className="text-display text-3xl text-mustard">£35</span>
                 </div>
               </div>
               <div className="flex flex-col justify-between rounded-2xl border-2 border-ink/10 bg-mustard p-8 text-ink">
@@ -189,10 +189,10 @@ function Index() {
             <h2 className="text-display text-5xl md:text-7xl">From scrap<br />to statement.</h2>
             <ol className="mt-10 space-y-6">
               {[
-                ["01", "Rescue", "Offcuts from local tailors, factory rejects, your old jeans. Nothing new gets bought."],
+                ["01", "Rescue", "Unwanted textiles, old clothes, forgotten fabrics. All fabrics are rescued - only essential components are new."],
                 ["02", "Design", "Each bag is sketched around the materials I have. Limits make the design."],
                 ["03", "Sew", "Cut, stitched, finished. By hand. By me. In Edinburgh."],
-                ["04", "Ship", "Plastic-free packaging. Direct to your door."],
+                ["04", "Ship", "100% recycled packaging. Direct to your door."],
               ].map(([n, t, d]) => (
                 <li key={n} className="grid grid-cols-[60px_1fr] gap-6 border-b border-ink/10 pb-6">
                   <span className="text-display text-3xl text-purple-deep">{n}</span>
