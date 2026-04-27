@@ -83,13 +83,13 @@ function Index() {
           <div>
             <p className="mb-4 text-xs font-bold uppercase tracking-widest text-purple-deep">The Manifesto</p>
             <h2 className="text-display text-5xl md:text-7xl">
-              Fashion is broken.<br />
-              <span className="text-purple-deep">We're stitching it back together.</span>
+              This industry wastes too much.<br />
+              <span className="text-purple-deep">We don’t.</span>
             </h2>
           </div>
           <div className="space-y-6 text-lg text-ink/80">
             <p>
-              Every year, the world dumps <strong className="bg-mustard px-1">92 million tonnes</strong> of textile waste into landfill. We rescue scraps, offcuts, and forgotten fabrics — and turn them into bags you'll actually want to wear.
+              Every year, the world dumps <strong className="bg-mustard px-1">92 million tonnes</strong> of textile waste into landfill. We rescue scraps, offcuts, and forgotten fabrics - and turn them into bags built to be used - and kept.
             </p>
             <p>
               No two are the same. None will end up in a bin. Every piece is cut, sewn, and finished by hand in a small studio in Edinburgh.
@@ -122,7 +122,7 @@ function Index() {
                 Bags built<br />for everyday.
               </h2>
               <p className="mt-5 max-w-md text-cream/70">
-                Small-batch crossbodies and waterproof packs — sewn one at a time from rescued fabrics. No two are the same.
+                Small-batch crossbodies and waterproof packs - sewn one at a time from rescued fabrics. No two are the same.
               </p>
             </div>
             <ShopCTA variant="huge" label="Shop the collection" />
