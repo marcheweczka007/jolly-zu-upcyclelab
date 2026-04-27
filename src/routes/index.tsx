@@ -7,6 +7,7 @@ import { ShopCTA } from "@/components/ShopCTA";
 // (portrait orientation works best, ~1200x1600). Keep the filename to avoid edits here.
 import heroProduct from "@/assets/hero-product.jpg";
 import bagsFlatlay from "@/assets/bags-flatlay.jpg";
+import collectionFlatlay from "@/assets/collection-flatlay.jpg";
 import fabricStack from "@/assets/fabric-stack.jpg";
 
 export const Route = createFileRoute("/")({
