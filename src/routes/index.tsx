@@ -36,7 +36,7 @@ function Index() {
               Made in Edinburgh · 0% new fabric
             </div>
             <h1 className="text-display text-[11vw] leading-[0.9] md:text-[5.5rem] lg:text-[6.5rem]">
-              Waterproof bags<br />
+              Everyday bags<br />
               made from <span className="bg-mustard px-3 inline-block -rotate-1">waste</span> —<br />
               <span className="text-purple-deep">built for real life.</span>
             </h1>
