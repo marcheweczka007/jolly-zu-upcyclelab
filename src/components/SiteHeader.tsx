@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
+import { BrandMark } from "./BrandMark";
 
 const SHOP_URL = "https://www.vinted.co.uk/member/128740025";
 
@@ -8,9 +9,8 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 border-b border-ink/10 bg-cream/90 backdrop-blur-md">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 md:px-8">
-        <Link to="/" className="group flex items-center gap-2">
-          <span className="text-display text-2xl tracking-tighter">JOLLYZU</span>
-          <span className="hidden h-2 w-2 rounded-full bg-leaf md:block" />
+        <Link to="/" aria-label="JollyZu — home" className="group">
+          <BrandMark tone="ink" size="md" />
         </Link>
 
         <nav className="hidden items-center gap-8 md:flex">
