@@ -14,9 +14,16 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "JollyZu — Upcycled Handmade Bags from Edinburgh" },
-      { name: "description", content: "Handmade upcycled bags built from rescued textiles. Bold, durable, one-of-a-kind. Shop the latest drop." },
+      {
+        name: "description",
+        content:
+          "Handmade upcycled bags built from rescued textiles. Bold, durable, one-of-a-kind. Shop the latest drop.",
+      },
       { property: "og:title", content: "JollyZu — Upcycled Handmade Bags" },
-      { property: "og:description", content: "Bold handmade bags from rescued textiles. Slow fashion with serious attitude." },
+      {
+        property: "og:description",
+        content: "Bold handmade bags from rescued textiles. Slow fashion with serious attitude.",
+      },
     ],
   }),
   component: Index,
@@ -36,9 +43,12 @@ function Index() {
               Made in Edinburgh · 0% new fabric
             </div>
             <h1 className="text-display text-[11vw] leading-[0.9] md:text-[5.5rem] lg:text-[6.5rem]">
-              Everyday bags<br />
-              made from <span className="bg-mustard px-3 inline-block -rotate-1">waste</span> —<br />
-              <span className="text-purple-deep">built for real life.</span>
+              One-of-kind bags
+              <br />
+              made from{" "}
+              <span className="bg-mustard px-3 inline-block -rotate-1">pre loved textiles</span>
+              <br />
+              {/* <span className="text-purple-deep">for everyday use.</span> */}
             </h1>
             <p className="mt-8 max-w-lg text-lg text-ink/70 md:text-xl">
               Handmade in Edinburgh from upcycled materials. Durable, practical, and one of a kind.
@@ -56,7 +66,11 @@ function Index() {
 
           <div className="relative md:col-span-5">
             <div className="absolute -left-4 -top-4 z-10 hidden h-24 w-24 rotate-12 items-center justify-center rounded-full bg-leaf text-center text-xs font-black uppercase leading-tight text-ink md:flex">
-              Zero<br />Waste<br />Promise
+              Zero
+              <br />
+              Waste
+              <br />
+              Promise
             </div>
             <div className="absolute -bottom-4 -right-4 z-10 rotate-[8deg] bg-purple-deep px-4 py-2 text-xs font-bold uppercase tracking-wider text-cream shadow-brutal">
               New drop · live now
@@ -75,24 +89,39 @@ function Index() {
         </div>
       </section>
 
-      <Marquee items={["Slow Fashion", "Edinburgh Made", "One of One", "Zero Waste", "Handmade by Zuza"]} />
+      <Marquee
+        items={[
+          "Slow Fashion",
+          "Edinburgh Made",
+          "One of A Kind",
+          "Zero Waste",
+          "Handmade by Zuza",
+        ]}
+      />
 
       {/* MANIFESTO STATS */}
       <section className="mx-auto max-w-7xl px-5 py-20 md:px-8 md:py-32">
         <div className="grid gap-12 md:grid-cols-2 md:gap-20">
           <div>
-            <p className="mb-4 text-xs font-bold uppercase tracking-widest text-purple-deep">The Manifesto</p>
+            <p className="mb-4 text-xs font-bold uppercase tracking-widest text-purple-deep">
+              What drives the JollyZu
+            </p>
             <h2 className="text-display text-5xl md:text-7xl">
-              This industry wastes too much.<br />
-              <span className="text-purple-deep">We don’t.</span>
+              Fast fashion doesn’t end - it becomes waste.
+              <br />
+              <span className="text-purple-deep">I redesign it into something new.</span>
             </h2>
           </div>
           <div className="space-y-6 text-lg text-ink/80">
             <p>
-              Every year, the world dumps <strong className="bg-mustard px-1">92 million tonnes</strong> of textile waste into landfill. We rescue scraps, offcuts, and forgotten fabrics - and turn them into bags built to be used - and kept.
+              Every year, the world dumps{" "}
+              <strong className="bg-mustard px-1">92 million tonnes</strong> of textile waste into
+              landfill. I rescue scraps, offcuts, and forgotten fabrics - and turn them into bags
+              built to be used - and kept.
             </p>
             <p>
-              No two are the same. None will end up in a bin. Every piece is cut, sewn, and finished by hand in a small studio in Edinburgh.
+              No two are the same. None will end up in a bin. Every piece is cut, sewn, and finished
+              by hand in a small studio in Edinburgh.
             </p>
             <ShopCTA variant="outline" label="See the latest drop" />
           </div>
@@ -117,12 +146,17 @@ function Index() {
         <div className="mx-auto max-w-7xl px-5 py-20 md:px-8 md:py-32">
           <div className="mb-14 flex flex-wrap items-end justify-between gap-6">
             <div>
-              <p className="mb-4 text-xs font-bold uppercase tracking-widest text-mustard">The Collection</p>
+              <p className="mb-4 text-xs font-bold uppercase tracking-widest text-mustard">
+                The Collection
+              </p>
               <h2 className="text-display text-5xl md:text-7xl">
-                Bags built<br />for everyday.
+                Bags built
+                <br />
+                for everyday.
               </h2>
               <p className="mt-5 max-w-md text-cream/70">
-                Small-batch crossbodies and waterproof packs - sewn one at a time from rescued fabrics. No two are the same.
+                Small-batch crossbodies and waterproof packs - sewn one at a time from rescued
+                fabrics. No two are the same.
               </p>
             </div>
             <ShopCTA variant="huge" label="Shop the collection" />
@@ -148,22 +182,38 @@ function Index() {
             <div className="grid gap-6 md:col-span-5">
               <div className="flex flex-col justify-between rounded-2xl border-2 border-cream/10 bg-purple-deep p-8">
                 <div>
-                  <p className="text-xs font-bold uppercase tracking-widest text-mustard">Crossbodies</p>
-                  <p className="mt-3 text-display text-3xl text-cream">Patchwork denim,<br />reborn.</p>
+                  <p className="text-xs font-bold uppercase tracking-widest text-mustard">
+                    Crossbodies
+                  </p>
+                  <p className="mt-3 text-display text-3xl text-cream">
+                    Patchwork textiles,
+                    <br />
+                    reborn.
+                  </p>
                 </div>
                 <div className="mt-8 flex items-end justify-between gap-4 border-t border-cream/15 pt-5">
-                  <span className="text-xs font-bold uppercase tracking-widest text-cream/60">Starting from</span>
-                  <span className="text-display text-3xl text-mustard">£35</span>
+                  <span className="text-xs font-bold uppercase tracking-widest text-cream/60">
+                    Starting from
+                  </span>
+                  <span className="text-display text-3xl text-mustard">£40</span>
                 </div>
               </div>
               <div className="flex flex-col justify-between rounded-2xl border-2 border-ink/10 bg-mustard p-8 text-ink">
                 <div>
-                  <p className="text-xs font-bold uppercase tracking-widest text-purple-deep">Waterproof packs</p>
-                  <p className="mt-3 text-display text-3xl">Built for rain,<br />rave & trail.</p>
+                  <p className="text-xs font-bold uppercase tracking-widest text-purple-deep">
+                    Waterproof packs
+                  </p>
+                  <p className="mt-3 text-display text-3xl">
+                    Built for rain,
+                    <br />
+                    rave & trail.
+                  </p>
                 </div>
                 <div className="mt-8 flex items-end justify-between gap-4 border-t border-ink/15 pt-5">
-                  <span className="text-xs font-bold uppercase tracking-widest text-ink/60">Starting from</span>
-                  <span className="text-display text-3xl text-purple-deep">£40</span>
+                  <span className="text-xs font-bold uppercase tracking-widest text-ink/60">
+                    Starting from
+                  </span>
+                  <span className="text-display text-3xl text-purple-deep">£45</span>
                 </div>
               </div>
             </div>
@@ -185,12 +235,26 @@ function Index() {
             />
           </div>
           <div className="md:col-span-7">
-            <p className="mb-4 text-xs font-bold uppercase tracking-widest text-purple-deep">How it's made</p>
-            <h2 className="text-display text-5xl md:text-7xl">From scrap<br />to statement.</h2>
+            <p className="mb-4 text-xs font-bold uppercase tracking-widest text-purple-deep">
+              How it's made
+            </p>
+            <h2 className="text-display text-5xl md:text-7xl">
+              From scrap
+              <br />
+              to statement.
+            </h2>
             <ol className="mt-10 space-y-6">
               {[
-                ["01", "Rescue", "Unwanted textiles, old clothes, forgotten fabrics. All fabrics are rescued - only essential components are new."],
-                ["02", "Design", "Each bag is sketched around the materials I have. Limits make the design."],
+                [
+                  "01",
+                  "Rescue",
+                  "Unwanted textiles, old clothes, forgotten fabrics. All fabrics are rescued - only essential components are new.",
+                ],
+                [
+                  "02",
+                  "Design",
+                  "Each bag is sketched around the materials I have. Limits make the design.",
+                ],
                 ["03", "Sew", "Cut, stitched, finished. By hand. By me. In Edinburgh."],
                 ["04", "Ship", "100% recycled packaging. Direct to your door."],
               ].map(([n, t, d]) => (
@@ -212,8 +276,10 @@ function Index() {
         <div className="mx-auto max-w-7xl px-5 py-24 md:px-8 md:py-40">
           <p className="mb-6 text-xs font-bold uppercase tracking-widest text-mustard">Last call</p>
           <h2 className="text-display text-[16vw] leading-[0.85] md:text-[12rem]">
-            Ready<br />
-            to wear<br />
+            Ready
+            <br />
+            to wear
+            <br />
             <span className="text-mustard">something real?</span>
           </h2>
           <p className="mt-8 max-w-xl text-lg text-cream/80 md:text-xl">
@@ -227,7 +293,9 @@ function Index() {
               className="text-display group inline-flex items-center gap-4 rounded-full bg-mustard px-10 py-6 text-2xl uppercase text-ink shadow-brutal transition-all hover:-translate-y-1 hover:bg-cream hover:shadow-brutal-lg md:px-14 md:py-8 md:text-4xl"
             >
               Shop the Drop
-              <span className="text-purple-deep transition-transform group-hover:translate-x-1">↗</span>
+              <span className="text-purple-deep transition-transform group-hover:translate-x-1">
+                ↗
+              </span>
             </a>
           </div>
         </div>
