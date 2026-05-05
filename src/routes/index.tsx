@@ -13,7 +13,7 @@ import fabricStack from "@/assets/fabric-stack.jpg";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "JollyZu — Upcycled Handmade Bags from Edinburgh" },
+      { title: "JollyZu — Upcycled Handmade Bags from Scotland" },
       {
         name: "description",
         content:
@@ -40,20 +40,20 @@ function Index() {
           <div className="md:col-span-7">
             <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-ink/20 bg-cream px-4 py-1.5 text-xs font-bold uppercase tracking-widest">
               <span className="h-2 w-2 rounded-full bg-leaf" />
-              Made in Edinburgh · 0% new fabric
+              Made in Scotland · 0% new fabric
             </div>
             <h1 className="text-display text-[11vw] leading-[0.9] md:text-[5.5rem] lg:text-[6.5rem]">
               One-of-kind bags
               <br />
               made from{" "}
-              <span className="bg-mustard px-3 inline-block -rotate-1">pre loved textiles</span>
+              <span className="bg-mustard px-3 inline-block -rotate-1">pre-loved textiles.</span>
               <br />
               {/* <span className="text-purple-deep">for everyday use.</span> */}
             </h1>
             <p className="mt-8 max-w-lg text-lg text-ink/70 md:text-xl">
-              Handmade in Edinburgh from upcycled materials. Durable, practical, and one of a kind.
+              Handmade in Scotland from upcycled materials. Durable, practical, and one of a kind.
             </p>
-            <div className="mt-10 flex flex-wrap items-center gap-5">
+            <div className="mt-8 flex flex-wrap items-center gap-5">
               <ShopCTA variant="huge" label="Shop bags" />
               <a
                 href="#story"
@@ -92,7 +92,7 @@ function Index() {
       <Marquee
         items={[
           "Slow Fashion",
-          "Edinburgh Made",
+          "Made in Scotland",
           "One of A Kind",
           "Zero Waste",
           "Handmade by Zuza",
@@ -255,7 +255,7 @@ function Index() {
                   "Design",
                   "Each bag is sketched around the materials I have. Limits make the design.",
                 ],
-                ["03", "Sew", "Cut, stitched, finished. By hand. By me. In Edinburgh."],
+                ["03", "Sew", "Cut, stitched, finished. By hand. By me. In Scotland."],
                 ["04", "Ship", "100% recycled packaging. Direct to your door."],
               ].map(([n, t, d]) => (
                 <li key={n} className="grid grid-cols-[60px_1fr] gap-6 border-b border-ink/10 pb-6">
