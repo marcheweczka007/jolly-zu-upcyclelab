@@ -86,11 +86,11 @@ function About() {
           {[
             {
               t: "Less, but better.",
-              d: "Small batches. No restocks. Quality over volume — every single time.",
+              d: "Small batches. No restocks. Quality over volume - every single time.",
             },
             {
-              t: "Waste is a design brief.",
-              d: "Constraints from rescued materials make the bags weirder, bolder, more honest.",
+              t: "Creativity beyond all.",
+              d: "Constraints from rescued materials make the bags special, unique, more honest.",
             },
             {
               t: "Made by humans.",
