@@ -271,6 +271,74 @@ function Index() {
         </div>
       </section>
 
+      {/* TESTIMONIALS */}
+      <section className="border-t-2 border-ink bg-lilac/20 px-5 py-20 md:px-8 md:py-32">
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-14 flex flex-col justify-between gap-6 md:flex-row md:items-end">
+            <div>
+              <p className="mb-4 text-xs font-bold uppercase tracking-widest text-purple-deep">
+                Loved by their owners
+              </p>
+
+              <h2 className="text-display text-5xl md:text-7xl">
+                Bags with a story.
+                <br />
+                <span className="text-purple-deep">Made for people who want something real.</span>
+              </h2>
+            </div>
+
+            <p className="max-w-md text-lg text-ink/70">
+              Every JollyZu piece ends up with someone who values craftsmanship, individuality, and
+              giving textiles a second life.
+            </p>
+          </div>
+
+          <div className="grid gap-8 md:grid-cols-3">
+            {[
+              {
+                name: "Aga",
+                title: "Very lightweight & colorful",
+                image: "src/assets/testimonials/aga.jpg",
+                testimonial:
+                  "The seller was quick to send me the bag I ordered and it arrived packed in a lovely tissue paper within the postage bag. It appears to be made well and is very lightweight with several compartments. My little boy immediately was drawn to the beautiful colours and wanted to play with it. would recommend.",
+              },
+              {
+                name: "Joey",
+                title: "I am obsessed with this bag!",
+                image: "src/assets/testimonials/joey.jpg",
+                testimonial:
+                  "It’s hard to find upcycled gear that feels this durable and high-quality, but this exceeded all my expectations. It’s been through the ‘field test’ on our daily walks and handles treats and poop bags perfectly. I love knowing it’s sustainable without sacrificing style or function. Truly the perfect designated doggy bag!",
+              },
+              {
+                name: "Ana",
+                title: "Practical little purse!",
+                image: "src/assets/testimonials/ana.jpg",
+                testimonial:
+                  "I recommend both the seller and the shop without hesitation. The process was straightforward, the communication was great, and I’m very pleased with the quality of my purchase. I would happily buy again. ",
+              },
+            ].map((item) => (
+              <div
+                key={item.name}
+                className="group rounded-3xl border-2 border-ink bg-cream p-8 shadow-brutal transition-all hover:-translate-y-1 hover:shadow-brutal-lg"
+              >
+                <div className="mb-6 flex items-center gap-4">
+                  <div className="h-16 w-16 overflow-hidden rounded-full border-2 border-ink">
+                    <img src={item.image} alt={item.name} className="h-full w-full object-cover" />
+                  </div>
+
+                  <div>
+                    <p className="font-bold text-ink">{item.name}</p>
+                    <p className="text-sm uppercase tracking-wide text-ink/60">{item.title}</p>
+                  </div>
+                </div>
+
+                <p className="text-lg leading-relaxed text-ink/80">“{item.testimonial}”</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* BIG FINAL CTA */}
       <section className="relative overflow-hidden bg-purple-deep text-cream">
         <div className="mx-auto max-w-7xl px-5 py-24 md:px-8 md:py-40">
