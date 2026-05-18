@@ -91,7 +91,7 @@ function Contact() {
                 maxLength={100}
                 required
                 className={inputCls}
-                placeholder="Full name"
+                placeholder="Joe Doe"
               />
             </Field>
 
