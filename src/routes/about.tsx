@@ -21,18 +21,25 @@ export const Route = createFileRoute("/about")({
   component: About,
 });
 
-const STAMPS = ["One maker", "Edinburgh studio", "Rescued fabric only", "Nothing identical"] as const;
+const INSTAGRAM_URL = "https://instagram.com/upcycle.lab.jollyzu";
+
+const STAMPS = [
+  "One maker",
+  "Edinburgh studio",
+  "Rescued fabric only",
+  "Nothing identical",
+] as const;
 
 const PROCESS_STEPS = [
   {
     n: "01",
     title: "Rescued textiles",
-    body: "Denim offcuts, pre-loved clothes, old rain coats, your nan's curtains—if it can be cut and stitched, it can become a bag.",
+    body: "Denim offcuts, pre-loved clothes, old rain coats, your nan's curtains - if it can be cut and stitched, it can become a bag.",
   },
   {
     n: "02",
     title: "Design around what I find",
-    body: "Every piece is designed around the materials I find. The design has to bend to what's available—and honestly, that's where the best ideas come from.",
+    body: "Every piece is designed around the materials I find. The design has to bend to what's available - and honestly, that's where the best ideas come from.",
   },
   {
     n: "03",
@@ -42,7 +49,7 @@ const PROCESS_STEPS = [
   {
     n: "04",
     title: "Pack & post",
-    body: "100% recycled packaging, posted direct from Edinburgh—I package everything myself too.",
+    body: "100% recycled packaging, posted direct from Edinburgh - I package everything myself too.",
   },
 ] as const;
 
@@ -104,22 +111,41 @@ function About() {
               another life.
             </p>
             <p>
-              What began as a side project - sewing rave fanny packs for friends - turned into a small
-              studio in Edinburgh making bags entirely from rescued textiles. Denim offcuts, pre-loved
-              clothes, old rain coats, your nan&apos;s curtains. If it can be cut and stitched, it can
-              become a bag.
+              What began as a side project - sewing rave fanny packs for friends - turned into a
+              small studio in Edinburgh making bags entirely from rescued textiles. Denim offcuts,
+              pre-loved clothes, old rain coats, your nan&apos;s curtains. If it can be cut and
+              stitched, it can become a bag.
             </p>
             <p>
               Every piece is designed around the materials I find. That means no two bags are
-              identical, and none of them will ever exist again. It also means the design has to bend
-              to what&apos;s available - and honestly, that&apos;s where the best ideas come from.
+              identical, and none of them will ever exist again. It also means the design has to
+              bend to what&apos;s available - and honestly, that&apos;s where the best ideas come
+              from.
             </p>
             <p>
               I sew everything myself. I package everything myself. 100% recycled packaging, posted
               direct from Edinburgh.
             </p>
-            <div className="pt-2">
-              <ShopCTA variant="huge" label="Shop the Drop" />
+            <div className="pt-6">
+              <a
+                href={INSTAGRAM_URL}
+                target="_blank"
+                rel="noreferrer"
+                className="text-display group inline-flex w-full items-center justify-center gap-3 rounded-full border-2 border-ink bg-cream px-8 py-5 text-xl uppercase tracking-wide text-ink shadow-brutal transition-all hover:-translate-y-1 hover:bg-purple-deep hover:text-cream hover:shadow-brutal-lg sm:w-auto sm:px-10 sm:py-6 sm:text-2xl md:px-14 md:py-8 md:text-3xl"
+                aria-label="JollyZu on Instagram (opens in a new tab)"
+              >
+                Follow on Instagram
+                <span
+                  className="text-purple-deep transition-transform group-hover:translate-x-1 group-hover:text-mustard md:text-4xl"
+                  aria-hidden="true"
+                >
+                  ↗
+                </span>
+              </a>
+              <p className="mt-3 text-sm text-ink/55">
+                Day-to-day studio mess, new pieces, and drop hints —{" "}
+                <span className="font-semibold text-ink/80">@upcycle.lab.jollyzu</span>
+              </p>
             </div>
           </div>
         </div>
@@ -136,8 +162,8 @@ function About() {
               Rescued textiles - not rolls from a warehouse.
             </h2>
             <p className="mt-6 text-lg leading-relaxed text-cream/75 md:text-xl">
-              Same story as the bags: offcuts, clothes, coats, curtains. Nothing fancy on the label -
-              just fabric that still had life in it.
+              Same story as the bags: offcuts, clothes, coats, curtains. Nothing fancy on the label
+              - just fabric that still had life in it.
             </p>
           </div>
 
@@ -185,7 +211,9 @@ function About() {
               ideas come from.
             </p>
             <div className="inline-block rotate-[1deg] rounded-2xl border-2 border-ink bg-mustard px-5 py-3 shadow-brutal">
-              <p className="text-display text-lg text-ink md:text-xl">Small batches. No restocks.</p>
+              <p className="text-display text-lg text-ink md:text-xl">
+                Small batches. No restocks.
+              </p>
             </div>
           </div>
         </div>
@@ -203,8 +231,8 @@ function About() {
                 Bags entirely from rescued textiles.
               </h2>
               <p className="mt-6 text-lg leading-relaxed text-ink/80">
-                That&apos;s the rule. It keeps things honest - and it&apos;s why every drop looks a bit
-                different from the last one.
+                That&apos;s the rule. It keeps things honest - and it&apos;s why every drop looks a
+                bit different from the last one.
               </p>
             </div>
 
@@ -214,7 +242,10 @@ function About() {
               </p>
               <ol className="mt-6 space-y-0 divide-y-2 divide-ink/10 rounded-2xl border-2 border-ink bg-cream shadow-brutal">
                 {PROCESS_STEPS.map((step) => (
-                  <li key={step.n} className="grid gap-3 p-6 sm:grid-cols-[auto_1fr] sm:gap-6 sm:p-8">
+                  <li
+                    key={step.n}
+                    className="grid gap-3 p-6 sm:grid-cols-[auto_1fr] sm:gap-6 sm:p-8"
+                  >
                     <span className="text-display text-3xl text-purple-deep">{step.n}</span>
                     <div>
                       <p className="text-display text-xl text-ink">{step.title}</p>
