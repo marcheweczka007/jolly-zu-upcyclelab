@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { SiteHeader, SHOP_URL } from "@/components/SiteHeader";
+import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { Marquee } from "@/components/Marquee";
 import { ShopCTA } from "@/components/ShopCTA";
@@ -354,17 +354,7 @@ function Index() {
             Drops are small. They sell out fast. Get in before it's gone.
           </p>
           <div className="mt-12">
-            <a
-              href={SHOP_URL}
-              target="_blank"
-              rel="noreferrer"
-              className="text-display group inline-flex items-center gap-4 rounded-full bg-mustard px-10 py-6 text-2xl uppercase text-ink shadow-brutal transition-all hover:-translate-y-1 hover:bg-cream hover:shadow-brutal-lg md:px-14 md:py-8 md:text-4xl"
-            >
-              Shop the Drop
-              <span className="text-purple-deep transition-transform group-hover:translate-x-1">
-                ↗
-              </span>
-            </a>
+            <ShopCTA variant="mustard" label="Shop the Drop" />
           </div>
         </div>
       </section>

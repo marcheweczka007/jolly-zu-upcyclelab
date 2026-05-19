@@ -1,4 +1,5 @@
 import { Link, Outlet, createRootRoute } from "@tanstack/react-router";
+import { VintedShopProvider } from "@/contexts/VintedShopContext";
 
 function NotFoundComponent() {
   return (
@@ -28,5 +29,9 @@ export const Route = createRootRoute({
 });
 
 function RootComponent() {
-  return <Outlet />;
+  return (
+    <VintedShopProvider>
+      <Outlet />
+    </VintedShopProvider>
+  );
 }
