@@ -322,9 +322,9 @@ function Index() {
                 className="group rounded-3xl border-2 border-ink bg-cream p-8 shadow-brutal transition-all hover:-translate-y-1 hover:shadow-brutal-lg"
               >
                 <div className="mb-6 flex items-center gap-4">
-                  <div className="h-16 w-16 overflow-hidden rounded-full border-2 border-ink">
+                  {/* <div className="h-16 w-16 overflow-hidden rounded-full border-2 border-ink">
                     <img src={item.image} alt={item.name} className="h-full w-full object-cover" />
-                  </div>
+                  </div> */}
 
                   <div>
                     <p className="font-bold text-ink">{item.name}</p>
