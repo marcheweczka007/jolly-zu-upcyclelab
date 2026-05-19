@@ -2,8 +2,6 @@ import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { useVintedShop } from "@/contexts/VintedShopContext";
 
-const SHOP_URL = "https://www.vinted.co.uk/member/128740025";
-
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
   const { openShop } = useVintedShop();
@@ -83,4 +81,3 @@ export function SiteHeader() {
   );
 }
 
-export { SHOP_URL };

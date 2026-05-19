@@ -3,7 +3,7 @@ import { X } from "lucide-react";
 import heroProduct from "@/assets/hero-product.jpg";
 import collectionFlatlay from "@/assets/collection-flatlay.jpg";
 import fabricStack from "@/assets/fabric-stack.jpg";
-import { SHOP_URL } from "@/components/SiteHeader";
+import { SHOP_URL } from "@/constants/shop";
 import {
   Dialog,
   DialogDescription,
@@ -67,7 +67,7 @@ export function VintedShopModal({ open, onOpenChange }: VintedShopModalProps) {
             </DialogTitle>
             <DialogDescription
               id="vinted-shop-description"
-              className="mt-4 text-base leading-relaxed text-ink/70"
+              className="mt-4 text-l leading-relaxed text-ink/70"
             >
               Our collection currently lives on Vinted while the full JollyZu store is being
               crafted. You&apos;re about to enter our curated Vinted shop.

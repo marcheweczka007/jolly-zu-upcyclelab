@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { SHOP_URL } from "./SiteHeader";
+import { SHOP_URL } from "@/constants/shop";
 
 export function SiteFooter() {
   return (
