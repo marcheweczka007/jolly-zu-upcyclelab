@@ -85,6 +85,10 @@ function About() {
             </li>
           ))}
         </ul>
+
+        <div className="mt-10 md:mt-12">
+          <ShopCTA variant="huge" label="Shop the Drop" />
+        </div>
       </section>
 
       {/* Story + portrait */}
