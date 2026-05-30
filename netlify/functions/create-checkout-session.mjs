@@ -1,12 +1,5 @@
 import Stripe from "stripe";
-
-/** Keys must match listing `id` in src/data/listings.ts */
-const CATALOG = {
-  "rope-crossbody-magenta": process.env.STRIPE_PRICE_ROPE_CROSSBODY,
-  "patchwork-tote-leaf": process.env.STRIPE_PRICE_PATCHWORK_TOTE,
-  "mini-belt-bag-mustard": process.env.STRIPE_PRICE_MINI_BELT,
-  "drawstring-backpack-lilac": process.env.STRIPE_PRICE_DRAWSTRING,
-};
+import { findListingById } from "./lib/stripe-catalog.mjs";
 
 const headers = {
   "Content-Type": "application/json",
@@ -52,28 +45,36 @@ export async function handler(event) {
     return { statusCode: 400, headers, body: JSON.stringify({ error: "Missing basket items" }) };
   }
 
-  const lineItems = [];
-  for (const [id, qty] of Object.entries(items)) {
-    if (typeof qty !== "number" || qty < 1) continue;
-    const priceId = CATALOG[id];
-    if (!priceId) {
-      return {
-        statusCode: 400,
-        headers,
-        body: JSON.stringify({
-          error: `No Stripe price configured for "${id}". Set the matching STRIPE_PRICE_* env var.`,
-        }),
-      };
-    }
-    lineItems.push({ price: priceId, quantity: 1 });
-  }
-
-  if (lineItems.length === 0) {
-    return { statusCode: 400, headers, body: JSON.stringify({ error: "Basket is empty" }) };
-  }
-
   try {
     const stripe = new Stripe(secret);
+    const lineItems = [];
+
+    for (const [listingId, qty] of Object.entries(items)) {
+      if (typeof qty !== "number" || qty < 1) continue;
+
+      const listing = await findListingById(stripe, listingId);
+      if (!listing?.stripePriceId) {
+        return {
+          statusCode: 400,
+          headers,
+          body: JSON.stringify({ error: `Product "${listingId}" not found in Stripe.` }),
+        };
+      }
+      if (listing.availability === "sold_out") {
+        return {
+          statusCode: 400,
+          headers,
+          body: JSON.stringify({ error: `"${listing.name}" is not available to purchase.` }),
+        };
+      }
+
+      lineItems.push({ price: listing.stripePriceId, quantity: 1 });
+    }
+
+    if (lineItems.length === 0) {
+      return { statusCode: 400, headers, body: JSON.stringify({ error: "Basket is empty" }) };
+    }
+
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
       line_items: lineItems,

@@ -1,32 +1,38 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ListingBasketActions } from "@/components/ListingBasketActions";
+import { ShopProductsState } from "@/components/ShopProductsState";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
-import {
-  canPurchase,
-  formatPrice,
-  getListingById,
-  isPreorder,
-  LISTINGS,
-} from "@/data/listings";
+import { useProducts } from "@/contexts/ProductsContext";
+import { canPurchase, formatPrice, isPreorder } from "@/lib/product-utils";
+import type { Product } from "@/types/product";
 
 export const Route = createFileRoute("/shop/$listingId")({
-  loader: ({ params }) => {
-    const listing = getListingById(params.listingId);
-    if (!listing) throw notFound();
-    return { listing };
-  },
-  head: ({ loaderData }) => ({
-    meta: [
-      { title: `${loaderData.listing.name} — JollyZu Shop` },
-      { name: "description", content: loaderData.listing.description },
-    ],
-  }),
   component: ListingDetail,
 });
 
 function ListingDetail() {
-  const { listing } = Route.useLoaderData();
+  const { listingId } = Route.useParams();
+  const { products, getProductById } = useProducts();
+  const product = getProductById(listingId);
+
+  return (
+    <ShopProductsState>
+      <ListingDetailContent product={product} products={products} />
+    </ShopProductsState>
+  );
+}
+
+function ListingDetailContent({
+  product,
+  products,
+}: {
+  product: Product | undefined;
+  products: Product[];
+}) {
+  if (!product) {
+    throw notFound();
+  }
 
   return (
     <div className="min-h-screen bg-cream text-ink">
@@ -41,44 +47,56 @@ function ListingDetail() {
 
         <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
           <div className="overflow-hidden rounded-2xl border-2 border-ink bg-muted shadow-brutal-lg">
-            <img
-              src={listing.image}
-              alt={listing.imageAlt}
-              className="aspect-[4/5] w-full object-cover"
-            />
+            {product.image ? (
+              <img
+                src={product.image}
+                alt={product.imageAlt}
+                className="aspect-[4/5] w-full object-cover"
+              />
+            ) : (
+              <div className="flex aspect-[4/5] items-center justify-center text-ink/40">
+                No image in Stripe
+              </div>
+            )}
           </div>
 
           <div>
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-purple-deep">
-              {listing.tagline}
-            </p>
-            <h1 className="text-display mt-3 text-4xl leading-[0.95] md:text-5xl">
-              {listing.name}
-            </h1>
-            <p className="text-display mt-4 text-3xl">{formatPrice(listing.pricePence)}</p>
+            {product.tagline && (
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-purple-deep">
+                {product.tagline}
+              </p>
+            )}
+            <h1 className="text-display mt-3 text-4xl leading-[0.95] md:text-5xl">{product.name}</h1>
+            <p className="text-display mt-4 text-3xl">{formatPrice(product.pricePence)}</p>
 
-            <p className="mt-6 text-lg leading-relaxed text-ink/80">{listing.description}</p>
+            <p className="mt-6 text-lg leading-relaxed text-ink/80">{product.description}</p>
 
-            <dl className="mt-8 space-y-4 rounded-2xl border-2 border-ink/15 bg-lilac/10 p-6">
-              <div>
-                <dt className="text-xs font-bold uppercase tracking-widest text-purple-deep">
-                  Materials
-                </dt>
-                <dd className="mt-2 text-ink/80">{listing.materials.join(" · ")}</dd>
-              </div>
-              <div>
-                <dt className="text-xs font-bold uppercase tracking-widest text-purple-deep">
-                  Size
-                </dt>
-                <dd className="mt-2 text-ink/80">{listing.dimensions}</dd>
-              </div>
-            </dl>
+            {(product.materials.length > 0 || product.dimensions) && (
+              <dl className="mt-8 space-y-4 rounded-2xl border-2 border-ink/15 bg-lilac/10 p-6">
+                {product.materials.length > 0 && (
+                  <div>
+                    <dt className="text-xs font-bold uppercase tracking-widest text-purple-deep">
+                      Materials
+                    </dt>
+                    <dd className="mt-2 text-ink/80">{product.materials.join(" · ")}</dd>
+                  </div>
+                )}
+                {product.dimensions && (
+                  <div>
+                    <dt className="text-xs font-bold uppercase tracking-widest text-purple-deep">
+                      Size
+                    </dt>
+                    <dd className="mt-2 text-ink/80">{product.dimensions}</dd>
+                  </div>
+                )}
+              </dl>
+            )}
 
-            {canPurchase(listing) ? (
+            {canPurchase(product) ? (
               <div className="mt-10 max-w-sm space-y-4">
-                <ListingBasketActions listing={listing} />
-                {isPreorder(listing) && listing.preorderNote && (
-                  <p className="text-sm leading-relaxed text-ink/70">{listing.preorderNote}</p>
+                <ListingBasketActions product={product} />
+                {isPreorder(product) && product.preorderNote && (
+                  <p className="text-sm leading-relaxed text-ink/70">{product.preorderNote}</p>
                 )}
               </div>
             ) : (
@@ -92,17 +110,22 @@ function ListingDetail() {
         <section className="mt-20 border-t-2 border-ink/10 pt-12">
           <h2 className="text-display text-2xl">More from this drop</h2>
           <ul className="mt-6 flex gap-4 overflow-x-auto pb-2">
-            {LISTINGS.filter((l) => l.id !== listing.id)
+            {products
+              .filter((p) => p.id !== product.id)
               .slice(0, 3)
-              .map((l) => (
-                <li key={l.id} className="shrink-0">
+              .map((p) => (
+                <li key={p.id} className="shrink-0">
                   <Link
                     to="/shop/$listingId"
-                    params={{ listingId: l.id }}
+                    params={{ listingId: p.id }}
                     className="block w-40 overflow-hidden rounded-xl border-2 border-ink"
                   >
-                    <img src={l.image} alt="" className="aspect-square object-cover" />
-                    <p className="p-2 text-xs font-bold">{l.name}</p>
+                    {p.image ? (
+                      <img src={p.image} alt="" className="aspect-square object-cover" />
+                    ) : (
+                      <div className="aspect-square bg-muted" />
+                    )}
+                    <p className="p-2 text-xs font-bold">{p.name}</p>
                   </Link>
                 </li>
               ))}

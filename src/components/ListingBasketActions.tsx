@@ -2,28 +2,29 @@ import { Link } from "@tanstack/react-router";
 import type { MouseEvent } from "react";
 import { toast } from "sonner";
 import { useBasket } from "@/contexts/BasketContext";
-import { canPurchase, isPreorder, type Listing } from "@/data/listings";
+import { canPurchase, isPreorder } from "@/lib/product-utils";
+import type { Product } from "@/types/product";
 import { cn } from "@/lib/utils";
 
 export function ListingBasketActions({
-  listing,
+  product,
   size = "default",
 }: {
-  listing: Listing;
+  product: Product;
   size?: "default" | "compact";
 }) {
   const { addItem, items } = useBasket();
-  const inBasket = (items[listing.id] ?? 0) > 0;
-  const preorder = isPreorder(listing);
+  const inBasket = (items[product.id] ?? 0) > 0;
+  const preorder = isPreorder(product);
 
-  if (!canPurchase(listing)) return null;
+  if (!canPurchase(product)) return null;
 
   const handleAdd = (e: MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    addItem(listing.id);
+    addItem(product.id);
     toast.success(
-      preorder ? `Pre-order added — ${listing.name}` : `Added ${listing.name} to basket`,
+      preorder ? `Pre-order added — ${product.name}` : `Added ${product.name} to basket`,
     );
   };
 
