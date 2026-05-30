@@ -4,3 +4,19 @@
 
 [build.environment]
   NODE_VERSION = "20"
+
+# Vite defaults to 5173; Netlify auto-detects TanStack Router as port 3000 without this
+[dev]
+  command = "npm run dev"
+  targetPort = 5173
+  port = 8888
+  framework = "vite"
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200

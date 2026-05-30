@@ -6,4 +6,8 @@ import tsconfigPaths from "vite-tsconfig-paths";
 
 export default defineConfig({
   plugins: [TanStackRouterVite(), react(), tailwindcss(), tsconfigPaths()],
+  server: {
+    port: 5173,
+    strictPort: true,
+  },
 });

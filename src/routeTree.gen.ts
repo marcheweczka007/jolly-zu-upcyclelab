@@ -12,6 +12,11 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ShopIndexRouteImport } from './routes/shop/index'
+import { Route as ShopBasketRouteImport } from './routes/shop/basket'
+import { Route as ShopListingIdRouteImport } from './routes/shop/$listingId'
+import { Route as ShopCheckoutSuccessRouteImport } from './routes/shop/checkout/success'
+import { Route as ShopCheckoutCancelRouteImport } from './routes/shop/checkout/cancel'
 
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
@@ -28,35 +33,105 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ShopIndexRoute = ShopIndexRouteImport.update({
+  id: '/shop/',
+  path: '/shop/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ShopBasketRoute = ShopBasketRouteImport.update({
+  id: '/shop/basket',
+  path: '/shop/basket',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ShopListingIdRoute = ShopListingIdRouteImport.update({
+  id: '/shop/$listingId',
+  path: '/shop/$listingId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ShopCheckoutSuccessRoute = ShopCheckoutSuccessRouteImport.update({
+  id: '/shop/checkout/success',
+  path: '/shop/checkout/success',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ShopCheckoutCancelRoute = ShopCheckoutCancelRouteImport.update({
+  id: '/shop/checkout/cancel',
+  path: '/shop/checkout/cancel',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
+  '/shop/$listingId': typeof ShopListingIdRoute
+  '/shop/basket': typeof ShopBasketRoute
+  '/shop/': typeof ShopIndexRoute
+  '/shop/checkout/cancel': typeof ShopCheckoutCancelRoute
+  '/shop/checkout/success': typeof ShopCheckoutSuccessRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
+  '/shop/$listingId': typeof ShopListingIdRoute
+  '/shop/basket': typeof ShopBasketRoute
+  '/shop': typeof ShopIndexRoute
+  '/shop/checkout/cancel': typeof ShopCheckoutCancelRoute
+  '/shop/checkout/success': typeof ShopCheckoutSuccessRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
+  '/shop/$listingId': typeof ShopListingIdRoute
+  '/shop/basket': typeof ShopBasketRoute
+  '/shop/': typeof ShopIndexRoute
+  '/shop/checkout/cancel': typeof ShopCheckoutCancelRoute
+  '/shop/checkout/success': typeof ShopCheckoutSuccessRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/contact'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/contact'
+    | '/shop/$listingId'
+    | '/shop/basket'
+    | '/shop/'
+    | '/shop/checkout/cancel'
+    | '/shop/checkout/success'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/contact'
-  id: '__root__' | '/' | '/about' | '/contact'
+  to:
+    | '/'
+    | '/about'
+    | '/contact'
+    | '/shop/$listingId'
+    | '/shop/basket'
+    | '/shop'
+    | '/shop/checkout/cancel'
+    | '/shop/checkout/success'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/contact'
+    | '/shop/$listingId'
+    | '/shop/basket'
+    | '/shop/'
+    | '/shop/checkout/cancel'
+    | '/shop/checkout/success'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   ContactRoute: typeof ContactRoute
+  ShopListingIdRoute: typeof ShopListingIdRoute
+  ShopBasketRoute: typeof ShopBasketRoute
+  ShopIndexRoute: typeof ShopIndexRoute
+  ShopCheckoutCancelRoute: typeof ShopCheckoutCancelRoute
+  ShopCheckoutSuccessRoute: typeof ShopCheckoutSuccessRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -82,6 +157,41 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/shop/': {
+      id: '/shop/'
+      path: '/shop'
+      fullPath: '/shop/'
+      preLoaderRoute: typeof ShopIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/shop/basket': {
+      id: '/shop/basket'
+      path: '/shop/basket'
+      fullPath: '/shop/basket'
+      preLoaderRoute: typeof ShopBasketRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/shop/$listingId': {
+      id: '/shop/$listingId'
+      path: '/shop/$listingId'
+      fullPath: '/shop/$listingId'
+      preLoaderRoute: typeof ShopListingIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/shop/checkout/success': {
+      id: '/shop/checkout/success'
+      path: '/shop/checkout/success'
+      fullPath: '/shop/checkout/success'
+      preLoaderRoute: typeof ShopCheckoutSuccessRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/shop/checkout/cancel': {
+      id: '/shop/checkout/cancel'
+      path: '/shop/checkout/cancel'
+      fullPath: '/shop/checkout/cancel'
+      preLoaderRoute: typeof ShopCheckoutCancelRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -89,6 +199,11 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   ContactRoute: ContactRoute,
+  ShopListingIdRoute: ShopListingIdRoute,
+  ShopBasketRoute: ShopBasketRoute,
+  ShopIndexRoute: ShopIndexRoute,
+  ShopCheckoutCancelRoute: ShopCheckoutCancelRoute,
+  ShopCheckoutSuccessRoute: ShopCheckoutSuccessRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
