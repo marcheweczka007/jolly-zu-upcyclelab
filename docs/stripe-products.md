@@ -36,6 +36,29 @@ If `availability` is omitted, active product + active price = **available**. Ina
 
 Basket stores `listing_id` values. Checkout resolves live prices from Stripe — no per-product env vars needed.
 
+## Automatic “sold” after payment
+
+When checkout completes, Stripe sends `checkout.session.completed` to `/.netlify/functions/stripe-webhook`. The handler:
+
+1. Deactivates each purchased **Product** and **Price** in Stripe  
+2. Sets metadata `availability` = `sold_out`  
+3. Removes the piece from the shop on the next catalog fetch (usually within ~60s, or immediately after success page refresh)
+
+### Webhook setup
+
+1. [Stripe Dashboard → Webhooks](https://dashboard.stripe.com/webhooks) → **Add endpoint**  
+2. URL (production): `https://YOUR-SITE.netlify.app/.netlify/functions/stripe-webhook`  
+3. Event: `checkout.session.completed`  
+4. Copy **Signing secret** (`whsec_…`) → Netlify env `STRIPE_WEBHOOK_SECRET`
+
+**Local testing:**
+
+```bash
+stripe listen --forward-to localhost:8888/.netlify/functions/stripe-webhook
+```
+
+Put the printed `whsec_…` in `.env` as `STRIPE_WEBHOOK_SECRET`, restart `netlify dev`.
+
 ## Images
 
 Upload images to Stripe, or host elsewhere and paste HTTPS URLs into the product image field.

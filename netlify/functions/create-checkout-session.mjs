@@ -75,12 +75,17 @@ export async function handler(event) {
       return { statusCode: 400, headers, body: JSON.stringify({ error: "Basket is empty" }) };
     }
 
+    const listingIds = Object.keys(items).filter((id) => items[id] > 0);
+
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
       line_items: lineItems,
       success_url: `${origin}/shop/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/shop/checkout/cancel`,
       shipping_address_collection: { allowed_countries: ["GB"] },
+      metadata: {
+        listing_ids: listingIds.join(","),
+      },
     });
 
     return {

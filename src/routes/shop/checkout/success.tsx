@@ -1,3 +1,4 @@
+import { useQueryClient } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { SiteFooter } from "@/components/SiteFooter";
@@ -13,10 +14,12 @@ export const Route = createFileRoute("/shop/checkout/success")({
 
 function CheckoutSuccess() {
   const { clearBasket } = useBasket();
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     clearBasket();
-  }, [clearBasket]);
+    void queryClient.invalidateQueries({ queryKey: ["products"] });
+  }, [clearBasket, queryClient]);
 
   return (
     <div className="min-h-screen bg-cream text-ink">

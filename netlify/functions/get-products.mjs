@@ -30,7 +30,7 @@ export async function handler(event) {
 
   try {
     const stripe = new Stripe(secret);
-    const products = await listCatalogCached(stripe);
+    const products = await listCatalogCached(stripe, { shopOnly: true });
     return {
       statusCode: 200,
       headers: {

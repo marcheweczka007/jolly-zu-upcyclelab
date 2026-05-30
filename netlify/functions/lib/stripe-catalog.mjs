@@ -72,31 +72,64 @@ export async function resolveDefaultPrice(stripe, product) {
   return prices.data[0] ?? null;
 }
 
-export async function listCatalog(stripe) {
+export async function listCatalog(stripe, { shopOnly = false } = {}) {
   const products = await stripe.products.list({ limit: 100 });
   const listings = [];
 
   for (const product of products.data) {
     const price = await resolveDefaultPrice(stripe, product);
     if (!price) continue;
-    listings.push(toListing(product, price));
+    const listing = toListing(product, price);
+    if (shopOnly && listing.availability === "sold_out") continue;
+    listings.push(listing);
   }
 
   listings.sort((a, b) => a.sortOrder - b.sortOrder || a.name.localeCompare(b.name));
   return listings;
 }
 
+/** Deactivate product + price after a one-of-one sale */
+export async function markProductSold(stripe, productId, priceId) {
+  const product = await stripe.products.retrieve(productId);
+  if (!product.active) {
+    return { alreadySold: true, productId };
+  }
+
+  await stripe.products.update(productId, {
+    active: false,
+    metadata: {
+      ...product.metadata,
+      availability: "sold_out",
+    },
+  });
+
+  if (priceId) {
+    try {
+      await stripe.prices.update(priceId, { active: false });
+    } catch (err) {
+      console.warn("markProductSold: could not deactivate price", priceId, err);
+    }
+  }
+
+  clearCatalogCache();
+  return { alreadySold: false, productId };
+}
+
+export function clearCatalogCache() {
+  catalogCacheByKey.clear();
+}
+
 /** @type {Map<string, { catalog: unknown[], fetchedAt: number }>} */
 const catalogCacheByKey = new Map();
 const CACHE_MS = 30_000;
 
-export async function listCatalogCached(stripe) {
-  const key = process.env.STRIPE_SECRET_KEY?.slice(-8) ?? "default";
+export async function listCatalogCached(stripe, options = {}) {
+  const key = `${process.env.STRIPE_SECRET_KEY?.slice(-8) ?? "default"}:${options.shopOnly ? "shop" : "all"}`;
   const cached = catalogCacheByKey.get(key);
   if (cached && Date.now() - cached.fetchedAt < CACHE_MS) {
     return cached.catalog;
   }
-  const catalog = await listCatalog(stripe);
+  const catalog = await listCatalog(stripe, options);
   catalogCacheByKey.set(key, { catalog, fetchedAt: Date.now() });
   return catalog;
 }
