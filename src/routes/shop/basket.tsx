@@ -4,10 +4,12 @@ import { ShopProductsState } from "@/components/ShopProductsState";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { useBasket } from "@/contexts/BasketContext";
+import { shopRouteGuard } from "@/constants/shop";
 import { formatPrice, isPreorder } from "@/lib/product-utils";
 import { startStripeCheckout } from "@/lib/checkout";
 
 export const Route = createFileRoute("/shop/basket")({
+  beforeLoad: shopRouteGuard,
   head: () => ({
     meta: [{ title: "Basket — JollyZu Shop" }],
   }),

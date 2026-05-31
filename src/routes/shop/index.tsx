@@ -3,9 +3,11 @@ import { ListingCard } from "@/components/ListingCard";
 import { ShopProductsState } from "@/components/ShopProductsState";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
+import { shopRouteGuard } from "@/constants/shop";
 import { useProducts } from "@/contexts/ProductsContext";
 
 export const Route = createFileRoute("/shop/")({
+  beforeLoad: shopRouteGuard,
   head: () => ({
     meta: [
       { title: "Shop — JollyZu | Upcycled bags" },

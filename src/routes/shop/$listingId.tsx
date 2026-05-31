@@ -5,10 +5,12 @@ import { ShopProductsState } from "@/components/ShopProductsState";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { useProducts } from "@/contexts/ProductsContext";
+import { shopRouteGuard } from "@/constants/shop";
 import { canPurchase, formatPrice, isPreorder } from "@/lib/product-utils";
 import type { Product } from "@/types/product";
 
 export const Route = createFileRoute("/shop/$listingId")({
+  beforeLoad: shopRouteGuard,
   component: ListingDetail,
 });
 

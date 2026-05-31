@@ -5,6 +5,7 @@ import { defineConfig } from "vite";
 import tsconfigPaths from "vite-tsconfig-paths";
 
 export default defineConfig({
+  envPrefix: ["VITE_", "SHOW_"],
   plugins: [TanStackRouterVite(), react(), tailwindcss(), tsconfigPaths()],
   server: {
     port: 5173,

@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { createContext, useCallback, useContext, useMemo, type ReactNode } from "react";
 import { fetchProducts } from "@/lib/products-api";
 import { getProductById as findProduct } from "@/lib/product-utils";
+import { SHOW_SHOP } from "@/constants/shop";
 import type { Product } from "@/types/product";
 
 type ProductsContextValue = {
@@ -20,6 +21,7 @@ export function ProductsProvider({ children }: { children: ReactNode }) {
     queryKey: ["products"],
     queryFn: fetchProducts,
     staleTime: 60_000,
+    enabled: SHOW_SHOP,
   });
 
   const products = query.data ?? [];

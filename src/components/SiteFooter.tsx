@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { SHOP_URL } from "@/constants/shop";
+import { SHOW_SHOP, SHOP_URL } from "@/constants/shop";
 
 export function SiteFooter() {
   return (
@@ -38,16 +38,20 @@ export function SiteFooter() {
                   Contact
                 </Link>
               </li>
-              <li>
-                <Link to="/shop" className="hover:text-mustard">
-                  Shop
-                </Link>
-              </li>
-              <li>
-                <Link to="/shop/basket" className="hover:text-mustard">
-                  Basket
-                </Link>
-              </li>
+              {SHOW_SHOP && (
+                <>
+                  <li>
+                    <Link to="/shop" className="hover:text-mustard">
+                      Shop
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/shop/basket" className="hover:text-mustard">
+                      Basket
+                    </Link>
+                  </li>
+                </>
+              )}
             </ul>
           </div>
 
