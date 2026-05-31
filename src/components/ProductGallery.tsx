@@ -1,5 +1,6 @@
 import useEmblaCarousel from "embla-carousel-react";
-import { useCallback, useEffect, useState } from "react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
+import { useCallback, useEffect, useState, type MouseEvent } from "react";
 import { cn } from "@/lib/utils";
 
 export function ProductGallery({
@@ -16,6 +17,26 @@ export function ProductGallery({
     if (!emblaApi) return;
     setSelected(emblaApi.selectedScrollSnap());
   }, [emblaApi]);
+
+  const scrollPrev = useCallback(() => {
+    emblaApi?.scrollPrev();
+  }, [emblaApi]);
+
+  const scrollNext = useCallback(() => {
+    emblaApi?.scrollNext();
+  }, [emblaApi]);
+
+  const handleMainImageClick = useCallback(
+    (event: MouseEvent<HTMLDivElement>) => {
+      if (!emblaApi || (event.target as HTMLElement).closest("button")) return;
+
+      const { left, width } = event.currentTarget.getBoundingClientRect();
+      const x = event.clientX - left;
+      if (x < width / 2) scrollPrev();
+      else scrollNext();
+    },
+    [emblaApi, scrollPrev, scrollNext],
+  );
 
   useEffect(() => {
     if (!emblaApi) return;
@@ -44,23 +65,52 @@ export function ProductGallery({
     );
   }
 
+  const arrowClassName =
+    "absolute top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border-2 border-ink bg-cream/95 text-ink shadow-brutal transition hover:bg-cream active:scale-95";
+
   return (
     <div className="space-y-3">
       <div
-        ref={emblaRef}
-        className="overflow-hidden rounded-2xl border-2 border-ink bg-muted shadow-brutal-lg"
+        className="relative overflow-hidden rounded-2xl border-2 border-ink bg-muted shadow-brutal-lg"
+        onClick={handleMainImageClick}
       >
-        <div className="flex">
-          {images.map((src, i) => (
-            <div key={src} className="min-w-0 flex-[0_0_100%]">
-              <img
-                src={src}
-                alt={i === 0 ? alt : `${alt} — photo ${i + 1}`}
-                className="aspect-[4/5] w-full object-cover"
-              />
-            </div>
-          ))}
+        <div ref={emblaRef} className="overflow-hidden">
+          <div className="flex">
+            {images.map((src, i) => (
+              <div key={src} className="min-w-0 flex-[0_0_100%]">
+                <img
+                  src={src}
+                  alt={i === 0 ? alt : `${alt} — photo ${i + 1}`}
+                  className="aspect-[4/5] w-full object-cover"
+                  draggable={false}
+                />
+              </div>
+            ))}
+          </div>
         </div>
+
+        <button
+          type="button"
+          onClick={(event) => {
+            event.stopPropagation();
+            scrollPrev();
+          }}
+          className={cn(arrowClassName, "left-3")}
+          aria-label="Previous photo"
+        >
+          <ArrowLeft className="h-5 w-5" strokeWidth={2.5} />
+        </button>
+        <button
+          type="button"
+          onClick={(event) => {
+            event.stopPropagation();
+            scrollNext();
+          }}
+          className={cn(arrowClassName, "right-3")}
+          aria-label="Next photo"
+        >
+          <ArrowRight className="h-5 w-5" strokeWidth={2.5} />
+        </button>
       </div>
 
       <div className="flex gap-2 overflow-x-auto pb-1">
