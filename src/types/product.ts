@@ -10,6 +10,7 @@ export type Product = {
   pricePence: number;
   currency: string;
   image: string;
+  images: string[];
   imageAlt: string;
   materials: string[];
   dimensions: string;

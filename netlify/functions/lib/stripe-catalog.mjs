@@ -15,6 +15,11 @@
  *   sort_order     — number, lower first
  */
 
+function sanitizeImageUrl(url) {
+  if (!url?.trim()) return "";
+  return url.trim().replace(/\\+$/, "");
+}
+
 export function parseMaterials(raw) {
   if (!raw?.trim()) return [];
   return raw
@@ -34,7 +39,11 @@ export function parseAvailability(metadata, productActive, priceActive) {
 export function toListing(product, price) {
   const metadata = product.metadata ?? {};
   const id = metadata.listing_id?.trim() || product.id;
-  const image = product.images?.[0] ?? "";
+  const images = (product.images ?? [])
+    .map(sanitizeImageUrl)
+    .filter(Boolean)
+    .slice(0, 8);
+  const image = images[0] ?? "";
   const pricePence =
     price?.unit_amount != null && price.currency === "gbp" ? price.unit_amount : 0;
 
@@ -48,6 +57,7 @@ export function toListing(product, price) {
     pricePence,
     currency: price?.currency ?? "gbp",
     image,
+    images: images.length > 0 ? images : image ? [image] : [],
     imageAlt: metadata.image_alt?.trim() || product.name || "",
     materials: parseMaterials(metadata.materials),
     dimensions: metadata.dimensions?.trim() ?? "",

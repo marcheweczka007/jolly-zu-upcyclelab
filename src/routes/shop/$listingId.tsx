@@ -1,5 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ListingBasketActions } from "@/components/ListingBasketActions";
+import { ProductGallery } from "@/components/ProductGallery";
 import { ShopProductsState } from "@/components/ShopProductsState";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
@@ -46,19 +47,10 @@ function ListingDetailContent({
         </nav>
 
         <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
-          <div className="overflow-hidden rounded-2xl border-2 border-ink bg-muted shadow-brutal-lg">
-            {product.image ? (
-              <img
-                src={product.image}
-                alt={product.imageAlt}
-                className="aspect-[4/5] w-full object-cover"
-              />
-            ) : (
-              <div className="flex aspect-[4/5] items-center justify-center text-ink/40">
-                No image in Stripe
-              </div>
-            )}
-          </div>
+          <ProductGallery
+            images={product.images.length > 0 ? product.images : product.image ? [product.image] : []}
+            alt={product.imageAlt}
+          />
 
           <div>
             {product.tagline && (

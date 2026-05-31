@@ -30,6 +30,16 @@ For each bag, create a **Product** with a **one-time GBP Price**.
 
 If `listing_id` is omitted, the Stripe product id is used in URLs.
 
+### Product gallery (multiple images)
+
+Stripe Dashboard only supports one upload. For a full gallery:
+
+```bash
+npm run sync:vinted-images
+```
+
+Pick a Stripe product, paste a Vinted listing URL, and the script scrapes photos and saves up to 8 URLs to the product's `images[]` in Stripe.
+
 If `availability` is omitted, active product + active price = **available**. Inactive product or price = **sold out**.
 
 ## Checkout
