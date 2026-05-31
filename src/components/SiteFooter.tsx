@@ -39,9 +39,14 @@ export function SiteFooter() {
                 </Link>
               </li>
               <li>
-                <a href={SHOP_URL} target="_blank" rel="noreferrer" className="hover:text-mustard">
-                  Shop ↗
-                </a>
+                <Link to="/shop" className="hover:text-mustard">
+                  Shop
+                </Link>
+              </li>
+              <li>
+                <Link to="/shop/basket" className="hover:text-mustard">
+                  Basket
+                </Link>
               </li>
             </ul>
           </div>
