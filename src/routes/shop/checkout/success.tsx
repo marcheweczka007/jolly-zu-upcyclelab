@@ -3,8 +3,9 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
-import { useBasket } from "@/contexts/BasketContext";
 import { shopRouteGuard } from "@/constants/shop";
+import { useBasket } from "@/contexts/BasketContext";
+import { refreshCatalogAfterCheckout } from "@/lib/refresh-catalog-after-checkout";
 
 export const Route = createFileRoute("/shop/checkout/success")({
   beforeLoad: shopRouteGuard,
@@ -20,7 +21,7 @@ function CheckoutSuccess() {
 
   useEffect(() => {
     clearBasket();
-    void queryClient.invalidateQueries({ queryKey: ["products"] });
+    void refreshCatalogAfterCheckout(queryClient);
   }, [clearBasket, queryClient]);
 
   return (
