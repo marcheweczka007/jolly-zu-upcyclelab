@@ -1,10 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useEffect } from "react";
 import { ListingCard } from "@/components/ListingCard";
 import { ShopProductsState } from "@/components/ShopProductsState";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { shopRouteGuard } from "@/constants/shop";
 import { useProducts } from "@/contexts/ProductsContext";
+import { consumeCatalogFreshFlag } from "@/lib/refresh-catalog-after-checkout";
 
 export const Route = createFileRoute("/shop/")({
   beforeLoad: shopRouteGuard,
@@ -22,7 +24,13 @@ export const Route = createFileRoute("/shop/")({
 });
 
 function ShopIndex() {
-  const { products } = useProducts();
+  const { products, refetchFresh } = useProducts();
+
+  useEffect(() => {
+    if (consumeCatalogFreshFlag()) {
+      refetchFresh();
+    }
+  }, [refetchFresh]);
 
   return (
     <ShopProductsState>

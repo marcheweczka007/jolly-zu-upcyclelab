@@ -1,5 +1,5 @@
 import Stripe from "stripe";
-import { listCatalogCached } from "./lib/stripe-catalog.mjs";
+import { clearCatalogCache, listCatalog, listCatalogCached } from "./lib/stripe-catalog.mjs";
 
 const headers = {
   "Content-Type": "application/json",
@@ -30,12 +30,18 @@ export async function handler(event) {
 
   try {
     const stripe = new Stripe(secret);
-    const products = await listCatalogCached(stripe, { shopOnly: true });
+    const fresh = event.queryStringParameters?.fresh === "1";
+    if (fresh) {
+      clearCatalogCache();
+    }
+    const products = fresh
+      ? await listCatalog(stripe, { shopOnly: true })
+      : await listCatalogCached(stripe, { shopOnly: true });
     return {
       statusCode: 200,
       headers: {
         ...headers,
-        "Cache-Control": "public, max-age=60",
+        "Cache-Control": fresh ? "no-store" : "public, max-age=60",
       },
       body: JSON.stringify({ products }),
     };

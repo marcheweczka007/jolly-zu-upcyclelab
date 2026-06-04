@@ -11,6 +11,8 @@ type ProductsContextValue = {
   isError: boolean;
   error: Error | null;
   refetch: () => void;
+  /** Refetch from Stripe, bypassing CDN and server catalog cache. */
+  refetchFresh: () => void;
   getProductById: (id: string) => Product | undefined;
 };
 
@@ -28,6 +30,10 @@ export function ProductsProvider({ children }: { children: ReactNode }) {
 
   const getProductById = useCallback((id: string) => findProduct(products, id), [products]);
 
+  const refetchFresh = useCallback(() => {
+    void query.refetch({ queryFn: () => fetchProducts({ fresh: true }) });
+  }, [query]);
+
   const value = useMemo(
     () => ({
       products,
@@ -37,6 +43,7 @@ export function ProductsProvider({ children }: { children: ReactNode }) {
       refetch: () => {
         void query.refetch();
       },
+      refetchFresh,
       getProductById,
     }),
     [
@@ -45,6 +52,7 @@ export function ProductsProvider({ children }: { children: ReactNode }) {
       query.isError,
       query.error,
       query.refetch,
+      refetchFresh,
       getProductById,
     ],
   );
