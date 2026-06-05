@@ -36,28 +36,33 @@ If `listing_id` is omitted, the Stripe product id is used in URLs.
 
 ### Product gallery (multiple images)
 
-Images are stored **locally** under `public/shop-images/{stripe_product_id}/` (e.g. `public/shop-images/prod_UeDMxD9YW7XooH/01.webp`). They are served from your site at `/shop-images/...` and referenced in Stripe `images[]` as full HTTPS URLs.
+Images live in the repo under `public/shop-images/{stripe_product_id}/` (e.g. `public/shop-images/prod_UeDMxD9YW7XooH/01.webp`). The shop serves them at `/shop-images/...` — **no Stripe `images[]` update required**. Folder name must match the Stripe product id (`prod_…`).
 
-Set `SITE_URL` in `.env` (e.g. `https://jollyzu.com`) before syncing.
+A manifest (`netlify/functions/lib/shop-images-manifest.mjs`) is generated from those folders and bundled into `get-products`. Regenerate it after adding or changing images:
 
-**From Vinted (download + Stripe):**
+```bash
+npm run generate:shop-images-manifest
+# or
+npm run sync:local-images
+```
+
+`npm run build` runs the manifest step automatically.
+
+**From Vinted (download only):**
 
 ```bash
 npm run sync:vinted-images
 ```
 
-Pick a Stripe product, paste a Vinted URL. The script downloads up to 8 photos into the product folder and updates Stripe with your site's image URLs.
+Pick a Stripe product (for the folder name), paste a Vinted URL. Downloads up to 8 photos and refreshes the manifest.
 
 **Manual upload:**
 
-1. Add `.jpg`, `.jpeg`, `.png`, or `.webp` files to `public/shop-images/prod_…/` (name them `01.jpg`, `02.jpg`, …).
-2. Run:
+1. Add `.jpg`, `.jpeg`, `.png`, or `.webp` files to `public/shop-images/prod_…/` (e.g. `01.webp`, `02.webp`).
+2. Run `npm run sync:local-images`.
+3. Commit `public/shop-images/` and the manifest, then deploy (or restart `netlify dev` locally).
 
-```bash
-npm run sync:local-images
-```
-
-Commit `public/shop-images/` and deploy so Stripe and the live shop can load the files.
+Stripe `images[]` is only a fallback when no local folder exists.
 
 If `availability` is omitted, active product + active price = **available**. Inactive product or price = **sold out**.
 

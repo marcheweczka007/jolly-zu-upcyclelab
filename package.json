@@ -4,9 +4,10 @@
   "sideEffects": false,
   "type": "module",
   "scripts": {
-    "dev": "vite dev",
-    "dev:netlify": "netlify dev",
-    "build": "vite build",
+    "dev": "netlify dev",
+    "dev:vite": "vite dev",
+    "build": "npm run generate:shop-images-manifest && vite build",
+    "generate:shop-images-manifest": "node scripts/generate-shop-images-manifest.mjs",
     "build:dev": "vite build --mode development",
     "preview": "vite preview",
     "lint": "eslint .",

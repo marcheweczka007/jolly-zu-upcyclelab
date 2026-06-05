@@ -1,20 +1,17 @@
 #!/usr/bin/env node
 /**
- * Sync product gallery: scrape Vinted → save images locally → push URLs to Stripe.
- *
- * Images are stored in public/shop-images/{stripe_product_id}/ (e.g. prod_UeDMxD9YW7XooH).
+ * Scrape Vinted → save images to public/shop-images/{stripe_product_id}/ → refresh manifest.
+ * Gallery is served from the repo; Stripe images[] is not updated.
  *
  * Usage: npm run sync:vinted-images
- * Requires STRIPE_SECRET_KEY and SITE_URL in .env (for Stripe image URLs)
  */
 import { confirm, input } from "@inquirer/prompts";
 import Stripe from "stripe";
+import { generateShopImagesManifest } from "./generate-shop-images-manifest.mjs";
 import { loadEnv } from "./lib/load-env.mjs";
 import {
   downloadProductImages,
-  localImageUrlsForProduct,
   productImageDir,
-  resolveSiteUrl,
   SHOP_IMAGES_PUBLIC_DIR,
 } from "./lib/product-images.mjs";
 import { selectStripeProduct, skuLabel } from "./lib/stripe-products.mjs";
@@ -30,7 +27,6 @@ async function main() {
   }
 
   const stripe = new Stripe(secret);
-  const siteUrl = resolveSiteUrl();
 
   console.log("\nFetching Stripe products…\n");
 
@@ -42,8 +38,7 @@ async function main() {
 
   console.log(`\nSelected: ${product.name} (${product.id})`);
   console.log(`SKU / listing_id: ${skuLabel(product)}`);
-  console.log(`Local folder: ${SHOP_IMAGES_PUBLIC_DIR}/${product.id}/`);
-  console.log(`Public URLs base: ${siteUrl}\n`);
+  console.log(`Local folder: ${SHOP_IMAGES_PUBLIC_DIR}/${product.id}/\n`);
 
   const vintedUrl = await input({
     message: "Vinted listing URL",
@@ -75,26 +70,12 @@ async function main() {
   console.log("\nDownloading…");
   await downloadProductImages(product.id, vintedUrls);
 
-  const imageUrls = await localImageUrlsForProduct(product.id, siteUrl);
-  console.log(`\nLocal gallery (${imageUrls.length} file(s)):\n`);
-  imageUrls.forEach((url, i) => console.log(`  ${i + 1}. ${url}`));
+  const { manifest } = await generateShopImagesManifest();
+  const urls = manifest[product.id] ?? [];
 
-  const shouldUpdate = await confirm({
-    message: `Update Stripe with ${imageUrls.length} local image URL(s)?`,
-    default: true,
-  });
-
-  if (!shouldUpdate) {
-    console.log("\nFiles saved locally. Run npm run sync:local-images to update Stripe later.");
-    process.exit(0);
-  }
-
-  const updated = await stripe.products.update(product.id, { images: imageUrls });
-
-  console.log(`\n✓ Updated ${updated.name}`);
-  console.log(`  ${updated.images.length} image URL(s) saved to Stripe.`);
-  console.log("  Commit public/shop-images/ and deploy so Stripe can reach the images.");
-  console.log("  Refresh the shop product page after deploy.\n");
+  console.log(`\n✓ Saved ${urls.length} image(s) for ${product.id}`);
+  urls.forEach((url, i) => console.log(`  ${i + 1}. ${url}`));
+  console.log("\nRestart netlify dev (or refresh) to see the gallery on /shop.\n");
 }
 
 main().catch((err) => {

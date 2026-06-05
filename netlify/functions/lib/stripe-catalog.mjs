@@ -1,8 +1,10 @@
+import { localGalleryUrls } from "./local-product-images.mjs";
+
 /**
  * Stripe Product catalog → shop listings.
  *
  * Product (Dashboard):
- *   name, description, images[] (HTTPS URLs), active
+ *   name, description, images[] (fallback hero only — gallery from public/shop-images/)
  *
  * Metadata (optional unless noted):
  *   listing_id       — URL slug (defaults to Stripe product id)
@@ -67,10 +69,12 @@ export function parseAvailability(metadata, productActive, priceActive, stock) {
 export function toListing(product, price) {
   const metadata = product.metadata ?? {};
   const id = metadata.listing_id?.trim() || product.id;
-  const images = (product.images ?? [])
+  const stripeImages = (product.images ?? [])
     .map(sanitizeImageUrl)
     .filter(Boolean)
     .slice(0, 8);
+  const localImages = localGalleryUrls(product.id);
+  const images = localImages ?? stripeImages;
   const image = images[0] ?? "";
   const pricePence =
     price?.unit_amount != null && price.currency === "gbp" ? price.unit_amount : 0;

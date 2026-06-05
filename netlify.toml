@@ -7,7 +7,7 @@
 
 # Vite defaults to 5173; Netlify auto-detects TanStack Router as port 3000 without this
 [dev]
-  command = "npm run dev"
+  command = "npm run dev:vite"
   targetPort = 5173
   port = 8888
   framework = "vite"

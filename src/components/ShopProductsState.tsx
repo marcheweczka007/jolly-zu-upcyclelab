@@ -34,7 +34,9 @@ export function ShopProductsState({ children }: { children: ReactNode }) {
           <p className="text-display text-2xl">Couldn&apos;t load the shop</p>
           <p className="mt-4 text-ink/70">{error?.message ?? "Stripe catalog unavailable."}</p>
           <p className="mt-2 text-sm text-ink/55">
-            Check STRIPE_SECRET_KEY and that products exist in your Stripe Dashboard.
+            Locally, run <code className="text-ink/80">npm run dev</code> (Netlify dev) and open{" "}
+            <code className="text-ink/80">http://localhost:8888</code>. Check STRIPE_SECRET_KEY in{" "}
+            <code className="text-ink/80">.env</code>.
           </p>
           <button
             type="button"
