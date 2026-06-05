@@ -1,5 +1,5 @@
 import Stripe from "stripe";
-import { markProductSold } from "./lib/stripe-catalog.mjs";
+import { recordPurchase } from "./lib/stripe-catalog.mjs";
 
 export async function handler(event) {
   if (event.httpMethod !== "POST") {
@@ -55,9 +55,15 @@ async function handleCheckoutCompleted(stripe, sessionId) {
       typeof price.product === "string" ? price.product : price.product?.id;
     if (!productId) continue;
 
-    const result = await markProductSold(stripe, productId, priceId);
+    const quantity = item.quantity ?? 1;
+    const result = await recordPurchase(stripe, productId, priceId, quantity);
     sold.push(result);
-    console.log("markProductSold:", productId, result.alreadySold ? "(already inactive)" : "sold");
+    console.log(
+      "recordPurchase:",
+      productId,
+      `qty ${quantity}`,
+      result.depleted ? "depleted" : `remaining ${result.stockAvailable ?? "n/a"}`,
+    );
   }
 
   return sold;

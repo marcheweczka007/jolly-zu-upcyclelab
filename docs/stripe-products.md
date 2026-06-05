@@ -27,20 +27,46 @@ For each bag, create a **Product** with a **one-time GBP Price**.
 | `preorder_note` | Optional | Shown on pre-order detail pages |
 | `image_alt` | Optional | Accessibility text for image |
 | `sort_order` | Optional | `1`, `2`, `3` — lower appears first |
+| `stock_total` | Optional | Batch size, e.g. `5` — shows “3 of 5 available” on the shop |
+| `stock_available` | Optional | Units left (defaults to `stock_total`; webhook decrements on sale) |
 
 If `listing_id` is omitted, the Stripe product id is used in URLs.
 
+**One-of-a-kind vs batch:** omit `stock_total` for unique pieces (sold after one purchase). Set `stock_total` + `stock_available` for small runs of the same style.
+
 ### Product gallery (multiple images)
 
-Stripe Dashboard only supports one upload. For a full gallery:
+Images live in the repo under `public/shop-images/{stripe_product_id}/` (e.g. `public/shop-images/prod_UeDMxD9YW7XooH/01.webp`). The shop serves them at `/shop-images/...` — **no Stripe `images[]` update required**. Folder name must match the Stripe product id (`prod_…`).
+
+A manifest (`netlify/functions/lib/shop-images-manifest.mjs`) is generated from those folders and bundled into `get-products`. Regenerate it after adding or changing images:
+
+```bash
+npm run generate:shop-images-manifest
+# or
+npm run sync:local-images
+```
+
+`npm run build` runs the manifest step automatically.
+
+**From Vinted (download only):**
 
 ```bash
 npm run sync:vinted-images
 ```
 
-Pick a Stripe product, paste a Vinted listing URL, and the script scrapes photos and saves up to 8 URLs to the product's `images[]` in Stripe.
+Pick a Stripe product (for the folder name), paste a Vinted URL. Downloads up to 8 photos and refreshes the manifest.
+
+**Manual upload:**
+
+1. Add `.jpg`, `.jpeg`, `.png`, or `.webp` files to `public/shop-images/prod_…/` (e.g. `01.webp`, `02.webp`).
+2. Run `npm run sync:local-images`.
+3. Commit `public/shop-images/` and the manifest, then deploy (or restart `netlify dev` locally).
+
+Stripe `images[]` is only a fallback when no local folder exists.
 
 If `availability` is omitted, active product + active price = **available**. Inactive product or price = **sold out**.
+
+Sold-out listings stay visible in the shop (badge + no add-to-basket). After a sale the webhook sets `availability` = `sold_out` and deactivates the product; those inactive products are still listed when marked sold out.
 
 ## Checkout
 
@@ -50,9 +76,9 @@ Basket stores `listing_id` values. Checkout resolves live prices from Stripe —
 
 When checkout completes, Stripe sends `checkout.session.completed` to `/.netlify/functions/stripe-webhook`. The handler:
 
-1. Deactivates each purchased **Product** and **Price** in Stripe  
-2. Sets metadata `availability` = `sold_out`  
-3. Removes the piece from the shop on the next catalog fetch (usually within ~60s, or immediately after success page refresh)
+1. **One-of-a-kind** (no `stock_total`): deactivates product + price, sets `availability` = `sold_out`  
+2. **Batch** (`stock_total` set): decrements `stock_available` by quantity purchased; deactivates only when it reaches `0`  
+3. Removes sold-out pieces from the shop on the next catalog fetch
 
 ### Webhook setup
 

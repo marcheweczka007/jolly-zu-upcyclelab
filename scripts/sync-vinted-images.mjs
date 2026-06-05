@@ -1,36 +1,23 @@
 #!/usr/bin/env node
 /**
- * Sync product gallery images from a Vinted listing into Stripe.
+ * Scrape Vinted → save images to public/shop-images/{stripe_product_id}/ → refresh manifest.
+ * Gallery is served from the repo; Stripe images[] is not updated.
  *
  * Usage: npm run sync:vinted-images
- * Requires STRIPE_SECRET_KEY in .env
  */
-import { confirm, input, select } from "@inquirer/prompts";
+import { confirm, input } from "@inquirer/prompts";
 import Stripe from "stripe";
+import { generateShopImagesManifest } from "./generate-shop-images-manifest.mjs";
 import { loadEnv } from "./lib/load-env.mjs";
+import {
+  downloadProductImages,
+  productImageDir,
+  SHOP_IMAGES_PUBLIC_DIR,
+} from "./lib/product-images.mjs";
+import { selectStripeProduct, skuLabel } from "./lib/stripe-products.mjs";
 import { fetchVintedListingHtml, scrapeVintedImages } from "./lib/vinted-scraper.mjs";
 
 loadEnv();
-
-function skuLabel(product) {
-  const listingId = product.metadata?.listing_id?.trim();
-  if (listingId) return listingId;
-  return product.id;
-}
-
-function truncate(text, max = 60) {
-  const t = (text ?? "").replace(/\s+/g, " ").trim();
-  if (t.length <= max) return t;
-  return `${t.slice(0, max - 1)}…`;
-}
-
-async function listProducts(stripe) {
-  const products = [];
-  for await (const product of stripe.products.list({ limit: 100 })) {
-    products.push(product);
-  }
-  return products.sort((a, b) => a.name.localeCompare(b.name));
-}
 
 async function main() {
   const secret = process.env.STRIPE_SECRET_KEY;
@@ -43,31 +30,15 @@ async function main() {
 
   console.log("\nFetching Stripe products…\n");
 
-  const products = await listProducts(stripe);
-
-  if (products.length === 0) {
+  const product = await selectStripeProduct(stripe);
+  if (!product) {
     console.log("No products found in Stripe.");
     process.exit(0);
   }
 
-  const productId = await select({
-    message: "Choose a Stripe product",
-    pageSize: 12,
-    choices: products.map((p) => ({
-      name: `[${skuLabel(p)}] ${truncate(p.name, 55)}`,
-      value: p.id,
-      description: p.description ? truncate(p.description, 90) : undefined,
-    })),
-  });
-
-  const product = products.find((p) => p.id === productId);
-  if (!product) {
-    console.error("Product not found.");
-    process.exit(1);
-  }
-
   console.log(`\nSelected: ${product.name} (${product.id})`);
-  console.log(`SKU / listing_id: ${skuLabel(product)}\n`);
+  console.log(`SKU / listing_id: ${skuLabel(product)}`);
+  console.log(`Local folder: ${SHOP_IMAGES_PUBLIC_DIR}/${product.id}/\n`);
 
   const vintedUrl = await input({
     message: "Vinted listing URL",
@@ -77,31 +48,34 @@ async function main() {
 
   console.log("\nFetching Vinted page…");
   const html = await fetchVintedListingHtml(vintedUrl);
-  const images = scrapeVintedImages(html);
+  const vintedUrls = scrapeVintedImages(html);
 
-  if (images.length === 0) {
+  if (vintedUrls.length === 0) {
     console.error("No listing images found. Check the URL or try again later.");
     process.exit(1);
   }
 
-  console.log(`\nFound ${images.length} image(s):\n`);
-  images.forEach((url, i) => console.log(`  ${i + 1}. ${url}`));
+  console.log(`\nFound ${vintedUrls.length} image(s) on Vinted.`);
 
-  const shouldUpdate = await confirm({
-    message: `Update Stripe with ${images.length} image URL(s)?`,
+  const shouldDownload = await confirm({
+    message: `Download to ${productImageDir(product.id)}?`,
     default: true,
   });
 
-  if (!shouldUpdate) {
+  if (!shouldDownload) {
     console.log("Cancelled.");
     process.exit(0);
   }
 
-  const updated = await stripe.products.update(product.id, { images });
+  console.log("\nDownloading…");
+  await downloadProductImages(product.id, vintedUrls);
 
-  console.log(`\n✓ Updated ${updated.name}`);
-  console.log(`  ${updated.images.length} image URL(s) saved to Stripe.`);
-  console.log("  Refresh the shop product page to see the gallery.\n");
+  const { manifest } = await generateShopImagesManifest();
+  const urls = manifest[product.id] ?? [];
+
+  console.log(`\n✓ Saved ${urls.length} image(s) for ${product.id}`);
+  urls.forEach((url, i) => console.log(`  ${i + 1}. ${url}`));
+  console.log("\nRestart netlify dev (or refresh) to see the gallery on /shop.\n");
 }
 
 main().catch((err) => {

@@ -1,4 +1,5 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { ListingAvailabilityBadge } from "@/components/ListingAvailabilityBadge";
 import { ListingBasketActions } from "@/components/ListingBasketActions";
 import { ProductGallery } from "@/components/ProductGallery";
 import { ShopProductsState } from "@/components/ShopProductsState";
@@ -49,10 +50,15 @@ function ListingDetailContent({
         </nav>
 
         <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
-          <ProductGallery
-            images={product.images.length > 0 ? product.images : product.image ? [product.image] : []}
-            alt={product.imageAlt}
-          />
+          <div className="relative">
+            <ProductGallery
+              images={
+                product.images.length > 0 ? product.images : product.image ? [product.image] : []
+              }
+              alt={product.imageAlt}
+            />
+            <ListingAvailabilityBadge product={product} />
+          </div>
 
           <div>
             {product.tagline && (
@@ -95,7 +101,16 @@ function ListingDetailContent({
               </div>
             ) : (
               <p className="mt-10 inline-block rounded-full border-2 border-ink bg-muted px-5 py-3 text-sm font-black uppercase tracking-wider">
-                Sold out — watch Instagram for the next drop
+                Sold out — watch{" "}
+                <a
+                  href="https://instagram.com/upcycle.lab.jollyzu"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="underline underline-offset-2 hover:text-purple-deep"
+                >
+                  Instagram
+                </a>{" "}
+                for the next drop
               </p>
             )}
           </div>

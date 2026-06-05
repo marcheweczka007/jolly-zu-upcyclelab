@@ -9,6 +9,13 @@ export default defineConfig({
   plugins: [TanStackRouterVite(), react(), tailwindcss(), tsconfigPaths()],
   server: {
     port: 5173,
-    strictPort: true,
+    // Let netlify dev pick another port if 5173 is already in use.
+    strictPort: false,
+    proxy: {
+      "/.netlify/functions": {
+        target: "http://127.0.0.1:8888",
+        changeOrigin: true,
+      },
+    },
   },
 });
