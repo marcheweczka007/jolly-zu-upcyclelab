@@ -82,12 +82,22 @@ export function buildMetaTags({
 export function organizationJsonLd(siteUrl, defaultOgImage) {
   return {
     "@context": "https://schema.org",
-    "@type": "Organization",
+    "@type": ["Organization", "LocalBusiness"],
     name: SITE_NAME,
     url: siteUrl,
     logo: defaultOgImage,
     description: DEFAULT_DESCRIPTION,
     sameAs: [INSTAGRAM_URL],
+    founder: { "@type": "Person", name: "Zuza" },
+    areaServed: { "@type": "Country", name: "United Kingdom" },
+    priceRange: "££",
+    knowsAbout: [
+      "upcycling",
+      "slow fashion",
+      "handmade bags",
+      "rescued textiles",
+      "sustainable fashion",
+    ],
     address: {
       "@type": "PostalAddress",
       addressLocality: "Edinburgh",

@@ -1,5 +1,9 @@
-# JollyZu — https://llmstxt.org/
-# LLM-readable site summary: https://jollyzu.com/llms.txt
+import { absoluteUrl } from "./seo-meta.mjs";
+
+/** robots.txt — search crawlers + explicit AI agent access */
+export function buildRobotsTxt(siteUrl) {
+  return `# JollyZu — https://llmstxt.org/
+# LLM-readable site summary: ${absoluteUrl(siteUrl, "/llms.txt")}
 
 User-agent: *
 Allow: /
@@ -45,4 +49,6 @@ Allow: /
 Disallow: /shop/basket
 Disallow: /shop/checkout/
 
-Sitemap: https://jollyzu.com/sitemap.xml
+Sitemap: ${absoluteUrl(siteUrl, "/sitemap.xml")}
+`;
+}

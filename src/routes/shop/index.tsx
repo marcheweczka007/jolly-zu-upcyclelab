@@ -1,28 +1,34 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { pageHead } from "@/lib/seo";
 import { useEffect } from "react";
 import { ListingCard } from "@/components/ListingCard";
 import { ShopProductsState } from "@/components/ShopProductsState";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
+import { StructuredData } from "@/components/StructuredData";
 import { shopRouteGuard } from "@/constants/shop";
 import { useProducts } from "@/contexts/ProductsContext";
+import { fetchProducts } from "@/lib/products-api";
 import { consumeCatalogFreshFlag } from "@/lib/refresh-catalog-after-checkout";
+import { pageHead, shopItemListJsonLd } from "@/lib/seo";
 
 export const Route = createFileRoute("/shop/")({
   beforeLoad: shopRouteGuard,
-  head: () =>
+  loader: async () => ({ products: await fetchProducts() }),
+  head: ({ loaderData }) =>
     pageHead({
       title: "Shop — JollyZu | Upcycled bags",
       description:
         "Browse one-of-a-kind upcycled bags handmade in Edinburgh. Small batches, no restocks.",
       path: "/shop",
+      jsonLd: shopItemListJsonLd(loaderData.products),
     }),
   component: ShopIndex,
 });
 
 function ShopIndex() {
+  const { products: loaderProducts } = Route.useLoaderData();
   const { products, refetchFresh } = useProducts();
+  const displayProducts = products.length > 0 ? products : loaderProducts;
 
   useEffect(() => {
     if (consumeCatalogFreshFlag()) {
@@ -33,6 +39,7 @@ function ShopIndex() {
   return (
     <ShopProductsState>
       <div className="min-h-screen bg-cream text-ink">
+        <StructuredData data={shopItemListJsonLd(displayProducts)} />
         <SiteHeader />
 
         <section className="mx-auto max-w-7xl px-5 pb-20 pt-8 md:px-8 md:pt-14">
@@ -48,13 +55,13 @@ function ShopIndex() {
             </p>
           </div>
 
-          {products.length === 0 ? (
+          {displayProducts.length === 0 ? (
             <p className="mt-12 rounded-2xl border-2 border-dashed border-ink/25 p-12 text-center text-ink/70">
               No products in Stripe yet. Add products in your Stripe Dashboard.
             </p>
           ) : (
             <ul className="mt-12 grid auto-rows-fr gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-              {products.map((product) => (
+              {displayProducts.map((product) => (
                 <li key={product.id} className="h-full min-h-0">
                   <ListingCard product={product} />
                 </li>

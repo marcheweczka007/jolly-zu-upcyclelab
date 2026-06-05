@@ -76,12 +76,22 @@ export function pageHead({
 export function organizationJsonLd() {
   return {
     "@context": "https://schema.org",
-    "@type": "Organization",
+    "@type": ["Organization", "LocalBusiness"],
     name: SITE_NAME,
     url: SITE_URL,
     logo: DEFAULT_OG_IMAGE,
     description: DEFAULT_DESCRIPTION,
     sameAs: [INSTAGRAM_URL],
+    founder: { "@type": "Person", name: "Zuza" },
+    areaServed: { "@type": "Country", name: "United Kingdom" },
+    priceRange: "££",
+    knowsAbout: [
+      "upcycling",
+      "slow fashion",
+      "handmade bags",
+      "rescued textiles",
+      "sustainable fashion",
+    ],
     address: {
       "@type": "PostalAddress",
       addressLocality: "Edinburgh",
@@ -146,6 +156,23 @@ export function productBreadcrumbJsonLd(product: Product) {
       { "@type": "ListItem", position: 2, name: "Shop", item: absoluteUrl("/shop") },
       { "@type": "ListItem", position: 3, name: product.name, item: absoluteUrl(`/shop/${product.id}`) },
     ],
+  };
+}
+
+export function shopItemListJsonLd(products: Product[]) {
+  const listed = products.filter((p) => p.availability !== "sold_out");
+  return {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "JollyZu current drop",
+    description: "One-of-a-kind upcycled bags available to buy",
+    numberOfItems: listed.length,
+    itemListElement: listed.map((product, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: product.name,
+      url: absoluteUrl(`/shop/${product.id}`),
+    })),
   };
 }
 

@@ -3,10 +3,11 @@
  * Post-build SEO: sitemap.xml, robots.txt, and prerendered HTML shells
  * with full meta tags for crawlers and social link previews.
  */
-import Stripe from "stripe";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
-import { listCatalog } from "../netlify/functions/lib/stripe-catalog.mjs";
+import { fetchCatalogProducts } from "./lib/fetch-catalog.mjs";
+import { buildLlmsFullTxt, buildLlmsTxt } from "./lib/llms-txt.mjs";
+import { buildRobotsTxt } from "./lib/robots-txt.mjs";
 import {
   absoluteUrl,
   buildMetaTags,
@@ -16,6 +17,8 @@ import {
   resolveSiteUrl,
   webSiteJsonLd,
 } from "./lib/seo-meta.mjs";
+
+const PUBLIC = join(process.cwd(), "public");
 
 const DIST = join(process.cwd(), "dist");
 const DEFAULT_OG = "/og-default.webp";
@@ -82,13 +85,11 @@ async function writeHtml(outPath, content) {
 }
 
 async function fetchProducts() {
-  const secret = process.env.STRIPE_SECRET_KEY;
-  if (!secret) {
+  const products = await fetchCatalogProducts();
+  if (products.length === 0 && !process.env.STRIPE_SECRET_KEY) {
     console.warn("generate-seo: STRIPE_SECRET_KEY not set — sitemap will omit product URLs");
-    return [];
   }
-  const stripe = new Stripe(secret);
-  return listCatalog(stripe, { shopOnly: true });
+  return products;
 }
 
 function buildSitemap(siteUrl, products) {
@@ -166,13 +167,18 @@ async function main() {
   await writeFile(join(DIST, "sitemap.xml"), buildSitemap(siteUrl, products), "utf8");
   console.log("generate-seo: sitemap.xml");
 
-  const robots = `User-agent: *
-Allow: /
-
-Sitemap: ${absoluteUrl(siteUrl, "/sitemap.xml")}
-`;
+  const robots = buildRobotsTxt(siteUrl);
   await writeFile(join(DIST, "robots.txt"), robots, "utf8");
+  await writeFile(join(PUBLIC, "robots.txt"), robots, "utf8");
   console.log("generate-seo: robots.txt");
+
+  const llmsTxt = buildLlmsTxt(siteUrl, products);
+  const llmsFullTxt = buildLlmsFullTxt(siteUrl, products);
+  for (const dir of [DIST, PUBLIC]) {
+    await writeFile(join(dir, "llms.txt"), llmsTxt, "utf8");
+    await writeFile(join(dir, "llms-full.txt"), llmsFullTxt, "utf8");
+  }
+  console.log("generate-seo: llms.txt, llms-full.txt");
 }
 
 main().catch((err) => {

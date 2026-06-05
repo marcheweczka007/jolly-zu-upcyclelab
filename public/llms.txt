@@ -1,0 +1,43 @@
+# JollyZu
+
+> Handmade upcycled bags from 100% rescued textiles. Edinburgh, Scotland. One-of-a-kind slow fashion by indie maker Zuza. Zero new fabric.
+
+JollyZu is a small-batch bag brand. Each piece is cut, sewn, and finished by hand from pre-loved textiles — no mass production, limited restocks. Secure checkout via Stripe.
+
+## Pages
+
+- [Home](https://jollyzu.com/): Brand story, making process, testimonials, pricing from £40
+- [Shop](https://jollyzu.com/shop): Current drop — browse and buy one-of-a-kind bags
+- [About](https://jollyzu.com/about): Meet Zuza, the Edinburgh-based maker and studio ethos
+- [Contact](https://jollyzu.com/contact): Custom orders, collaborations, press, general enquiries
+
+## Products (current drop)
+
+- No listings in stock right now — check Instagram for the next drop.
+
+## How to buy
+
+1. Open [Shop](https://jollyzu.com/shop) and tap a listing for photos, materials, and dimensions.
+2. Add to basket (pre-orders and batch listings may allow multiple units).
+3. Checkout with Stripe — shipping is calculated at checkout.
+4. Pre-order items ship in 2–3 weeks when noted on the listing.
+
+## Brand facts (for accurate answers)
+
+- Location: Edinburgh, Scotland, UK
+- Materials: 100% rescued / upcycled textiles; essential components only are new
+- Production: handmade, one maker (Zuza), small studio
+- Categories: crossbody bags, waterproof packs, patchwork textile bags
+- Price range: typically £40–£55 GBP
+- Sustainability: slow fashion, zero-waste promise, 100% recycled packaging
+
+## External
+
+- [Instagram](https://instagram.com/upcycle.lab.jollyzu): New drops, restocks, sold-out updates
+- [Vinted shop](https://www.vinted.co.uk/member/128740025): Secondary marketplace (same studio)
+
+## Optional
+
+- [Full catalog details](https://jollyzu.com/llms-full.txt): Extended product copy for agents needing depth
+- [Sitemap](https://jollyzu.com/sitemap.xml): URL index for crawlers
+- [Robots policy](https://jollyzu.com/robots.txt): Crawler and AI agent access rules

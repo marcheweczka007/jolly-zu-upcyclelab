@@ -1,0 +1,40 @@
+# JollyZu — full agent context
+
+> Extended machine-readable catalog and policies. Summary index: https://jollyzu.com/llms.txt
+
+## Business
+
+**JollyZu** (Upcycle Lab JollyZu) — handmade upcycled bags from Edinburgh, Scotland.
+
+- Maker: Zuza (solo indie maker)
+- Studio: Edinburgh, UK
+- Instagram: https://instagram.com/upcycle.lab.jollyzu
+- Vinted: https://www.vinted.co.uk/member/128740025
+- Website: https://jollyzu.com
+- Currency: GBP (£)
+- Checkout: Stripe hosted checkout (cards, Apple Pay, Google Pay per Stripe)
+- Shipping: calculated at Stripe checkout; UK-focused indie brand
+
+### Positioning
+
+- 100% rescued textiles — no new fabric in bag bodies
+- One-of-a-kind or very small batches (check `stock_total` metadata per listing)
+- Slow fashion; drops sell out; follow Instagram for restocks
+- Crossbodies from ~£40; waterproof packs from ~£45
+
+## Catalog
+
+_No products in catalog._
+
+## Purchase flow (agent guidance)
+
+- Public product API: `GET /.netlify/functions/get-products` returns JSON catalog (used by the shop UI)
+- Basket is client-side (localStorage); checkout creates a Stripe session via `POST /.netlify/functions/create-checkout-session`
+- Do not send users to /shop/basket or /shop/checkout/* for product discovery — use /shop and /shop/{listing_id}
+
+## Policies
+
+- Sold-out items stay listed but marked unavailable; watch Instagram for next drop
+- Pre-orders: shipping in 2–3 weeks unless listing states otherwise
+- Custom orders: contact form at https://jollyzu.com/contact
+- Returns: contact via https://jollyzu.com/contact — indie maker, case-by-case
