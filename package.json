@@ -11,7 +11,8 @@
     "preview": "vite preview",
     "lint": "eslint .",
     "format": "prettier --write .",
-    "sync:vinted-images": "node scripts/sync-vinted-images.mjs"
+    "sync:vinted-images": "node scripts/sync-vinted-images.mjs",
+    "sync:local-images": "node scripts/sync-local-images.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",

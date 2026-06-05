@@ -1,36 +1,26 @@
 #!/usr/bin/env node
 /**
- * Sync product gallery images from a Vinted listing into Stripe.
+ * Sync product gallery: scrape Vinted → save images locally → push URLs to Stripe.
+ *
+ * Images are stored in public/shop-images/{stripe_product_id}/ (e.g. prod_UeDMxD9YW7XooH).
  *
  * Usage: npm run sync:vinted-images
- * Requires STRIPE_SECRET_KEY in .env
+ * Requires STRIPE_SECRET_KEY and SITE_URL in .env (for Stripe image URLs)
  */
-import { confirm, input, select } from "@inquirer/prompts";
+import { confirm, input } from "@inquirer/prompts";
 import Stripe from "stripe";
 import { loadEnv } from "./lib/load-env.mjs";
+import {
+  downloadProductImages,
+  localImageUrlsForProduct,
+  productImageDir,
+  resolveSiteUrl,
+  SHOP_IMAGES_PUBLIC_DIR,
+} from "./lib/product-images.mjs";
+import { selectStripeProduct, skuLabel } from "./lib/stripe-products.mjs";
 import { fetchVintedListingHtml, scrapeVintedImages } from "./lib/vinted-scraper.mjs";
 
 loadEnv();
-
-function skuLabel(product) {
-  const listingId = product.metadata?.listing_id?.trim();
-  if (listingId) return listingId;
-  return product.id;
-}
-
-function truncate(text, max = 60) {
-  const t = (text ?? "").replace(/\s+/g, " ").trim();
-  if (t.length <= max) return t;
-  return `${t.slice(0, max - 1)}…`;
-}
-
-async function listProducts(stripe) {
-  const products = [];
-  for await (const product of stripe.products.list({ limit: 100 })) {
-    products.push(product);
-  }
-  return products.sort((a, b) => a.name.localeCompare(b.name));
-}
 
 async function main() {
   const secret = process.env.STRIPE_SECRET_KEY;
@@ -40,34 +30,20 @@ async function main() {
   }
 
   const stripe = new Stripe(secret);
+  const siteUrl = resolveSiteUrl();
 
   console.log("\nFetching Stripe products…\n");
 
-  const products = await listProducts(stripe);
-
-  if (products.length === 0) {
+  const product = await selectStripeProduct(stripe);
+  if (!product) {
     console.log("No products found in Stripe.");
     process.exit(0);
   }
 
-  const productId = await select({
-    message: "Choose a Stripe product",
-    pageSize: 12,
-    choices: products.map((p) => ({
-      name: `[${skuLabel(p)}] ${truncate(p.name, 55)}`,
-      value: p.id,
-      description: p.description ? truncate(p.description, 90) : undefined,
-    })),
-  });
-
-  const product = products.find((p) => p.id === productId);
-  if (!product) {
-    console.error("Product not found.");
-    process.exit(1);
-  }
-
   console.log(`\nSelected: ${product.name} (${product.id})`);
-  console.log(`SKU / listing_id: ${skuLabel(product)}\n`);
+  console.log(`SKU / listing_id: ${skuLabel(product)}`);
+  console.log(`Local folder: ${SHOP_IMAGES_PUBLIC_DIR}/${product.id}/`);
+  console.log(`Public URLs base: ${siteUrl}\n`);
 
   const vintedUrl = await input({
     message: "Vinted listing URL",
@@ -77,31 +53,48 @@ async function main() {
 
   console.log("\nFetching Vinted page…");
   const html = await fetchVintedListingHtml(vintedUrl);
-  const images = scrapeVintedImages(html);
+  const vintedUrls = scrapeVintedImages(html);
 
-  if (images.length === 0) {
+  if (vintedUrls.length === 0) {
     console.error("No listing images found. Check the URL or try again later.");
     process.exit(1);
   }
 
-  console.log(`\nFound ${images.length} image(s):\n`);
-  images.forEach((url, i) => console.log(`  ${i + 1}. ${url}`));
+  console.log(`\nFound ${vintedUrls.length} image(s) on Vinted.`);
 
-  const shouldUpdate = await confirm({
-    message: `Update Stripe with ${images.length} image URL(s)?`,
+  const shouldDownload = await confirm({
+    message: `Download to ${productImageDir(product.id)}?`,
     default: true,
   });
 
-  if (!shouldUpdate) {
+  if (!shouldDownload) {
     console.log("Cancelled.");
     process.exit(0);
   }
 
-  const updated = await stripe.products.update(product.id, { images });
+  console.log("\nDownloading…");
+  await downloadProductImages(product.id, vintedUrls);
+
+  const imageUrls = await localImageUrlsForProduct(product.id, siteUrl);
+  console.log(`\nLocal gallery (${imageUrls.length} file(s)):\n`);
+  imageUrls.forEach((url, i) => console.log(`  ${i + 1}. ${url}`));
+
+  const shouldUpdate = await confirm({
+    message: `Update Stripe with ${imageUrls.length} local image URL(s)?`,
+    default: true,
+  });
+
+  if (!shouldUpdate) {
+    console.log("\nFiles saved locally. Run npm run sync:local-images to update Stripe later.");
+    process.exit(0);
+  }
+
+  const updated = await stripe.products.update(product.id, { images: imageUrls });
 
   console.log(`\n✓ Updated ${updated.name}`);
   console.log(`  ${updated.images.length} image URL(s) saved to Stripe.`);
-  console.log("  Refresh the shop product page to see the gallery.\n");
+  console.log("  Commit public/shop-images/ and deploy so Stripe can reach the images.");
+  console.log("  Refresh the shop product page after deploy.\n");
 }
 
 main().catch((err) => {

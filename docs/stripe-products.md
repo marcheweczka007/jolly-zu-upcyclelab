@@ -36,13 +36,28 @@ If `listing_id` is omitted, the Stripe product id is used in URLs.
 
 ### Product gallery (multiple images)
 
-Stripe Dashboard only supports one upload. For a full gallery:
+Images are stored **locally** under `public/shop-images/{stripe_product_id}/` (e.g. `public/shop-images/prod_UeDMxD9YW7XooH/01.webp`). They are served from your site at `/shop-images/...` and referenced in Stripe `images[]` as full HTTPS URLs.
+
+Set `SITE_URL` in `.env` (e.g. `https://jollyzu.com`) before syncing.
+
+**From Vinted (download + Stripe):**
 
 ```bash
 npm run sync:vinted-images
 ```
 
-Pick a Stripe product, paste a Vinted listing URL, and the script scrapes photos and saves up to 8 URLs to the product's `images[]` in Stripe.
+Pick a Stripe product, paste a Vinted URL. The script downloads up to 8 photos into the product folder and updates Stripe with your site's image URLs.
+
+**Manual upload:**
+
+1. Add `.jpg`, `.jpeg`, `.png`, or `.webp` files to `public/shop-images/prod_…/` (name them `01.jpg`, `02.jpg`, …).
+2. Run:
+
+```bash
+npm run sync:local-images
+```
+
+Commit `public/shop-images/` and deploy so Stripe and the live shop can load the files.
 
 If `availability` is omitted, active product + active price = **available**. Inactive product or price = **sold out**.
 
