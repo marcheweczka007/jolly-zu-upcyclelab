@@ -29,6 +29,7 @@ For each bag, create a **Product** with a **one-time GBP Price**.
 | `sort_order` | Optional | `1`, `2`, `3` — lower appears first |
 | `stock_total` | Optional | Batch size, e.g. `5` — shows “3 of 5 available” on the shop |
 | `stock_available` | Optional | Units left (defaults to `stock_total`; webhook decrements on sale) |
+| `force_hide` | Optional | `true` — hide from shop and block checkout (product stays in Stripe) |
 
 If `listing_id` is omitted, the Stripe product id is used in URLs.
 

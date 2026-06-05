@@ -17,6 +17,7 @@ import { localGalleryUrls } from "./local-product-images.mjs";
  *   sort_order       — number, lower first
  *   stock_total      — batch size, e.g. 5 (omit for one-of-a-kind)
  *   stock_available  — remaining units (defaults to stock_total; webhook decrements)
+ *   force_hide       — `true` hides the product from the shop and checkout
  */
 
 function sanitizeImageUrl(url) {
@@ -46,6 +47,11 @@ export function parseStock(metadata, productActive, priceActive) {
   }
 
   return { stockTotal, stockAvailable, isBatch: true };
+}
+
+export function isForceHidden(metadata) {
+  const raw = metadata?.force_hide?.trim().toLowerCase();
+  return raw === "true" || raw === "1" || raw === "yes";
 }
 
 export function parseMaterials(raw) {
@@ -145,6 +151,7 @@ export async function listCatalog(stripe, { shopOnly = false } = {}) {
   const listings = [];
 
   for (const product of products) {
+    if (isForceHidden(product.metadata ?? {})) continue;
     const price = await resolveDefaultPrice(stripe, product);
     if (!price) continue;
     listings.push(toListing(product, price));
