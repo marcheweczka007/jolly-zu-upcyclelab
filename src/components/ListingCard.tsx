@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { ListingAvailabilityBadge } from "@/components/ListingAvailabilityBadge";
 import { ListingBasketActions } from "@/components/ListingBasketActions";
 import { canPurchase, formatPrice } from "@/lib/product-utils";
+import { cn } from "@/lib/utils";
 import type { Product } from "@/types/product";
 
 export function ListingCard({ product }: { product: Product }) {
@@ -17,7 +18,10 @@ export function ListingCard({ product }: { product: Product }) {
             <img
               src={product.image}
               alt={product.imageAlt}
-              className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+              className={cn(
+                "h-full w-full object-cover transition-transform duration-500 group-hover:scale-105",
+                !canPurchase(product) && "opacity-75 saturate-50",
+              )}
               loading="lazy"
             />
           ) : (
@@ -37,7 +41,11 @@ export function ListingCard({ product }: { product: Product }) {
         </div>
       </Link>
       <div className="mt-auto shrink-0 px-5 pb-5 pt-3">
-        {canPurchase(product) && <ListingBasketActions product={product} size="compact" />}
+        {canPurchase(product) ? (
+          <ListingBasketActions product={product} size="compact" />
+        ) : (
+          <p className="text-center text-xs font-black uppercase tracking-wider text-ink/50">Sold out</p>
+        )}
       </div>
     </article>
   );

@@ -66,6 +66,8 @@ Stripe `images[]` is only a fallback when no local folder exists.
 
 If `availability` is omitted, active product + active price = **available**. Inactive product or price = **sold out**.
 
+Sold-out listings stay visible in the shop (badge + no add-to-basket). After a sale the webhook sets `availability` = `sold_out` and deactivates the product; those inactive products are still listed when marked sold out.
+
 ## Checkout
 
 Basket stores `listing_id` values. Checkout resolves live prices from Stripe — no per-product env vars needed.

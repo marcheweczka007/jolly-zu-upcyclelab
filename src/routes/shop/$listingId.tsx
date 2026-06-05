@@ -101,7 +101,16 @@ function ListingDetailContent({
               </div>
             ) : (
               <p className="mt-10 inline-block rounded-full border-2 border-ink bg-muted px-5 py-3 text-sm font-black uppercase tracking-wider">
-                Sold out — watch Instagram for the next drop
+                Sold out — watch{" "}
+                <a
+                  href="https://instagram.com/upcycle.lab.jollyzu"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="underline underline-offset-2 hover:text-purple-deep"
+                >
+                  Instagram
+                </a>{" "}
+                for the next drop
               </p>
             )}
           </div>

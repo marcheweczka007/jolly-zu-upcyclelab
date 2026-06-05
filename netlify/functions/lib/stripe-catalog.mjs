@@ -109,27 +109,53 @@ export async function resolveDefaultPrice(stripe, product) {
   if (typeof product.default_price === "string") {
     return stripe.prices.retrieve(product.default_price);
   }
-  const prices = await stripe.prices.list({
+  const activePrices = await stripe.prices.list({
     product: product.id,
     active: true,
     limit: 1,
   });
-  return prices.data[0] ?? null;
+  if (activePrices.data[0]) return activePrices.data[0];
+
+  const inactivePrices = await stripe.prices.list({
+    product: product.id,
+    active: false,
+    limit: 1,
+  });
+  return inactivePrices.data[0] ?? null;
+}
+
+function isSoldOutListing(product) {
+  const raw = product.metadata?.availability?.toLowerCase().replace(/\s+/g, "_");
+  if (raw === "sold_out" || raw === "soldout") return true;
+  return product.metadata?.stock_available === "0";
+}
+
+async function listStripeProducts(stripe, { shopOnly = false } = {}) {
+  const active = await stripe.products.list({ limit: 100, active: true });
+  if (!shopOnly) return active.data;
+
+  const inactive = await stripe.products.list({ limit: 100, active: false });
+  const soldOutInactive = inactive.data.filter(isSoldOutListing);
+  const seen = new Set(active.data.map((p) => p.id));
+  return [...active.data, ...soldOutInactive.filter((p) => !seen.has(p.id))];
 }
 
 export async function listCatalog(stripe, { shopOnly = false } = {}) {
-  const products = await stripe.products.list({ limit: 100 });
+  const products = await listStripeProducts(stripe, { shopOnly });
   const listings = [];
 
-  for (const product of products.data) {
+  for (const product of products) {
     const price = await resolveDefaultPrice(stripe, product);
     if (!price) continue;
-    const listing = toListing(product, price);
-    if (shopOnly && listing.availability === "sold_out") continue;
-    listings.push(listing);
+    listings.push(toListing(product, price));
   }
 
-  listings.sort((a, b) => a.sortOrder - b.sortOrder || a.name.localeCompare(b.name));
+  listings.sort((a, b) => {
+    const aSold = a.availability === "sold_out" ? 1 : 0;
+    const bSold = b.availability === "sold_out" ? 1 : 0;
+    if (aSold !== bSold) return aSold - bSold;
+    return a.sortOrder - b.sortOrder || a.name.localeCompare(b.name);
+  });
   return listings;
 }
 
