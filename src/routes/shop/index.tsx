@@ -60,7 +60,7 @@ function ShopIndex() {
               No products in Stripe yet. Add products in your Stripe Dashboard.
             </p>
           ) : (
-            <ul className="mt-12 grid auto-rows-fr gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            <ul className="mt-12 grid auto-rows-fr gap-8 sm:grid-cols-2 lg:grid-cols-3">
               {displayProducts.map((product) => (
                 <li key={product.id} className="h-full min-h-0">
                   <ListingCard product={product} />

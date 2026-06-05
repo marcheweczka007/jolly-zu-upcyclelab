@@ -12,7 +12,7 @@ export function ShopProductsState({ children }: { children: ReactNode }) {
         <SiteHeader />
         <div className="mx-auto max-w-7xl px-5 py-24 md:px-8">
           <p className="text-sm font-bold uppercase tracking-widest text-purple-deep">Loading shop…</p>
-          <div className="mt-8 grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          <div className="mt-8 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {[1, 2, 3, 4].map((n) => (
               <div
                 key={n}
