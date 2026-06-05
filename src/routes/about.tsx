@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { pageHead } from "@/lib/seo";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { ShopCTA } from "@/components/ShopCTA";
@@ -6,18 +7,13 @@ import { Marquee } from "@/components/Marquee";
 import maker from "@/assets/maker-portrait.jpg";
 
 export const Route = createFileRoute("/about")({
-  head: () => ({
-    meta: [
-      { title: "About — JollyZu | The maker behind the bags" },
-      {
-        name: "description",
-        content:
-          "Meet Zuza, the indie maker turning rescued textiles into one-of-a-kind upcycled bags from her Edinburgh studio.",
-      },
-      { property: "og:title", content: "About JollyZu — Meet the maker" },
-      { property: "og:description", content: "One person. One studio. Zero new fabric." },
-    ],
-  }),
+  head: () =>
+    pageHead({
+      title: "About — JollyZu | The maker behind the bags",
+      description:
+        "Meet Zuza, the indie maker turning rescued textiles into one-of-a-kind upcycled bags from her Edinburgh studio.",
+      path: "/about",
+    }),
   component: About,
 });
 

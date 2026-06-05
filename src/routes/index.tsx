@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { organizationJsonLd, pageHead, webSiteJsonLd } from "@/lib/seo";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { Marquee } from "@/components/Marquee";
@@ -11,21 +12,14 @@ import collectionFlatlay from "@/assets/collection-flatlay.jpg";
 import fabricStack from "@/assets/fabric-stack.jpg";
 
 export const Route = createFileRoute("/")({
-  head: () => ({
-    meta: [
-      { title: "JollyZu — Upcycled Handmade Bags from Scotland" },
-      {
-        name: "description",
-        content:
-          "Handmade upcycled bags built from rescued textiles. Bold, durable, one-of-a-kind. Shop the latest drop.",
-      },
-      { property: "og:title", content: "JollyZu — Upcycled Handmade Bags" },
-      {
-        property: "og:description",
-        content: "Bold handmade bags from rescued textiles. Slow fashion with serious attitude.",
-      },
-    ],
-  }),
+  head: () =>
+    pageHead({
+      title: "JollyZu — Upcycled Handmade Bags from Edinburgh",
+      description:
+        "Handmade upcycled bags built from rescued textiles. Bold, durable, one-of-a-kind. Shop the latest drop.",
+      path: "/",
+      jsonLd: [organizationJsonLd(), webSiteJsonLd()],
+    }),
   component: Index,
 });
 

@@ -6,12 +6,17 @@ import { SiteHeader } from "@/components/SiteHeader";
 import { shopRouteGuard } from "@/constants/shop";
 import { useBasket } from "@/contexts/BasketContext";
 import { refreshCatalogAfterCheckout } from "@/lib/refresh-catalog-after-checkout";
+import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/shop/checkout/success")({
   beforeLoad: shopRouteGuard,
-  head: () => ({
-    meta: [{ title: "Order confirmed — JollyZu" }],
-  }),
+  head: () =>
+    pageHead({
+      title: "Order confirmed — JollyZu",
+      description: "Thank you for your JollyZu order.",
+      path: "/shop/checkout/success",
+      noindex: true,
+    }),
   component: CheckoutSuccess,
 });
 

@@ -6,8 +6,10 @@
   "scripts": {
     "dev": "netlify dev",
     "dev:vite": "vite dev",
-    "build": "npm run generate:shop-images-manifest && vite build",
+    "build": "npm run generate:shop-images-manifest && npm run prepare:seo-assets && vite build && npm run generate:seo",
     "generate:shop-images-manifest": "node scripts/generate-shop-images-manifest.mjs",
+    "prepare:seo-assets": "node scripts/prepare-seo-assets.mjs",
+    "generate:seo": "node scripts/generate-seo.mjs",
     "build:dev": "vite build --mode development",
     "preview": "vite preview",
     "lint": "eslint .",

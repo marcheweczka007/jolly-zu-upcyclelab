@@ -13,12 +13,17 @@ import {
   maxPurchaseQty,
 } from "@/lib/product-utils";
 import { startStripeCheckout } from "@/lib/checkout";
+import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/shop/basket")({
   beforeLoad: shopRouteGuard,
-  head: () => ({
-    meta: [{ title: "Basket — JollyZu Shop" }],
-  }),
+  head: () =>
+    pageHead({
+      title: "Basket — JollyZu Shop",
+      description: "Your JollyZu basket.",
+      path: "/shop/basket",
+      noindex: true,
+    }),
   component: BasketPage,
 });
 
@@ -80,7 +85,11 @@ function BasketPage() {
                       className="h-24 w-20 shrink-0 overflow-hidden rounded-lg border-2 border-ink"
                     >
                       {product.image ? (
-                        <img src={product.image} alt="" className="h-full w-full object-cover" />
+                        <img
+                          src={product.image}
+                          alt={product.imageAlt || product.name}
+                          className="h-full w-full object-cover"
+                        />
                       ) : (
                         <div className="h-full w-full bg-muted" />
                       )}

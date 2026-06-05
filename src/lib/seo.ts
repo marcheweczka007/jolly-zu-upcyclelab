@@ -1,0 +1,170 @@
+import type { Product } from "@/types/product";
+
+export const SITE_NAME = "JollyZu";
+export const SITE_URL = (import.meta.env.VITE_SITE_URL || "https://jollyzu.com").replace(/\/$/, "");
+export const DEFAULT_DESCRIPTION =
+  "Handmade upcycled bags built from rescued textiles in Edinburgh, Scotland. Bold, durable, one-of-a-kind slow fashion by indie maker Zuza.";
+export const DEFAULT_OG_IMAGE = `${SITE_URL}/og-default.webp`;
+export const LOCALE = "en_GB";
+export const INSTAGRAM_URL = "https://instagram.com/upcycle.lab.jollyzu";
+
+type PageHeadOptions = {
+  title: string;
+  description?: string;
+  path: string;
+  ogImage?: string;
+  ogType?: "website" | "product";
+  noindex?: boolean;
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+};
+
+export function absoluteUrl(pathOrUrl: string): string {
+  if (pathOrUrl.startsWith("http://") || pathOrUrl.startsWith("https://")) {
+    return pathOrUrl;
+  }
+  return `${SITE_URL}${pathOrUrl.startsWith("/") ? pathOrUrl : `/${pathOrUrl}`}`;
+}
+
+function truncate(text: string, max = 160): string {
+  const trimmed = text.trim();
+  if (trimmed.length <= max) return trimmed;
+  return `${trimmed.slice(0, max - 1).trimEnd()}…`;
+}
+
+function jsonLdMeta(schemas: Record<string, unknown> | Record<string, unknown>[]) {
+  const list = Array.isArray(schemas) ? schemas : [schemas];
+  return list.map((schema) => ({ "script:ld+json": schema }));
+}
+
+export function pageHead({
+  title,
+  description = DEFAULT_DESCRIPTION,
+  path,
+  ogImage = DEFAULT_OG_IMAGE,
+  ogType = "website",
+  noindex = false,
+  jsonLd,
+}: PageHeadOptions) {
+  const canonical = absoluteUrl(path);
+  const image = absoluteUrl(ogImage);
+  const desc = truncate(description);
+
+  const meta = [
+    { title },
+    { name: "description", content: desc },
+    ...(noindex ? [{ name: "robots", content: "noindex, nofollow" }] : []),
+    { property: "og:title", content: title },
+    { property: "og:description", content: desc },
+    { property: "og:url", content: canonical },
+    { property: "og:type", content: ogType },
+    { property: "og:site_name", content: SITE_NAME },
+    { property: "og:locale", content: LOCALE },
+    { property: "og:image", content: image },
+    { name: "twitter:card", content: "summary_large_image" },
+    { name: "twitter:title", content: title },
+    { name: "twitter:description", content: desc },
+    { name: "twitter:image", content: image },
+    ...(jsonLd ? jsonLdMeta(jsonLd) : []),
+  ];
+
+  return {
+    meta,
+    links: [{ rel: "canonical", href: canonical }],
+  };
+}
+
+export function organizationJsonLd() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: SITE_NAME,
+    url: SITE_URL,
+    logo: DEFAULT_OG_IMAGE,
+    description: DEFAULT_DESCRIPTION,
+    sameAs: [INSTAGRAM_URL],
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: "Edinburgh",
+      addressCountry: "GB",
+    },
+  };
+}
+
+export function webSiteJsonLd() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: SITE_NAME,
+    url: SITE_URL,
+    description: DEFAULT_DESCRIPTION,
+    publisher: { "@type": "Organization", name: SITE_NAME },
+  };
+}
+
+function productAvailability(product: Product): string {
+  if (product.availability === "sold_out") {
+    return "https://schema.org/OutOfStock";
+  }
+  if (product.availability === "preorder") {
+    return "https://schema.org/PreOrder";
+  }
+  return "https://schema.org/InStock";
+}
+
+export function productJsonLd(product: Product) {
+  const url = absoluteUrl(`/shop/${product.id}`);
+  const images = (product.images.length > 0 ? product.images : product.image ? [product.image] : [])
+    .map(absoluteUrl)
+    .filter(Boolean);
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: product.name,
+    description: product.description || product.tagline,
+    image: images.length > 0 ? images : undefined,
+    brand: { "@type": "Brand", name: SITE_NAME },
+    sku: product.id,
+    offers: {
+      "@type": "Offer",
+      url,
+      priceCurrency: product.currency.toUpperCase(),
+      price: (product.pricePence / 100).toFixed(2),
+      availability: productAvailability(product),
+      itemCondition: "https://schema.org/NewCondition",
+      seller: { "@type": "Organization", name: SITE_NAME },
+    },
+  };
+}
+
+export function productBreadcrumbJsonLd(product: Product) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
+      { "@type": "ListItem", position: 2, name: "Shop", item: absoluteUrl("/shop") },
+      { "@type": "ListItem", position: 3, name: product.name, item: absoluteUrl(`/shop/${product.id}`) },
+    ],
+  };
+}
+
+export function productHead(product: Product) {
+  const title = `${product.name} — ${SITE_NAME}`;
+  const description =
+    product.description ||
+    product.tagline ||
+    `${product.name} — handmade upcycled bag from ${SITE_NAME}, Edinburgh.`;
+  const ogImage = product.image || DEFAULT_OG_IMAGE;
+  const noindex = product.availability === "sold_out";
+
+  return pageHead({
+    title,
+    description,
+    path: `/shop/${product.id}`,
+    ogImage,
+    ogType: "product",
+    noindex,
+    jsonLd: [productJsonLd(product), productBreadcrumbJsonLd(product)],
+  });
+}

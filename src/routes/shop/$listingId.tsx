@@ -5,20 +5,35 @@ import { ProductGallery } from "@/components/ProductGallery";
 import { ShopProductsState } from "@/components/ShopProductsState";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
-import { useProducts } from "@/contexts/ProductsContext";
+import { StructuredData } from "@/components/StructuredData";
 import { shopRouteGuard } from "@/constants/shop";
-import { canPurchase, formatPrice, isPreorder } from "@/lib/product-utils";
+import { useProducts } from "@/contexts/ProductsContext";
+import { canPurchase, formatPrice, getProductById, isPreorder } from "@/lib/product-utils";
+import { fetchProducts } from "@/lib/products-api";
+import {
+  productBreadcrumbJsonLd,
+  productHead,
+  productJsonLd,
+} from "@/lib/seo";
 import type { Product } from "@/types/product";
 
 export const Route = createFileRoute("/shop/$listingId")({
   beforeLoad: shopRouteGuard,
+  loader: async ({ params }) => {
+    const products = await fetchProducts();
+    const product = getProductById(products, params.listingId);
+    if (!product) {
+      throw notFound();
+    }
+    return { product };
+  },
+  head: ({ loaderData }) => productHead(loaderData.product),
   component: ListingDetail,
 });
 
 function ListingDetail() {
-  const { listingId } = Route.useParams();
-  const { products, getProductById } = useProducts();
-  const product = getProductById(listingId);
+  const { product } = Route.useLoaderData();
+  const { products } = useProducts();
 
   return (
     <ShopProductsState>
@@ -31,19 +46,16 @@ function ListingDetailContent({
   product,
   products,
 }: {
-  product: Product | undefined;
+  product: Product;
   products: Product[];
 }) {
-  if (!product) {
-    throw notFound();
-  }
-
   return (
     <div className="min-h-screen bg-cream text-ink">
+      <StructuredData data={[productJsonLd(product), productBreadcrumbJsonLd(product)]} />
       <SiteHeader />
 
       <article className="mx-auto max-w-7xl px-5 pb-20 pt-8 md:px-8 md:pt-14">
-        <nav className="mb-8 text-sm font-bold uppercase tracking-wider">
+        <nav className="mb-8 text-sm font-bold uppercase tracking-wider" aria-label="Breadcrumb">
           <Link to="/shop" className="text-ink/50 hover:text-purple-deep">
             ← Shop
           </Link>
@@ -130,7 +142,12 @@ function ListingDetailContent({
                     className="block w-40 overflow-hidden rounded-xl border-2 border-ink"
                   >
                     {p.image ? (
-                      <img src={p.image} alt="" className="aspect-square object-cover" />
+                      <img
+                        src={p.image}
+                        alt={p.imageAlt || p.name}
+                        className="aspect-square object-cover"
+                        loading="lazy"
+                      />
                     ) : (
                       <div className="aspect-square bg-muted" />
                     )}

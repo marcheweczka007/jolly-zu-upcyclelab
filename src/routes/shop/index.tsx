@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { pageHead } from "@/lib/seo";
 import { useEffect } from "react";
 import { ListingCard } from "@/components/ListingCard";
 import { ShopProductsState } from "@/components/ShopProductsState";
@@ -10,16 +11,13 @@ import { consumeCatalogFreshFlag } from "@/lib/refresh-catalog-after-checkout";
 
 export const Route = createFileRoute("/shop/")({
   beforeLoad: shopRouteGuard,
-  head: () => ({
-    meta: [
-      { title: "Shop — JollyZu | Upcycled bags" },
-      {
-        name: "description",
-        content:
-          "Browse one-of-a-kind upcycled bags handmade in Edinburgh. Small batches, no restocks.",
-      },
-    ],
-  }),
+  head: () =>
+    pageHead({
+      title: "Shop — JollyZu | Upcycled bags",
+      description:
+        "Browse one-of-a-kind upcycled bags handmade in Edinburgh. Small batches, no restocks.",
+      path: "/shop",
+    }),
   component: ShopIndex,
 });
 

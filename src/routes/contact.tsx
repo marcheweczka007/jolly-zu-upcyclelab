@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { pageHead } from "@/lib/seo";
 import { useState } from "react";
 import { z } from "zod";
 import { SiteHeader } from "@/components/SiteHeader";
@@ -6,17 +7,12 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { ShopCTA } from "@/components/ShopCTA";
 
 export const Route = createFileRoute("/contact")({
-  head: () => ({
-    meta: [
-      { title: "Contact - JollyZu | Get in touch" },
-      {
-        name: "description",
-        content: "Custom orders, collabs, press, or just to say hi — get in touch with JollyZu.",
-      },
-      { property: "og:title", content: "Contact JollyZu" },
-      { property: "og:description", content: "Custom orders, collabs, or press — drop a line." },
-    ],
-  }),
+  head: () =>
+    pageHead({
+      title: "Contact — JollyZu | Get in touch",
+      description: "Custom orders, collabs, press, or just to say hi — get in touch with JollyZu.",
+      path: "/contact",
+    }),
   component: Contact,
 });
 

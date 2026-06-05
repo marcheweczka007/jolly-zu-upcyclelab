@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://jollyzu.com/sitemap.xml

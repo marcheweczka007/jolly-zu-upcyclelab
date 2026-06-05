@@ -106,10 +106,10 @@ export function VintedShopModal({ open, onOpenChange }: VintedShopModalProps) {
   );
 }
 
-function PreviewThumbnail({ src }: { src: string; alt: string }) {
+function PreviewThumbnail({ src, alt }: { src: string; alt: string }) {
   return (
     <div className="h-16 w-16 overflow-hidden rounded-lg border border-ink/10 bg-muted">
-      <img src={src} alt="" className="h-full w-full object-cover" />
+      <img src={src} alt={alt} className="h-full w-full object-cover" />
     </div>
   );
 }

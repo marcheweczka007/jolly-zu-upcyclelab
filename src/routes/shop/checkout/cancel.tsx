@@ -2,12 +2,17 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { shopRouteGuard } from "@/constants/shop";
+import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/shop/checkout/cancel")({
   beforeLoad: shopRouteGuard,
-  head: () => ({
-    meta: [{ title: "Checkout cancelled — JollyZu" }],
-  }),
+  head: () =>
+    pageHead({
+      title: "Checkout cancelled — JollyZu",
+      description: "Your Stripe checkout was cancelled.",
+      path: "/shop/checkout/cancel",
+      noindex: true,
+    }),
   component: CheckoutCancel,
 });
 
