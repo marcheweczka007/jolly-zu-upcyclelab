@@ -27,8 +27,12 @@ For each bag, create a **Product** with a **one-time GBP Price**.
 | `preorder_note` | Optional | Shown on pre-order detail pages |
 | `image_alt` | Optional | Accessibility text for image |
 | `sort_order` | Optional | `1`, `2`, `3` — lower appears first |
+| `stock_total` | Optional | Batch size, e.g. `5` — shows “3 of 5 available” on the shop |
+| `stock_available` | Optional | Units left (defaults to `stock_total`; webhook decrements on sale) |
 
 If `listing_id` is omitted, the Stripe product id is used in URLs.
+
+**One-of-a-kind vs batch:** omit `stock_total` for unique pieces (sold after one purchase). Set `stock_total` + `stock_available` for small runs of the same style.
 
 ### Product gallery (multiple images)
 
@@ -50,9 +54,9 @@ Basket stores `listing_id` values. Checkout resolves live prices from Stripe —
 
 When checkout completes, Stripe sends `checkout.session.completed` to `/.netlify/functions/stripe-webhook`. The handler:
 
-1. Deactivates each purchased **Product** and **Price** in Stripe  
-2. Sets metadata `availability` = `sold_out`  
-3. Removes the piece from the shop on the next catalog fetch (usually within ~60s, or immediately after success page refresh)
+1. **One-of-a-kind** (no `stock_total`): deactivates product + price, sets `availability` = `sold_out`  
+2. **Batch** (`stock_total` set): decrements `stock_available` by quantity purchased; deactivates only when it reaches `0`  
+3. Removes sold-out pieces from the shop on the next catalog fetch
 
 ### Webhook setup
 

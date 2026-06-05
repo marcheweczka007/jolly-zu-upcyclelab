@@ -5,19 +5,45 @@
  *   name, description, images[] (HTTPS URLs), active
  *
  * Metadata (optional unless noted):
- *   listing_id     — URL slug (defaults to Stripe product id)
+ *   listing_id       — URL slug (defaults to Stripe product id)
  *   tagline
- *   materials      — pipe-separated, e.g. "Denim offcuts|Vintage cotton"
+ *   materials        — pipe-separated, e.g. "Denim offcuts|Vintage cotton"
  *   dimensions
- *   availability   — available | preorder | sold_out (overrides when product/price inactive)
+ *   availability     — available | preorder | sold_out (manual override)
  *   preorder_note
  *   image_alt
- *   sort_order     — number, lower first
+ *   sort_order       — number, lower first
+ *   stock_total      — batch size, e.g. 5 (omit for one-of-a-kind)
+ *   stock_available  — remaining units (defaults to stock_total; webhook decrements)
  */
 
 function sanitizeImageUrl(url) {
   if (!url?.trim()) return "";
   return url.trim().replace(/\\+$/, "");
+}
+
+function parsePositiveInt(raw) {
+  if (raw == null || String(raw).trim() === "") return null;
+  const n = parseInt(String(raw).trim(), 10);
+  return Number.isFinite(n) && n >= 0 ? n : null;
+}
+
+/** @returns {{ stockTotal: number | null, stockAvailable: number | null, isBatch: boolean }} */
+export function parseStock(metadata, productActive, priceActive) {
+  const stockTotal = parsePositiveInt(metadata?.stock_total);
+  if (stockTotal == null) {
+    return { stockTotal: null, stockAvailable: null, isBatch: false };
+  }
+
+  const parsedAvailable = parsePositiveInt(metadata?.stock_available);
+  let stockAvailable = parsedAvailable ?? stockTotal;
+  stockAvailable = Math.min(stockAvailable, stockTotal);
+
+  if (!productActive || !priceActive) {
+    stockAvailable = 0;
+  }
+
+  return { stockTotal, stockAvailable, isBatch: true };
 }
 
 export function parseMaterials(raw) {
@@ -28,8 +54,10 @@ export function parseMaterials(raw) {
     .filter(Boolean);
 }
 
-export function parseAvailability(metadata, productActive, priceActive) {
+export function parseAvailability(metadata, productActive, priceActive, stock) {
   if (!productActive || !priceActive) return "sold_out";
+  if (stock.isBatch && stock.stockAvailable <= 0) return "sold_out";
+
   const raw = metadata?.availability?.toLowerCase().replace(/\s+/g, "_");
   if (raw === "preorder" || raw === "pre_order") return "preorder";
   if (raw === "sold_out" || raw === "soldout") return "sold_out";
@@ -46,6 +74,7 @@ export function toListing(product, price) {
   const image = images[0] ?? "";
   const pricePence =
     price?.unit_amount != null && price.currency === "gbp" ? price.unit_amount : 0;
+  const stock = parseStock(metadata, product.active, price?.active !== false);
 
   return {
     id,
@@ -61,9 +90,11 @@ export function toListing(product, price) {
     imageAlt: metadata.image_alt?.trim() || product.name || "",
     materials: parseMaterials(metadata.materials),
     dimensions: metadata.dimensions?.trim() ?? "",
-    availability: parseAvailability(metadata, product.active, price?.active !== false),
+    availability: parseAvailability(metadata, product.active, price?.active !== false, stock),
     preorderNote: metadata.preorder_note?.trim() || undefined,
     sortOrder: Number(metadata.sort_order) || 0,
+    stockTotal: stock.stockTotal,
+    stockAvailable: stock.stockAvailable,
   };
 }
 
@@ -98,11 +129,11 @@ export async function listCatalog(stripe, { shopOnly = false } = {}) {
   return listings;
 }
 
-/** Deactivate product + price after a one-of-one sale */
+/** Deactivate product + price after a one-of-a-kind sale */
 export async function markProductSold(stripe, productId, priceId) {
   const product = await stripe.products.retrieve(productId);
   if (!product.active) {
-    return { alreadySold: true, productId };
+    return { alreadySold: true, productId, depleted: true };
   }
 
   await stripe.products.update(productId, {
@@ -122,7 +153,57 @@ export async function markProductSold(stripe, productId, priceId) {
   }
 
   clearCatalogCache();
-  return { alreadySold: false, productId };
+  return { alreadySold: false, productId, depleted: true };
+}
+
+/**
+ * Record a purchase: decrement batch stock or deactivate one-of-a-kind product.
+ * @param {import('stripe').Stripe} stripe
+ * @param {string} productId
+ * @param {string | null} priceId
+ * @param {number} quantity
+ */
+export async function recordPurchase(stripe, productId, priceId, quantity = 1) {
+  const product = await stripe.products.retrieve(productId);
+  const metadata = product.metadata ?? {};
+  const stock = parseStock(metadata, product.active, true);
+  const purchased = Math.max(1, Math.floor(quantity));
+
+  if (!stock.isBatch) {
+    return markProductSold(stripe, productId, priceId);
+  }
+
+  const nextAvailable = Math.max(0, stock.stockAvailable - purchased);
+  const nextMetadata = {
+    ...metadata,
+    stock_available: String(nextAvailable),
+  };
+
+  if (nextAvailable <= 0) {
+    nextMetadata.availability = "sold_out";
+    await stripe.products.update(productId, {
+      active: false,
+      metadata: nextMetadata,
+    });
+
+    if (priceId) {
+      try {
+        await stripe.prices.update(priceId, { active: false });
+      } catch (err) {
+        console.warn("recordPurchase: could not deactivate price", priceId, err);
+      }
+    }
+
+    clearCatalogCache();
+    return { productId, stockAvailable: 0, depleted: true, purchased };
+  }
+
+  await stripe.products.update(productId, {
+    metadata: nextMetadata,
+  });
+
+  clearCatalogCache();
+  return { productId, stockAvailable: nextAvailable, depleted: false, purchased };
 }
 
 export function clearCatalogCache() {

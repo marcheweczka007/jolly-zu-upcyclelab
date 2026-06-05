@@ -17,4 +17,7 @@ export type Product = {
   availability: ProductAvailability;
   preorderNote?: string;
   sortOrder: number;
+  /** Set when metadata stock_total is present (batch listing). */
+  stockTotal: number | null;
+  stockAvailable: number | null;
 };

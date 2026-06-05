@@ -6,7 +6,7 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { useProducts } from "@/contexts/ProductsContext";
 import { shopRouteGuard } from "@/constants/shop";
-import { canPurchase, formatPrice, isPreorder } from "@/lib/product-utils";
+import { canPurchase, formatPrice, isPreorder, stockLabel } from "@/lib/product-utils";
 import type { Product } from "@/types/product";
 
 export const Route = createFileRoute("/shop/$listingId")({
@@ -62,6 +62,11 @@ function ListingDetailContent({
             )}
             <h1 className="text-display mt-3 text-4xl leading-[0.95] md:text-5xl">{product.name}</h1>
             <p className="text-display mt-4 text-3xl">{formatPrice(product.pricePence)}</p>
+            {stockLabel(product) && (
+              <p className="mt-2 text-sm font-bold uppercase tracking-wider text-leaf">
+                {stockLabel(product)}
+              </p>
+            )}
 
             <p className="mt-6 text-lg leading-relaxed text-ink/80">{product.description}</p>
 

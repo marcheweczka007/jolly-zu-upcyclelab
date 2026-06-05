@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { ListingAvailabilityBadge } from "@/components/ListingAvailabilityBadge";
 import { ListingBasketActions } from "@/components/ListingBasketActions";
-import { canPurchase, formatPrice } from "@/lib/product-utils";
+import { canPurchase, formatPrice, stockLabel } from "@/lib/product-utils";
 import type { Product } from "@/types/product";
 
 export function ListingCard({ product }: { product: Product }) {
@@ -32,6 +32,11 @@ export function ListingCard({ product }: { product: Product }) {
             </p>
           )}
           <h2 className="text-display text-xl leading-tight text-ink">{product.name}</h2>
+          {stockLabel(product) && (
+            <p className="text-xs font-bold uppercase tracking-wider text-leaf">
+              {stockLabel(product)}
+            </p>
+          )}
           <p className="flex-1 text-sm text-ink/65 line-clamp-2">{product.description}</p>
           <p className="text-display text-lg text-ink">{formatPrice(product.pricePence)}</p>
         </div>

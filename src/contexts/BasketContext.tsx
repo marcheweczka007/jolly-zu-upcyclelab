@@ -8,7 +8,7 @@ import {
   type ReactNode,
 } from "react";
 import { useProducts } from "@/contexts/ProductsContext";
-import { canPurchase } from "@/lib/product-utils";
+import { canPurchase, maxPurchaseQty } from "@/lib/product-utils";
 import type { Product } from "@/types/product";
 
 const STORAGE_KEY = "jollyzu-basket-v2";
@@ -19,11 +19,12 @@ type BasketContextValue = {
   items: BasketItems;
   checkoutItems: BasketItems;
   addItem: (id: string) => void;
+  setItemQty: (id: string, qty: number) => void;
   removeItem: (id: string) => void;
   hasItem: (id: string) => boolean;
   clearBasket: () => void;
   totalItems: number;
-  lineItems: { product: Product }[];
+  lineItems: { product: Product; qty: number }[];
   subtotalPence: number;
 };
 
@@ -45,7 +46,7 @@ function readStorage(): BasketItems {
     const items: BasketItems = {};
     for (const [id, qty] of Object.entries(parsed)) {
       if (typeof id === "string" && typeof qty === "number" && qty > 0) {
-        items[id] = 1;
+        items[id] = Math.floor(qty);
       }
     }
     return items;
@@ -58,10 +59,19 @@ function writeStorage(items: BasketItems) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
 }
 
-function pruneItems(items: BasketItems, productIds: Set<string>): BasketItems {
+function capQtyForProduct(product: Product, qty: number): number {
+  const max = maxPurchaseQty(product);
+  if (max <= 0) return 0;
+  return Math.min(Math.max(1, Math.floor(qty)), max);
+}
+
+function pruneItems(items: BasketItems, productsById: Map<string, Product>): BasketItems {
   const pruned: BasketItems = {};
   for (const [id, qty] of Object.entries(items)) {
-    if (productIds.has(id) && qty > 0) pruned[id] = 1;
+    const product = productsById.get(id);
+    if (!product || !canPurchase(product)) continue;
+    const capped = capQtyForProduct(product, qty);
+    if (capped > 0) pruned[id] = capped;
   }
   return pruned;
 }
@@ -70,25 +80,49 @@ export function BasketProvider({ children }: { children: ReactNode }) {
   const { products, getProductById, isLoading } = useProducts();
   const [items, setItems] = useState<BasketItems>(readStorage);
 
-  // Drop ids from the old hardcoded catalog once Stripe products are loaded
+  const productsById = useMemo(() => new Map(products.map((p) => [p.id, p])), [products]);
+
   useEffect(() => {
     if (isLoading || products.length === 0) return;
-    const validIds = new Set(products.map((p) => p.id));
     setItems((prev) => {
-      const next = pruneItems(prev, validIds);
-      return Object.keys(next).length === Object.keys(prev).length ? prev : next;
+      const next = pruneItems(prev, productsById);
+      return JSON.stringify(next) === JSON.stringify(prev) ? prev : next;
     });
-  }, [isLoading, products]);
+  }, [isLoading, products, productsById]);
 
   useEffect(() => {
     writeStorage(items);
   }, [items]);
 
+  const setItemQty = useCallback(
+    (id: string, qty: number) => {
+      const product = getProductById(id);
+      if (!product) return;
+      if (qty <= 0) {
+        setItems((prev) => {
+          const next = { ...prev };
+          delete next[id];
+          return next;
+        });
+        return;
+      }
+      const capped = capQtyForProduct(product, qty);
+      if (capped <= 0) return;
+      setItems((prev) => ({ ...prev, [id]: capped }));
+    },
+    [getProductById],
+  );
+
   const addItem = useCallback(
     (id: string) => {
       const product = getProductById(id);
       if (!product || !canPurchase(product)) return;
-      setItems((prev) => ({ ...prev, [id]: 1 }));
+      setItems((prev) => {
+        const current = prev[id] ?? 0;
+        const capped = capQtyForProduct(product, current + 1);
+        if (capped <= 0) return prev;
+        return { ...prev, [id]: capped };
+      });
     },
     [getProductById],
   );
@@ -105,29 +139,31 @@ export function BasketProvider({ children }: { children: ReactNode }) {
 
   const clearBasket = useCallback(() => setItems({}), []);
 
-  /** Only ids that exist in the current Stripe catalog — use for checkout */
   const lineItems = useMemo(() => {
-    return Object.keys(items)
-      .map((id) => {
+    return Object.entries(items)
+      .map(([id, qty]) => {
         const product = getProductById(id);
-        if (!product) return null;
-        return { product };
+        if (!product || qty <= 0) return null;
+        return { product, qty };
       })
-      .filter((row): row is { product: Product } => row !== null);
+      .filter((row): row is { product: Product; qty: number } => row !== null);
   }, [items, getProductById]);
 
   const checkoutItems = useMemo(() => {
     const valid: BasketItems = {};
-    for (const { product } of lineItems) {
-      valid[product.id] = 1;
+    for (const { product, qty } of lineItems) {
+      valid[product.id] = qty;
     }
     return valid;
   }, [lineItems]);
 
-  const totalItems = useMemo(() => lineItems.length, [lineItems]);
+  const totalItems = useMemo(
+    () => lineItems.reduce((sum, { qty }) => sum + qty, 0),
+    [lineItems],
+  );
 
   const subtotalPence = useMemo(
-    () => lineItems.reduce((sum, { product }) => sum + product.pricePence, 0),
+    () => lineItems.reduce((sum, { product, qty }) => sum + product.pricePence * qty, 0),
     [lineItems],
   );
 
@@ -136,6 +172,7 @@ export function BasketProvider({ children }: { children: ReactNode }) {
       items,
       checkoutItems,
       addItem,
+      setItemQty,
       removeItem,
       hasItem,
       clearBasket,
@@ -147,6 +184,7 @@ export function BasketProvider({ children }: { children: ReactNode }) {
       items,
       checkoutItems,
       addItem,
+      setItemQty,
       removeItem,
       hasItem,
       clearBasket,

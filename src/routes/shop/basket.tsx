@@ -5,7 +5,13 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { useBasket } from "@/contexts/BasketContext";
 import { shopRouteGuard } from "@/constants/shop";
-import { formatPrice, isPreorder } from "@/lib/product-utils";
+import {
+  basketLineSubtitle,
+  formatPrice,
+  isBatchProduct,
+  isPreorder,
+  maxPurchaseQty,
+} from "@/lib/product-utils";
 import { startStripeCheckout } from "@/lib/checkout";
 
 export const Route = createFileRoute("/shop/basket")({
@@ -17,7 +23,8 @@ export const Route = createFileRoute("/shop/basket")({
 });
 
 function BasketPage() {
-  const { lineItems, checkoutItems, removeItem, subtotalPence, clearBasket } = useBasket();
+  const { lineItems, checkoutItems, removeItem, setItemQty, addItem, subtotalPence, clearBasket } =
+    useBasket();
   const [checkingOut, setCheckingOut] = useState(false);
   const [checkoutError, setCheckoutError] = useState<string | null>(null);
 
@@ -65,7 +72,7 @@ function BasketPage() {
           ) : (
             <>
               <ul className="mt-10 divide-y-2 divide-ink/10">
-                {lineItems.map(({ product }) => (
+                {lineItems.map(({ product, qty }) => (
                   <li key={product.id} className="flex gap-4 py-6 first:pt-0">
                     <Link
                       to="/shop/$listingId"
@@ -86,9 +93,29 @@ function BasketPage() {
                       >
                         {product.name}
                       </Link>
-                      <p className="mt-1 text-sm text-ink/60">
-                        {isPreorder(product) ? "Pre-order · ships in 2–3 weeks" : "One of a kind"}
-                      </p>
+                      <p className="mt-1 text-sm text-ink/60">{basketLineSubtitle(product)}</p>
+                      {isBatchProduct(product) && maxPurchaseQty(product) > 1 && (
+                        <div className="mt-3 flex items-center gap-3">
+                          <button
+                            type="button"
+                            aria-label="Decrease quantity"
+                            onClick={() => setItemQty(product.id, qty - 1)}
+                            className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-ink text-sm font-bold hover:bg-ink/5"
+                          >
+                            −
+                          </button>
+                          <span className="min-w-6 text-center text-sm font-bold">{qty}</span>
+                          <button
+                            type="button"
+                            aria-label="Increase quantity"
+                            disabled={qty >= maxPurchaseQty(product)}
+                            onClick={() => addItem(product.id)}
+                            className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-ink text-sm font-bold hover:bg-ink/5 disabled:opacity-40"
+                          >
+                            +
+                          </button>
+                        </div>
+                      )}
                       <button
                         type="button"
                         onClick={() => removeItem(product.id)}
@@ -98,7 +125,7 @@ function BasketPage() {
                       </button>
                     </div>
                     <p className="text-display shrink-0 text-lg">
-                      {formatPrice(product.pricePence)}
+                      {formatPrice(product.pricePence * qty)}
                     </p>
                   </li>
                 ))}

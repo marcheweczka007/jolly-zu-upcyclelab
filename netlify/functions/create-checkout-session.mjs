@@ -68,7 +68,22 @@ export async function handler(event) {
         };
       }
 
-      lineItems.push({ price: listing.stripePriceId, quantity: 1 });
+      const maxQty =
+        listing.stockTotal != null ? (listing.stockAvailable ?? 0) : 1;
+      if (qty > maxQty) {
+        return {
+          statusCode: 400,
+          headers,
+          body: JSON.stringify({
+            error:
+              maxQty > 0
+                ? `Only ${maxQty} of "${listing.name}" available.`
+                : `"${listing.name}" is not available to purchase.`,
+          }),
+        };
+      }
+
+      lineItems.push({ price: listing.stripePriceId, quantity: qty });
     }
 
     if (lineItems.length === 0) {
