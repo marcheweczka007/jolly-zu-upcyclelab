@@ -15,8 +15,8 @@ export function SiteFooter() {
               <span className="text-mustard">change.</span>
             </p>
             <p className="mt-6 max-w-sm text-sm text-cream/70">
-              JollyZu - handmade upcycled bags from Edinburgh. Slow fashion. Small batch. Built to
-              last.
+              JollyZu Upcycle Lab — handmade upcycled bags from Edinburgh. Slow fashion. Small
+              batch. Built to last.
             </p>
           </div>
 
@@ -78,7 +78,7 @@ export function SiteFooter() {
         </div>
 
         <div className="mt-16 flex flex-col items-start justify-between gap-4 border-t border-cream/10 pt-8 text-xs text-cream/50 md:flex-row md:items-center">
-          <p>© {new Date().getFullYear()} JollyZu Upcycled Studio · Edinburgh</p>
+          <p>© {new Date().getFullYear()} JollyZu Upcycle Lab · Edinburgh</p>
           <p>Made from what was thrown away.</p>
         </div>
       </div>

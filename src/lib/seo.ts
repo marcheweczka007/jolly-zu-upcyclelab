@@ -1,9 +1,16 @@
 import type { Product } from "@/types/product";
 
 export const SITE_NAME = "JollyZu";
+export const SITE_FULL_NAME = "JollyZu Upcycle Lab";
+export const SITE_ALTERNATE_NAMES = [
+  "Jolly Zu Upcycle Lab",
+  "JollyZu",
+  "Upcycle Lab JollyZu",
+] as const;
 export const SITE_URL = (import.meta.env.VITE_SITE_URL || "https://jollyzu.com").replace(/\/$/, "");
 export const DEFAULT_DESCRIPTION =
-  "Handmade upcycled bags built from rescued textiles in Edinburgh, Scotland. Bold, durable, one-of-a-kind slow fashion by indie maker Zuza.";
+  "JollyZu Upcycle Lab — handmade upcycled bags built from rescued textiles in Edinburgh, Scotland. Bold, durable, one-of-a-kind slow fashion by indie maker Zuza.";
+export const HOME_TITLE = `${SITE_FULL_NAME} — Upcycled Handmade Bags from Edinburgh`;
 export const DEFAULT_OG_IMAGE = `${SITE_URL}/og-default.webp`;
 export const LOCALE = "en_GB";
 export const INSTAGRAM_URL = "https://instagram.com/upcycle.lab.jollyzu";
@@ -57,7 +64,7 @@ export function pageHead({
     { property: "og:description", content: desc },
     { property: "og:url", content: canonical },
     { property: "og:type", content: ogType },
-    { property: "og:site_name", content: SITE_NAME },
+    { property: "og:site_name", content: SITE_FULL_NAME },
     { property: "og:locale", content: LOCALE },
     { property: "og:image", content: image },
     { name: "twitter:card", content: "summary_large_image" },
@@ -77,7 +84,8 @@ export function organizationJsonLd() {
   return {
     "@context": "https://schema.org",
     "@type": ["Organization", "LocalBusiness"],
-    name: SITE_NAME,
+    name: SITE_FULL_NAME,
+    alternateName: [...SITE_ALTERNATE_NAMES],
     url: SITE_URL,
     logo: DEFAULT_OG_IMAGE,
     description: DEFAULT_DESCRIPTION,
@@ -104,10 +112,11 @@ export function webSiteJsonLd() {
   return {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    name: SITE_NAME,
+    name: SITE_FULL_NAME,
+    alternateName: [...SITE_ALTERNATE_NAMES],
     url: SITE_URL,
     description: DEFAULT_DESCRIPTION,
-    publisher: { "@type": "Organization", name: SITE_NAME },
+    publisher: { "@type": "Organization", name: SITE_FULL_NAME },
   };
 }
 
@@ -133,7 +142,7 @@ export function productJsonLd(product: Product) {
     name: product.name,
     description: product.description || product.tagline,
     image: images.length > 0 ? images : undefined,
-    brand: { "@type": "Brand", name: SITE_NAME },
+    brand: { "@type": "Brand", name: SITE_FULL_NAME },
     sku: product.id,
     offers: {
       "@type": "Offer",
@@ -142,7 +151,7 @@ export function productJsonLd(product: Product) {
       price: (product.pricePence / 100).toFixed(2),
       availability: productAvailability(product),
       itemCondition: "https://schema.org/NewCondition",
-      seller: { "@type": "Organization", name: SITE_NAME },
+      seller: { "@type": "Organization", name: SITE_FULL_NAME },
     },
   };
 }
@@ -164,7 +173,7 @@ export function shopItemListJsonLd(products: Product[]) {
   return {
     "@context": "https://schema.org",
     "@type": "ItemList",
-    name: "JollyZu current drop",
+    name: `${SITE_FULL_NAME} current drop`,
     description: "One-of-a-kind upcycled bags available to buy",
     numberOfItems: listed.length,
     itemListElement: listed.map((product, index) => ({
@@ -177,11 +186,11 @@ export function shopItemListJsonLd(products: Product[]) {
 }
 
 export function productHead(product: Product) {
-  const title = `${product.name} — ${SITE_NAME}`;
+  const title = `${product.name} — ${SITE_FULL_NAME}`;
   const description =
     product.description ||
     product.tagline ||
-    `${product.name} — handmade upcycled bag from ${SITE_NAME}, Edinburgh.`;
+    `${product.name} — handmade upcycled bag from ${SITE_FULL_NAME}, Edinburgh.`;
   const ogImage = product.image || DEFAULT_OG_IMAGE;
   const noindex = product.availability === "sold_out";
 

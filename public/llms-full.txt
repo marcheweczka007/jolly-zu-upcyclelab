@@ -1,10 +1,10 @@
-# JollyZu — full agent context
+# JollyZu Upcycle Lab — full agent context
 
 > Extended machine-readable catalog and policies. Summary index: https://jollyzu.com/llms.txt
 
 ## Business
 
-**JollyZu** (Upcycle Lab JollyZu) — handmade upcycled bags from Edinburgh, Scotland.
+**JollyZu Upcycle Lab** — handmade upcycled bags from Edinburgh, Scotland. Alternate names: JollyZu, Jolly Zu Upcycle Lab.
 
 - Maker: Zuza (solo indie maker)
 - Studio: Edinburgh, UK

@@ -1,6 +1,6 @@
 /** llms.txt / llms-full.txt — https://llmstxt.org/ */
 
-import { absoluteUrl, INSTAGRAM_URL, SITE_NAME } from "./seo-meta.mjs";
+import { absoluteUrl, INSTAGRAM_URL, SITE_FULL_NAME } from "./seo-meta.mjs";
 
 const VINTED_URL = "https://www.vinted.co.uk/member/128740025";
 
@@ -50,11 +50,11 @@ export function buildLlmsTxt(siteUrl, products = []) {
       ? available.map((p) => productSummaryLine(siteUrl, p)).join("\n")
       : "- No listings in stock right now — check Instagram for the next drop.";
 
-  return `# ${SITE_NAME}
+  return `# ${SITE_FULL_NAME}
 
 > Handmade upcycled bags from 100% rescued textiles. Edinburgh, Scotland. One-of-a-kind slow fashion by indie maker Zuza. Zero new fabric.
 
-${SITE_NAME} is a small-batch bag brand. Each piece is cut, sewn, and finished by hand from pre-loved textiles — no mass production, limited restocks. Secure checkout via Stripe.
+${SITE_FULL_NAME} is a small-batch bag brand (also known as JollyZu). Each piece is cut, sewn, and finished by hand from pre-loved textiles — no mass production, limited restocks. Secure checkout via Stripe.
 
 ## Pages
 
@@ -102,13 +102,13 @@ export function buildLlmsFullTxt(siteUrl, products = []) {
       ? products.map((p) => productDetailBlock(siteUrl, p)).join("\n\n")
       : "_No products in catalog._";
 
-  return `# ${SITE_NAME} — full agent context
+  return `# ${SITE_FULL_NAME} — full agent context
 
 > Extended machine-readable catalog and policies. Summary index: ${absoluteUrl(siteUrl, "/llms.txt")}
 
 ## Business
 
-**${SITE_NAME}** (Upcycle Lab JollyZu) — handmade upcycled bags from Edinburgh, Scotland.
+**${SITE_FULL_NAME}** — handmade upcycled bags from Edinburgh, Scotland. Alternate names: JollyZu, Jolly Zu Upcycle Lab.
 
 - Maker: Zuza (solo indie maker)
 - Studio: Edinburgh, UK

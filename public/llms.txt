@@ -1,8 +1,8 @@
-# JollyZu
+# JollyZu Upcycle Lab
 
 > Handmade upcycled bags from 100% rescued textiles. Edinburgh, Scotland. One-of-a-kind slow fashion by indie maker Zuza. Zero new fabric.
 
-JollyZu is a small-batch bag brand. Each piece is cut, sewn, and finished by hand from pre-loved textiles — no mass production, limited restocks. Secure checkout via Stripe.
+JollyZu Upcycle Lab is a small-batch bag brand (also known as JollyZu). Each piece is cut, sewn, and finished by hand from pre-loved textiles — no mass production, limited restocks. Secure checkout via Stripe.
 
 ## Pages
 

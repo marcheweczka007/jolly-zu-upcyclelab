@@ -9,14 +9,14 @@ import { shopRouteGuard } from "@/constants/shop";
 import { useProducts } from "@/contexts/ProductsContext";
 import { fetchProducts } from "@/lib/products-api";
 import { consumeCatalogFreshFlag } from "@/lib/refresh-catalog-after-checkout";
-import { pageHead, shopItemListJsonLd } from "@/lib/seo";
+import { pageHead, shopItemListJsonLd, SITE_FULL_NAME } from "@/lib/seo";
 
 export const Route = createFileRoute("/shop/")({
   beforeLoad: shopRouteGuard,
   loader: async () => ({ products: await fetchProducts() }),
   head: ({ loaderData }) =>
     pageHead({
-      title: "Shop — JollyZu | Upcycled bags",
+      title: `Shop — ${SITE_FULL_NAME} | Upcycled bags`,
       description:
         "Browse one-of-a-kind upcycled bags handmade in Edinburgh. Small batches, no restocks.",
       path: "/shop",

@@ -1,8 +1,15 @@
 /** Build-time SEO helpers — keep in sync with src/lib/seo.ts */
 
 export const SITE_NAME = "JollyZu";
+export const SITE_FULL_NAME = "JollyZu Upcycle Lab";
+export const SITE_ALTERNATE_NAMES = [
+  "Jolly Zu Upcycle Lab",
+  "JollyZu",
+  "Upcycle Lab JollyZu",
+];
+export const HOME_TITLE = `${SITE_FULL_NAME} — Upcycled Handmade Bags from Edinburgh`;
 export const DEFAULT_DESCRIPTION =
-  "Handmade upcycled bags built from rescued textiles in Edinburgh, Scotland. Bold, durable, one-of-a-kind slow fashion by indie maker Zuza.";
+  "JollyZu Upcycle Lab — handmade upcycled bags built from rescued textiles in Edinburgh, Scotland. Bold, durable, one-of-a-kind slow fashion by indie maker Zuza.";
 export const LOCALE = "en_GB";
 export const INSTAGRAM_URL = "https://instagram.com/upcycle.lab.jollyzu";
 
@@ -58,7 +65,7 @@ export function buildMetaTags({
     `<meta property="og:description" content="${escapeAttr(desc)}">`,
     `<meta property="og:url" content="${escapeAttr(canonical)}">`,
     `<meta property="og:type" content="${escapeAttr(ogType)}">`,
-    `<meta property="og:site_name" content="${escapeAttr(SITE_NAME)}">`,
+    `<meta property="og:site_name" content="${escapeAttr(SITE_FULL_NAME)}">`,
     `<meta property="og:locale" content="${escapeAttr(LOCALE)}">`,
     `<meta property="og:image" content="${escapeAttr(image)}">`,
     `<meta name="twitter:card" content="summary_large_image">`,
@@ -83,7 +90,8 @@ export function organizationJsonLd(siteUrl, defaultOgImage) {
   return {
     "@context": "https://schema.org",
     "@type": ["Organization", "LocalBusiness"],
-    name: SITE_NAME,
+    name: SITE_FULL_NAME,
+    alternateName: SITE_ALTERNATE_NAMES,
     url: siteUrl,
     logo: defaultOgImage,
     description: DEFAULT_DESCRIPTION,
@@ -110,10 +118,11 @@ export function webSiteJsonLd(siteUrl) {
   return {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    name: SITE_NAME,
+    name: SITE_FULL_NAME,
+    alternateName: SITE_ALTERNATE_NAMES,
     url: siteUrl,
     description: DEFAULT_DESCRIPTION,
-    publisher: { "@type": "Organization", name: SITE_NAME },
+    publisher: { "@type": "Organization", name: SITE_FULL_NAME },
   };
 }
 
@@ -133,7 +142,7 @@ export function productJsonLd(siteUrl, product) {
     name: product.name,
     description: product.description || product.tagline,
     image: images.length > 0 ? images : undefined,
-    brand: { "@type": "Brand", name: SITE_NAME },
+    brand: { "@type": "Brand", name: SITE_FULL_NAME },
     sku: product.id,
     offers: {
       "@type": "Offer",
@@ -142,7 +151,7 @@ export function productJsonLd(siteUrl, product) {
       price: (product.pricePence / 100).toFixed(2),
       availability,
       itemCondition: "https://schema.org/NewCondition",
-      seller: { "@type": "Organization", name: SITE_NAME },
+      seller: { "@type": "Organization", name: SITE_FULL_NAME },
     },
   };
 }

@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { pageHead } from "@/lib/seo";
+import { pageHead, SITE_FULL_NAME } from "@/lib/seo";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { ShopCTA } from "@/components/ShopCTA";
@@ -9,9 +9,9 @@ import maker from "@/assets/maker-portrait.jpg";
 export const Route = createFileRoute("/about")({
   head: () =>
     pageHead({
-      title: "About — JollyZu | The maker behind the bags",
+      title: `About — ${SITE_FULL_NAME} | The maker behind the bags`,
       description:
-        "Meet Zuza, the indie maker turning rescued textiles into one-of-a-kind upcycled bags from her Edinburgh studio.",
+        "Meet Zuza, founder of JollyZu Upcycle Lab — turning rescued textiles into one-of-a-kind upcycled bags from her Edinburgh studio.",
       path: "/about",
     }),
   component: About,
@@ -107,8 +107,8 @@ function About() {
 
           <div className="mt-14 space-y-6 text-lg leading-relaxed text-ink/80 md:col-span-7 md:order-1 md:mt-0">
             <p className="text-display text-3xl text-ink md:text-4xl">
-              JollyZu started quietly - with a simple idea: if the fabric is still good, it deserves
-              another life.
+              JollyZu Upcycle Lab started quietly — with a simple idea: if the fabric is still good,
+              it deserves another life.
             </p>
             <p>
               What began as a side project - sewing rave fanny packs for friends - turned into a

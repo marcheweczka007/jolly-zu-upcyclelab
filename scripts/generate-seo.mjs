@@ -11,10 +11,12 @@ import { buildRobotsTxt } from "./lib/robots-txt.mjs";
 import {
   absoluteUrl,
   buildMetaTags,
+  HOME_TITLE,
   organizationJsonLd,
   productBreadcrumbJsonLd,
   productJsonLd,
   resolveSiteUrl,
+  SITE_FULL_NAME,
   webSiteJsonLd,
 } from "./lib/seo-meta.mjs";
 
@@ -27,28 +29,29 @@ const STATIC_PAGES = [
   {
     path: "/",
     outPath: "index.html",
-    title: "JollyZu — Upcycled Handmade Bags from Edinburgh",
+    title: HOME_TITLE,
     description:
-      "Handmade upcycled bags built from rescued textiles. Bold, durable, one-of-a-kind. Shop the latest drop.",
+      "JollyZu Upcycle Lab — handmade upcycled bags built from rescued textiles. Bold, durable, one-of-a-kind. Shop the latest drop.",
     jsonLd: (siteUrl, ogImage) => [organizationJsonLd(siteUrl, ogImage), webSiteJsonLd(siteUrl)],
   },
   {
     path: "/about",
     outPath: "about/index.html",
-    title: "About — JollyZu | The maker behind the bags",
+    title: `About — ${SITE_FULL_NAME} | The maker behind the bags`,
     description:
-      "Meet Zuza, the indie maker turning rescued textiles into one-of-a-kind upcycled bags from her Edinburgh studio.",
+      "Meet Zuza, founder of JollyZu Upcycle Lab — turning rescued textiles into one-of-a-kind upcycled bags from her Edinburgh studio.",
   },
   {
     path: "/contact",
     outPath: "contact/index.html",
-    title: "Contact — JollyZu | Get in touch",
-    description: "Custom orders, collabs, press, or just to say hi — get in touch with JollyZu.",
+    title: `Contact — ${SITE_FULL_NAME} | Get in touch`,
+    description:
+      "Custom orders, collabs, press, or just to say hi — get in touch with JollyZu Upcycle Lab.",
   },
   {
     path: "/shop",
     outPath: "shop/index.html",
-    title: "Shop — JollyZu | Upcycled bags",
+    title: `Shop — ${SITE_FULL_NAME} | Upcycled bags`,
     description:
       "Browse one-of-a-kind upcycled bags handmade in Edinburgh. Small batches, no restocks.",
   },
@@ -143,11 +146,11 @@ async function main() {
   }
 
   for (const product of products) {
-    const title = `${product.name} — JollyZu`;
+    const title = `${product.name} — ${SITE_FULL_NAME}`;
     const description =
       product.description ||
       product.tagline ||
-      `${product.name} — handmade upcycled bag from JollyZu, Edinburgh.`;
+      `${product.name} — handmade upcycled bag from ${SITE_FULL_NAME}, Edinburgh.`;
     const metaTags = buildMetaTags({
       siteUrl,
       title,

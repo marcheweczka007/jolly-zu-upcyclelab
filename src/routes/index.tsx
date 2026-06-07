@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { organizationJsonLd, pageHead, webSiteJsonLd } from "@/lib/seo";
+import { HOME_TITLE, organizationJsonLd, pageHead, webSiteJsonLd } from "@/lib/seo";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { Marquee } from "@/components/Marquee";
@@ -14,9 +14,9 @@ import fabricStack from "@/assets/fabric-stack.jpg";
 export const Route = createFileRoute("/")({
   head: () =>
     pageHead({
-      title: "JollyZu — Upcycled Handmade Bags from Edinburgh",
+      title: HOME_TITLE,
       description:
-        "Handmade upcycled bags built from rescued textiles. Bold, durable, one-of-a-kind. Shop the latest drop.",
+        "JollyZu Upcycle Lab — handmade upcycled bags built from rescued textiles. Bold, durable, one-of-a-kind. Shop the latest drop.",
       path: "/",
       jsonLd: [organizationJsonLd(), webSiteJsonLd()],
     }),
@@ -45,7 +45,8 @@ function Index() {
               {/* <span className="text-purple-deep">for everyday use.</span> */}
             </h1>
             <p className="mt-8 max-w-lg text-lg text-ink/70 md:text-xl">
-              Handmade in Scotland from upcycled materials. Durable, practical, and one of a kind.
+              JollyZu Upcycle Lab — handmade in Scotland from rescued textiles. Durable, practical,
+              and one of a kind.
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-5">
               <ShopCTA variant="huge" label="Shop bags" />
