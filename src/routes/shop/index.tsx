@@ -47,10 +47,10 @@ function ShopIndex() {
             <h1 className="text-display max-w-3xl text-[10vw] leading-[0.88] md:text-[4rem]">
               The current drop.
               <br />
-              <span className="bg-mustard px-3 inline-block -rotate-1">One of each — mostly.</span>
+              <span className="bg-mustard px-3 inline-block -rotate-1">One of each - mostly.</span>
             </h1>
             <p className="max-w-md text-lg text-ink/70">
-              Tap a piece for full details. Add to basket — checkout is secure via Stripe.
+              Tap a piece for full details. Add to basket - checkout is secure via Stripe.
             </p>
           </div>
 
