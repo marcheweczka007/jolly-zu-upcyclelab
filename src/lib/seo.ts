@@ -24,7 +24,11 @@ export const ABOUT_DESCRIPTION =
 export const CONTACT_TITLE = "Contact JollyZu | Custom Upcycled Bags, UK";
 export const CONTACT_DESCRIPTION =
   "Ask about custom upcycled bags, collaborations, or press. JollyZu makes handmade bags from reclaimed textiles in Edinburgh — eco-friendly, UK-based.";
-export const DEFAULT_OG_IMAGE = `${SITE_URL}/og-default.webp`;
+export const DEFAULT_OG_IMAGE_PATH = "/og-image.jpg";
+export const DEFAULT_OG_IMAGE = `${SITE_URL}${DEFAULT_OG_IMAGE_PATH}`;
+export const OG_IMAGE_WIDTH = 1734;
+export const OG_IMAGE_HEIGHT = 907;
+export const OG_IMAGE_TYPE = "image/jpeg";
 export const LOCALE = "en_GB";
 export const INSTAGRAM_URL = "https://instagram.com/upcycle.lab.jollyzu";
 
@@ -56,6 +60,25 @@ function jsonLdMeta(schemas: Record<string, unknown> | Record<string, unknown>[]
   return list.map((schema) => ({ "script:ld+json": schema }));
 }
 
+function isDefaultOgImage(image: string): boolean {
+  return image === DEFAULT_OG_IMAGE || image.endsWith(DEFAULT_OG_IMAGE_PATH);
+}
+
+function socialImageMeta(image: string) {
+  const tags: { property?: string; name?: string; content: string }[] = [
+    { property: "og:image", content: image },
+    { name: "twitter:image", content: image },
+  ];
+  if (isDefaultOgImage(image)) {
+    tags.push(
+      { property: "og:image:width", content: String(OG_IMAGE_WIDTH) },
+      { property: "og:image:height", content: String(OG_IMAGE_HEIGHT) },
+      { property: "og:image:type", content: OG_IMAGE_TYPE },
+    );
+  }
+  return tags;
+}
+
 export function pageHead({
   title,
   description = DEFAULT_DESCRIPTION,
@@ -79,11 +102,10 @@ export function pageHead({
     { property: "og:type", content: ogType },
     { property: "og:site_name", content: SITE_FULL_NAME },
     { property: "og:locale", content: LOCALE },
-    { property: "og:image", content: image },
+    ...socialImageMeta(image),
     { name: "twitter:card", content: "summary_large_image" },
     { name: "twitter:title", content: title },
     { name: "twitter:description", content: desc },
-    { name: "twitter:image", content: image },
     ...(jsonLd ? jsonLdMeta(jsonLd) : []),
   ];
 
@@ -101,6 +123,7 @@ export function organizationJsonLd() {
     alternateName: [...SITE_ALTERNATE_NAMES],
     url: SITE_URL,
     logo: DEFAULT_OG_IMAGE,
+    image: DEFAULT_OG_IMAGE,
     description: DEFAULT_DESCRIPTION,
     sameAs: [INSTAGRAM_URL],
     founder: { "@type": "Person", name: "Zuza" },
@@ -128,8 +151,14 @@ export function webSiteJsonLd() {
     name: SITE_FULL_NAME,
     alternateName: [...SITE_ALTERNATE_NAMES],
     url: SITE_URL,
+    image: DEFAULT_OG_IMAGE,
     description: DEFAULT_DESCRIPTION,
-    publisher: { "@type": "Organization", name: SITE_FULL_NAME },
+    publisher: {
+      "@type": "Organization",
+      name: SITE_FULL_NAME,
+      logo: DEFAULT_OG_IMAGE,
+      image: DEFAULT_OG_IMAGE,
+    },
   };
 }
 
@@ -155,7 +184,7 @@ export function productJsonLd(product: Product) {
     name: product.name,
     description: product.description || product.tagline,
     image: images.length > 0 ? images : undefined,
-    brand: { "@type": "Brand", name: SITE_FULL_NAME },
+    brand: { "@type": "Brand", name: SITE_FULL_NAME, image: DEFAULT_OG_IMAGE },
     sku: product.id,
     offers: {
       "@type": "Offer",

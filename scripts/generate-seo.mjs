@@ -31,7 +31,7 @@ import {
 const PUBLIC = join(process.cwd(), "public");
 
 const DIST = join(process.cwd(), "dist");
-const DEFAULT_OG = "/og-default.webp";
+const DEFAULT_OG = "/og-image.jpg";
 
 const STATIC_PAGES = [
   {
@@ -39,7 +39,10 @@ const STATIC_PAGES = [
     outPath: "index.html",
     title: HOME_TITLE,
     description: HOME_DESCRIPTION,
-    jsonLd: (siteUrl, ogImage) => [organizationJsonLd(siteUrl, ogImage), webSiteJsonLd(siteUrl)],
+    jsonLd: (siteUrl, ogImage) => [
+      organizationJsonLd(siteUrl, ogImage),
+      webSiteJsonLd(siteUrl, ogImage),
+    ],
   },
   {
     path: "/about",

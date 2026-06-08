@@ -31,8 +31,20 @@ export function productSeoDescription(product) {
     `Handmade upcycled bag from reclaimed textiles. ${product.name} by JollyZu — eco-friendly, one-of-a-kind, made in Scotland. UK shipping.`
   );
 }
+export const DEFAULT_OG_IMAGE_PATH = "/og-image.jpg";
+export const OG_IMAGE_WIDTH = 1734;
+export const OG_IMAGE_HEIGHT = 907;
+export const OG_IMAGE_TYPE = "image/jpeg";
 export const LOCALE = "en_GB";
 export const INSTAGRAM_URL = "https://instagram.com/upcycle.lab.jollyzu";
+
+export function defaultOgImageUrl(siteUrl) {
+  return absoluteUrl(siteUrl, DEFAULT_OG_IMAGE_PATH);
+}
+
+function isDefaultOgImage(siteUrl, image) {
+  return image === defaultOgImageUrl(siteUrl) || image.endsWith(DEFAULT_OG_IMAGE_PATH);
+}
 
 export function resolveSiteUrl() {
   const raw =
@@ -86,6 +98,13 @@ export function buildMetaTags({
     `<meta property="og:site_name" content="${escapeAttr(SITE_FULL_NAME)}">`,
     `<meta property="og:locale" content="${escapeAttr(LOCALE)}">`,
     `<meta property="og:image" content="${escapeAttr(image)}">`,
+    ...(isDefaultOgImage(siteUrl, image)
+      ? [
+          `<meta property="og:image:width" content="${OG_IMAGE_WIDTH}">`,
+          `<meta property="og:image:height" content="${OG_IMAGE_HEIGHT}">`,
+          `<meta property="og:image:type" content="${escapeAttr(OG_IMAGE_TYPE)}">`,
+        ]
+      : []),
     `<meta name="twitter:card" content="summary_large_image">`,
     `<meta name="twitter:title" content="${escapeAttr(title)}">`,
     `<meta name="twitter:description" content="${escapeAttr(desc)}">`,
@@ -112,6 +131,7 @@ export function organizationJsonLd(siteUrl, defaultOgImage) {
     alternateName: SITE_ALTERNATE_NAMES,
     url: siteUrl,
     logo: defaultOgImage,
+    image: defaultOgImage,
     description: DEFAULT_DESCRIPTION,
     sameAs: [INSTAGRAM_URL],
     founder: { "@type": "Person", name: "Zuza" },
@@ -132,15 +152,21 @@ export function organizationJsonLd(siteUrl, defaultOgImage) {
   };
 }
 
-export function webSiteJsonLd(siteUrl) {
+export function webSiteJsonLd(siteUrl, defaultOgImage) {
   return {
     "@context": "https://schema.org",
     "@type": "WebSite",
     name: SITE_FULL_NAME,
     alternateName: SITE_ALTERNATE_NAMES,
     url: siteUrl,
+    image: defaultOgImage,
     description: DEFAULT_DESCRIPTION,
-    publisher: { "@type": "Organization", name: SITE_FULL_NAME },
+    publisher: {
+      "@type": "Organization",
+      name: SITE_FULL_NAME,
+      logo: defaultOgImage,
+      image: defaultOgImage,
+    },
   };
 }
 
@@ -162,7 +188,7 @@ export function productJsonLd(siteUrl, product) {
     name: product.name,
     description: product.description || product.tagline,
     image: images.length > 0 ? images : undefined,
-    brand: { "@type": "Brand", name: SITE_FULL_NAME },
+    brand: { "@type": "Brand", name: SITE_FULL_NAME, image: defaultOgImageUrl(siteUrl) },
     sku: product.id,
     offers: {
       "@type": "Offer",
