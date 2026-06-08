@@ -147,6 +147,7 @@ function ListingDetailContent({
                         alt={p.imageAlt || p.name}
                         className="aspect-square object-cover"
                         loading="lazy"
+                        decoding="async"
                       />
                     ) : (
                       <div className="aspect-square bg-muted" />
