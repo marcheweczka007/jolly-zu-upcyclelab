@@ -1,8 +1,8 @@
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { X } from "lucide-react";
-import heroProduct from "@/assets/hero-product.jpg";
-import collectionFlatlay from "@/assets/collection-flatlay.jpg";
-import fabricStack from "@/assets/fabric-stack.jpg";
+import heroProduct from "@/assets/hero-product.webp";
+import collectionFlatlay from "@/assets/collection-flatlay.webp";
+import fabricStack from "@/assets/fabric-stack.webp";
 import { SHOP_URL } from "@/constants/shop";
 import {
   Dialog,
@@ -97,9 +97,7 @@ export function VintedShopModal({ open, onOpenChange }: VintedShopModalProps) {
             </DialogPrimitive.Close>
           </div>
 
-          <p className="mt-6 text-center text-xs text-ink/45">
-            Secure checkout handled by Vinted
-          </p>
+          <p className="mt-6 text-center text-xs text-ink/45">Secure checkout handled by Vinted</p>
         </DialogPrimitive.Content>
       </DialogPortal>
     </Dialog>
@@ -109,7 +107,13 @@ export function VintedShopModal({ open, onOpenChange }: VintedShopModalProps) {
 function PreviewThumbnail({ src, alt }: { src: string; alt: string }) {
   return (
     <div className="h-16 w-16 overflow-hidden rounded-lg border border-ink/10 bg-muted">
-      <img src={src} alt={alt} className="h-full w-full object-cover" />
+      <img
+        src={src}
+        alt={alt}
+        className="h-full w-full object-cover"
+        loading="lazy"
+        decoding="async"
+      />
     </div>
   );
 }

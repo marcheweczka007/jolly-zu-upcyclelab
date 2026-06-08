@@ -4,7 +4,7 @@ import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { ShopCTA } from "@/components/ShopCTA";
 import { Marquee } from "@/components/Marquee";
-import maker from "@/assets/maker-portrait.jpg";
+import maker from "@/assets/maker-portrait.webp";
 
 export const Route = createFileRoute("/about")({
   head: () =>
@@ -96,6 +96,8 @@ function About() {
                 alt="Zuza, the maker behind JollyZu, working at her sewing machine in Edinburgh"
                 width={1024}
                 height={1280}
+                loading="lazy"
+                decoding="async"
                 className="w-full rounded-2xl border-2 border-ink object-cover shadow-brutal-lg"
               />
               <div className="absolute -bottom-4 -left-2 rotate-[-5deg] bg-leaf px-4 py-2 text-xs font-black uppercase tracking-wider text-ink shadow-brutal md:-left-4">

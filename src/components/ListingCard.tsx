@@ -23,9 +23,12 @@ export function ListingCard({ product }: { product: Product }) {
                 !canPurchase(product) && "opacity-75 saturate-50",
               )}
               loading="lazy"
+              decoding="async"
             />
           ) : (
-            <div className="flex h-full items-center justify-center text-sm text-ink/40">No image</div>
+            <div className="flex h-full items-center justify-center text-sm text-ink/40">
+              No image
+            </div>
           )}
           <ListingAvailabilityBadge product={product} />
         </div>
@@ -44,7 +47,9 @@ export function ListingCard({ product }: { product: Product }) {
         {canPurchase(product) ? (
           <ListingBasketActions product={product} size="compact" />
         ) : (
-          <p className="text-center text-xs font-black uppercase tracking-wider text-ink/50">Sold out</p>
+          <p className="text-center text-xs font-black uppercase tracking-wider text-ink/50">
+            Sold out
+          </p>
         )}
       </div>
     </article>

@@ -10,12 +10,11 @@ import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { Marquee } from "@/components/Marquee";
 import { ShopCTA } from "@/components/ShopCTA";
-// HERO IMAGE — replace src/assets/hero-product.jpg with your own product photo
-// (portrait orientation works best, ~1200x1600). Keep the filename to avoid edits here.
-import heroProduct from "@/assets/hero-product.jpg";
-import bagsFlatlay from "@/assets/bags-flatlay.jpg";
-import collectionFlatlay from "@/assets/collection-flatlay.jpg";
-import fabricStack from "@/assets/fabric-stack.jpg";
+// HERO IMAGE — replace src/assets/hero-product.jpg then run npm run optimize:images
+// (portrait orientation works best, ~1200x1600). Imports use the generated .webp.
+import heroProduct from "@/assets/hero-product.webp";
+import collectionFlatlay from "@/assets/collection-flatlay.webp";
+import fabricStack from "@/assets/fabric-stack.webp";
 
 export const Route = createFileRoute("/")({
   head: () =>
@@ -82,6 +81,8 @@ function Index() {
                 alt="Handmade JollyZu waterproof crossbody bag in magenta with orange rope strap"
                 width={1200}
                 height={1600}
+                fetchPriority="high"
+                decoding="async"
                 className="h-full w-full object-cover"
               />
             </div>
@@ -172,6 +173,7 @@ function Index() {
                   width={1536}
                   height={1024}
                   loading="lazy"
+                  decoding="async"
                   className="h-full w-full object-cover"
                 />
               </div>
@@ -231,6 +233,7 @@ function Index() {
               width={1024}
               height={1024}
               loading="lazy"
+              decoding="async"
               className="h-full w-full rounded-2xl border-2 border-ink object-cover shadow-brutal"
             />
           </div>

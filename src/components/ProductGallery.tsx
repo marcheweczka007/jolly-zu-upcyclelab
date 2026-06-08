@@ -3,13 +3,7 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import { useCallback, useEffect, useState, type MouseEvent } from "react";
 import { cn } from "@/lib/utils";
 
-export function ProductGallery({
-  images,
-  alt,
-}: {
-  images: string[];
-  alt: string;
-}) {
+export function ProductGallery({ images, alt }: { images: string[]; alt: string }) {
   const [selected, setSelected] = useState(0);
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: images.length > 1 });
 
@@ -49,6 +43,19 @@ export function ProductGallery({
     };
   }, [emblaApi, onSelect]);
 
+  const shouldLoadSlide = useCallback(
+    (index: number) => {
+      if (images.length <= 2) return true;
+      const distance = Math.min(
+        Math.abs(index - selected),
+        Math.abs(index - selected + images.length),
+        Math.abs(index - selected - images.length),
+      );
+      return distance <= 1;
+    },
+    [images.length, selected],
+  );
+
   if (images.length === 0) {
     return (
       <div className="flex aspect-[4/5] items-center justify-center rounded-2xl border-2 border-ink bg-muted text-ink/40">
@@ -60,7 +67,13 @@ export function ProductGallery({
   if (images.length === 1) {
     return (
       <div className="overflow-hidden rounded-2xl border-2 border-ink bg-muted shadow-brutal-lg">
-        <img src={images[0]} alt={alt} className="aspect-[4/5] w-full object-cover" />
+        <img
+          src={images[0]}
+          alt={alt}
+          className="aspect-[4/5] w-full object-cover"
+          fetchPriority="high"
+          decoding="async"
+        />
       </div>
     );
   }
@@ -78,12 +91,19 @@ export function ProductGallery({
           <div className="flex">
             {images.map((src, i) => (
               <div key={src} className="min-w-0 flex-[0_0_100%]">
-                <img
-                  src={src}
-                  alt={i === 0 ? alt : `${alt} — photo ${i + 1}`}
-                  className="aspect-[4/5] w-full object-cover"
-                  draggable={false}
-                />
+                {shouldLoadSlide(i) ? (
+                  <img
+                    src={src}
+                    alt={i === 0 ? alt : `${alt} — photo ${i + 1}`}
+                    className="aspect-[4/5] w-full object-cover"
+                    draggable={false}
+                    loading={i === 0 ? "eager" : "lazy"}
+                    fetchPriority={i === 0 ? "high" : undefined}
+                    decoding="async"
+                  />
+                ) : (
+                  <div className="aspect-[4/5] w-full bg-muted" aria-hidden="true" />
+                )}
               </div>
             ))}
           </div>
@@ -128,7 +148,13 @@ export function ProductGallery({
             aria-label={`Show photo ${i + 1}`}
             aria-current={i === selected ? "true" : undefined}
           >
-            <img src={src} alt="" className="h-full w-full object-cover" />
+            <img
+              src={src}
+              alt=""
+              className="h-full w-full object-cover"
+              loading="lazy"
+              decoding="async"
+            />
           </button>
         ))}
       </div>
