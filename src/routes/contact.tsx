@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { pageHead, SITE_FULL_NAME } from "@/lib/seo";
+import { CONTACT_DESCRIPTION, CONTACT_TITLE, pageHead } from "@/lib/seo";
 import { useState } from "react";
 import { z } from "zod";
 import { SiteHeader } from "@/components/SiteHeader";
@@ -9,9 +9,8 @@ import { ShopCTA } from "@/components/ShopCTA";
 export const Route = createFileRoute("/contact")({
   head: () =>
     pageHead({
-      title: `Contact — ${SITE_FULL_NAME} | Get in touch`,
-      description:
-        "Custom orders, collabs, press, or just to say hi — get in touch with JollyZu Upcycle Lab.",
+      title: CONTACT_TITLE,
+      description: CONTACT_DESCRIPTION,
       path: "/contact",
     }),
   component: Contact,

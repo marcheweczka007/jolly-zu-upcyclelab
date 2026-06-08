@@ -10,13 +10,21 @@ import { buildLlmsFullTxt, buildLlmsTxt } from "./lib/llms-txt.mjs";
 import { buildRobotsTxt } from "./lib/robots-txt.mjs";
 import {
   absoluteUrl,
+  ABOUT_DESCRIPTION,
+  ABOUT_TITLE,
   buildMetaTags,
+  CONTACT_DESCRIPTION,
+  CONTACT_TITLE,
+  HOME_DESCRIPTION,
   HOME_TITLE,
   organizationJsonLd,
   productBreadcrumbJsonLd,
   productJsonLd,
+  productSeoDescription,
+  productSeoTitle,
   resolveSiteUrl,
-  SITE_FULL_NAME,
+  SHOP_DESCRIPTION,
+  SHOP_TITLE,
   webSiteJsonLd,
 } from "./lib/seo-meta.mjs";
 
@@ -30,38 +38,31 @@ const STATIC_PAGES = [
     path: "/",
     outPath: "index.html",
     title: HOME_TITLE,
-    description:
-      "JollyZu Upcycle Lab — handmade upcycled bags built from rescued textiles. Bold, durable, one-of-a-kind. Shop the latest drop.",
+    description: HOME_DESCRIPTION,
     jsonLd: (siteUrl, ogImage) => [organizationJsonLd(siteUrl, ogImage), webSiteJsonLd(siteUrl)],
   },
   {
     path: "/about",
     outPath: "about/index.html",
-    title: `About — ${SITE_FULL_NAME} | The maker behind the bags`,
-    description:
-      "Meet Zuza, founder of JollyZu Upcycle Lab — turning rescued textiles into one-of-a-kind upcycled bags from her Edinburgh studio.",
+    title: ABOUT_TITLE,
+    description: ABOUT_DESCRIPTION,
   },
   {
     path: "/contact",
     outPath: "contact/index.html",
-    title: `Contact — ${SITE_FULL_NAME} | Get in touch`,
-    description:
-      "Custom orders, collabs, press, or just to say hi — get in touch with JollyZu Upcycle Lab.",
+    title: CONTACT_TITLE,
+    description: CONTACT_DESCRIPTION,
   },
   {
     path: "/shop",
     outPath: "shop/index.html",
-    title: `Shop — ${SITE_FULL_NAME} | Upcycled bags`,
-    description:
-      "Browse one-of-a-kind upcycled bags handmade in Edinburgh. Small batches, no restocks.",
+    title: SHOP_TITLE,
+    description: SHOP_DESCRIPTION,
   },
 ];
 
 function escapeHtml(value) {
-  return String(value)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;");
+  return String(value).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
 
 function stripSeoMeta(html) {
@@ -98,7 +99,10 @@ async function fetchProducts() {
 function buildSitemap(siteUrl, products) {
   const today = new Date().toISOString().slice(0, 10);
   const urls = [
-    ...STATIC_PAGES.map((p) => ({ loc: absoluteUrl(siteUrl, p.path), priority: p.path === "/" ? "1.0" : "0.8" })),
+    ...STATIC_PAGES.map((p) => ({
+      loc: absoluteUrl(siteUrl, p.path),
+      priority: p.path === "/" ? "1.0" : "0.8",
+    })),
     ...products
       .filter((p) => p.availability !== "sold_out")
       .map((p) => ({
@@ -151,11 +155,8 @@ async function main() {
   }
 
   for (const product of products) {
-    const title = `${product.name} — ${SITE_FULL_NAME}`;
-    const description =
-      product.description ||
-      product.tagline ||
-      `${product.name} — handmade upcycled bag from ${SITE_FULL_NAME}, Edinburgh.`;
+    const title = productSeoTitle(product);
+    const description = productSeoDescription(product);
     const metaTags = buildMetaTags({
       siteUrl,
       title,

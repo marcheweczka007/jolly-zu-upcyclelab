@@ -1,5 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { HOME_TITLE, organizationJsonLd, pageHead, webSiteJsonLd } from "@/lib/seo";
+import {
+  HOME_DESCRIPTION,
+  HOME_TITLE,
+  organizationJsonLd,
+  pageHead,
+  webSiteJsonLd,
+} from "@/lib/seo";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { Marquee } from "@/components/Marquee";
@@ -15,8 +21,7 @@ export const Route = createFileRoute("/")({
   head: () =>
     pageHead({
       title: HOME_TITLE,
-      description:
-        "JollyZu Upcycle Lab — handmade upcycled bags built from rescued textiles. Bold, durable, one-of-a-kind. Shop the latest drop.",
+      description: HOME_DESCRIPTION,
       path: "/",
       jsonLd: [organizationJsonLd(), webSiteJsonLd()],
     }),

@@ -9,7 +9,7 @@ export const Route = createFileRoute("/shop/checkout/cancel")({
   head: () =>
     pageHead({
       title: "Checkout cancelled — JollyZu",
-      description: "Your Stripe checkout was cancelled.",
+      description: "Your checkout was cancelled. Return to the JollyZu shop to try again.",
       path: "/shop/checkout/cancel",
       noindex: true,
     }),

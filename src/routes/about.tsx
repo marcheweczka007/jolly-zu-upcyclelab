@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { pageHead, SITE_FULL_NAME } from "@/lib/seo";
+import { ABOUT_DESCRIPTION, ABOUT_TITLE, pageHead } from "@/lib/seo";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { ShopCTA } from "@/components/ShopCTA";
@@ -9,9 +9,8 @@ import maker from "@/assets/maker-portrait.jpg";
 export const Route = createFileRoute("/about")({
   head: () =>
     pageHead({
-      title: `About — ${SITE_FULL_NAME} | The maker behind the bags`,
-      description:
-        "Meet Zuza, founder of JollyZu Upcycle Lab — turning rescued textiles into one-of-a-kind upcycled bags from her Edinburgh studio.",
+      title: ABOUT_TITLE,
+      description: ABOUT_DESCRIPTION,
       path: "/about",
     }),
   component: About,

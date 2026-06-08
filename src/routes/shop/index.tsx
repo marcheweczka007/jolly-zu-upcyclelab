@@ -9,16 +9,15 @@ import { shopRouteGuard } from "@/constants/shop";
 import { useProducts } from "@/contexts/ProductsContext";
 import { fetchProducts } from "@/lib/products-api";
 import { consumeCatalogFreshFlag } from "@/lib/refresh-catalog-after-checkout";
-import { pageHead, shopItemListJsonLd, SITE_FULL_NAME } from "@/lib/seo";
+import { pageHead, SHOP_DESCRIPTION, SHOP_TITLE, shopItemListJsonLd } from "@/lib/seo";
 
 export const Route = createFileRoute("/shop/")({
   beforeLoad: shopRouteGuard,
   loader: async () => ({ products: await fetchProducts() }),
   head: ({ loaderData }) =>
     pageHead({
-      title: `Shop — ${SITE_FULL_NAME} | Upcycled bags`,
-      description:
-        "Browse one-of-a-kind upcycled bags handmade in Edinburgh. Small batches, no restocks.",
+      title: SHOP_TITLE,
+      description: SHOP_DESCRIPTION,
       path: "/shop",
       jsonLd: shopItemListJsonLd(loaderData.products),
     }),

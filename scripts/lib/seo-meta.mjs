@@ -2,22 +2,41 @@
 
 export const SITE_NAME = "JollyZu";
 export const SITE_FULL_NAME = "JollyZu Upcycle Lab";
-export const SITE_ALTERNATE_NAMES = [
-  "Jolly Zu Upcycle Lab",
-  "JollyZu",
-  "Upcycle Lab JollyZu",
-];
-export const HOME_TITLE = `${SITE_FULL_NAME} — Upcycled Handmade Bags from Edinburgh`;
-export const DEFAULT_DESCRIPTION =
-  "JollyZu Upcycle Lab — handmade upcycled bags built from rescued textiles in Edinburgh, Scotland. Bold, durable, one-of-a-kind slow fashion by indie maker Zuza.";
+export const SITE_ALTERNATE_NAMES = ["Jolly Zu Upcycle Lab", "JollyZu", "Upcycle Lab JollyZu"];
+export const HOME_TITLE = "JollyZu | Handmade Upcycled Bags from Scotland";
+export const HOME_DESCRIPTION =
+  "Handmade upcycled bags from reclaimed textiles in Scotland. Eco-friendly, one-of-a-kind crossbody bags by JollyZu — sustainable slow fashion, UK delivery.";
+export const DEFAULT_DESCRIPTION = HOME_DESCRIPTION;
+
+export const SHOP_TITLE = "Shop Upcycled Bags | Handmade in Scotland — JollyZu";
+export const SHOP_DESCRIPTION =
+  "Shop handmade upcycled bags from reclaimed textiles. Eco-friendly crossbody & shoulder bags from Scotland — small batches by JollyZu, UK delivery.";
+
+export const ABOUT_TITLE = "About JollyZu | Handmade Bags from Scotland";
+export const ABOUT_DESCRIPTION =
+  "Meet Zuza, Edinburgh maker behind JollyZu. She sews handmade upcycled bags from reclaimed textiles — sustainable, one-of-a-kind pieces from Scotland.";
+
+export const CONTACT_TITLE = "Contact JollyZu | Custom Upcycled Bags, UK";
+export const CONTACT_DESCRIPTION =
+  "Ask about custom upcycled bags, collaborations, or press. JollyZu makes handmade bags from reclaimed textiles in Edinburgh — eco-friendly, UK-based.";
+
+export function productSeoTitle(product) {
+  return `${product.name} | Upcycled Bag — ${SITE_NAME}`;
+}
+
+export function productSeoDescription(product) {
+  return (
+    product.description ||
+    product.tagline ||
+    `Handmade upcycled bag from reclaimed textiles. ${product.name} by JollyZu — eco-friendly, one-of-a-kind, made in Scotland. UK shipping.`
+  );
+}
 export const LOCALE = "en_GB";
 export const INSTAGRAM_URL = "https://instagram.com/upcycle.lab.jollyzu";
 
 export function resolveSiteUrl() {
   const raw =
-    process.env.VITE_SITE_URL?.trim() ||
-    process.env.SITE_URL?.trim() ||
-    "https://jollyzu.com";
+    process.env.VITE_SITE_URL?.trim() || process.env.SITE_URL?.trim() || "https://jollyzu.com";
   return raw.replace(/\/$/, "");
 }
 
@@ -127,7 +146,9 @@ export function webSiteJsonLd(siteUrl) {
 
 export function productJsonLd(siteUrl, product) {
   const url = absoluteUrl(siteUrl, `/shop/${product.id}`);
-  const images = (product.images?.length > 0 ? product.images : product.image ? [product.image] : [])
+  const images = (
+    product.images?.length > 0 ? product.images : product.image ? [product.image] : []
+  )
     .map((img) => absoluteUrl(siteUrl, img))
     .filter(Boolean);
 

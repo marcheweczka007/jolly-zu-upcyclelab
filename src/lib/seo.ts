@@ -8,9 +8,22 @@ export const SITE_ALTERNATE_NAMES = [
   "Upcycle Lab JollyZu",
 ] as const;
 export const SITE_URL = (import.meta.env.VITE_SITE_URL || "https://jollyzu.com").replace(/\/$/, "");
-export const DEFAULT_DESCRIPTION =
-  "JollyZu Upcycle Lab — handmade upcycled bags built from rescued textiles in Edinburgh, Scotland. Bold, durable, one-of-a-kind slow fashion by indie maker Zuza.";
-export const HOME_TITLE = `${SITE_FULL_NAME} — Upcycled Handmade Bags from Edinburgh`;
+export const HOME_TITLE = "JollyZu | Handmade Upcycled Bags from Scotland";
+export const HOME_DESCRIPTION =
+  "Handmade upcycled bags from reclaimed textiles in Scotland. Eco-friendly, one-of-a-kind crossbody bags by JollyZu — sustainable slow fashion, UK delivery.";
+export const DEFAULT_DESCRIPTION = HOME_DESCRIPTION;
+
+export const SHOP_TITLE = "Shop Upcycled Bags | Handmade in Scotland — JollyZu";
+export const SHOP_DESCRIPTION =
+  "Shop handmade upcycled bags from reclaimed textiles. Eco-friendly crossbody & shoulder bags from Scotland — small batches by JollyZu, UK delivery.";
+
+export const ABOUT_TITLE = "About JollyZu | Handmade Bags from Scotland";
+export const ABOUT_DESCRIPTION =
+  "Meet Zuza, Edinburgh maker behind JollyZu. She sews handmade upcycled bags from reclaimed textiles — sustainable, one-of-a-kind pieces from Scotland.";
+
+export const CONTACT_TITLE = "Contact JollyZu | Custom Upcycled Bags, UK";
+export const CONTACT_DESCRIPTION =
+  "Ask about custom upcycled bags, collaborations, or press. JollyZu makes handmade bags from reclaimed textiles in Edinburgh — eco-friendly, UK-based.";
 export const DEFAULT_OG_IMAGE = `${SITE_URL}/og-default.webp`;
 export const LOCALE = "en_GB";
 export const INSTAGRAM_URL = "https://instagram.com/upcycle.lab.jollyzu";
@@ -163,7 +176,12 @@ export function productBreadcrumbJsonLd(product: Product) {
     itemListElement: [
       { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
       { "@type": "ListItem", position: 2, name: "Shop", item: absoluteUrl("/shop") },
-      { "@type": "ListItem", position: 3, name: product.name, item: absoluteUrl(`/shop/${product.id}`) },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: product.name,
+        item: absoluteUrl(`/shop/${product.id}`),
+      },
     ],
   };
 }
@@ -185,12 +203,21 @@ export function shopItemListJsonLd(products: Product[]) {
   };
 }
 
-export function productHead(product: Product) {
-  const title = `${product.name} — ${SITE_FULL_NAME}`;
-  const description =
+export function productSeoTitle(product: Product): string {
+  return `${product.name} | Upcycled Bag — ${SITE_NAME}`;
+}
+
+export function productSeoDescription(product: Product): string {
+  return (
     product.description ||
     product.tagline ||
-    `${product.name} — handmade upcycled bag from ${SITE_FULL_NAME}, Edinburgh.`;
+    `Handmade upcycled bag from reclaimed textiles. ${product.name} by JollyZu — eco-friendly, one-of-a-kind, made in Scotland. UK shipping.`
+  );
+}
+
+export function productHead(product: Product) {
+  const title = productSeoTitle(product);
+  const description = productSeoDescription(product);
   const ogImage = product.image || DEFAULT_OG_IMAGE;
   const noindex = product.availability === "sold_out";
 
