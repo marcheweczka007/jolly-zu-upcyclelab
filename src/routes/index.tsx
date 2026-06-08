@@ -49,7 +49,7 @@ function Index() {
               {/* <span className="text-purple-deep">for everyday use.</span> */}
             </h1>
             <p className="mt-8 max-w-lg text-lg text-ink/70 md:text-xl">
-              JollyZu Upcycle Lab — handmade in Scotland from rescued textiles. Durable, practical,
+              JollyZu Upcycle Lab - handmade in Scotland from rescued textiles. Durable, practical,
               and one of a kind.
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-5">
