@@ -127,6 +127,11 @@ ${body}
 
 async function main() {
   const siteUrl = resolveSiteUrl();
+  if (siteUrl.includes("netlify.app") || siteUrl.includes("lovable.app")) {
+    console.warn(
+      `generate-seo: unexpected siteUrl "${siteUrl}" — set SITE_URL and VITE_SITE_URL to https://jollyzu.com`,
+    );
+  }
   const defaultOgImage = absoluteUrl(siteUrl, DEFAULT_OG);
   const template = await readFile(join(DIST, "index.html"), "utf8");
   const products = await fetchProducts();

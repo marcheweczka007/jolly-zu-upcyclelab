@@ -17,7 +17,6 @@ export function resolveSiteUrl() {
   const raw =
     process.env.VITE_SITE_URL?.trim() ||
     process.env.SITE_URL?.trim() ||
-    process.env.URL?.trim() ||
     "https://jollyzu.com";
   return raw.replace(/\/$/, "");
 }

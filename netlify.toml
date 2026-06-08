@@ -20,3 +20,16 @@
   from = "/api/*"
   to = "/.netlify/functions/:splat"
   status = 200
+
+# Prevent search engines from indexing non-production deploys
+[context.deploy-preview]
+  [[headers]]
+    for = "/*"
+    [headers.values]
+      X-Robots-Tag = "noindex, nofollow"
+
+[context.branch-deploy]
+  [[headers]]
+    for = "/*"
+    [headers.values]
+      X-Robots-Tag = "noindex, nofollow"

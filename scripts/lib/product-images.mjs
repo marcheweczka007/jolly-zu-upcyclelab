@@ -1,5 +1,6 @@
 import { mkdir, readdir, writeFile } from "node:fs/promises";
 import { extname, join } from "node:path";
+import { resolveSiteUrl } from "./seo-meta.mjs";
 
 export const SHOP_IMAGES_PUBLIC_DIR = "public/shop-images";
 
@@ -18,10 +19,7 @@ export function absoluteImageUrl(siteUrl, productId, filename) {
   return `${base}${publicImagePath(productId, filename)}`;
 }
 
-export function resolveSiteUrl() {
-  const raw = process.env.SITE_URL?.trim() || process.env.URL?.trim() || "https://jollyzu.com";
-  return raw.replace(/\/$/, "");
-}
+export { resolveSiteUrl };
 
 export async function ensureProductImageDir(productId) {
   await mkdir(productImageDir(productId), { recursive: true });

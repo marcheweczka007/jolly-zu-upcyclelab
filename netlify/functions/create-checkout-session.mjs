@@ -36,10 +36,11 @@ export async function handler(event) {
   }
 
   const items = body.items;
+  const DEFAULT_ORIGIN = "https://jollyzu.com";
   const origin =
     typeof body.origin === "string" && body.origin.startsWith("http")
       ? body.origin.replace(/\/$/, "")
-      : (process.env.URL ?? "http://localhost:5173").replace(/\/$/, "");
+      : (process.env.SITE_URL ?? DEFAULT_ORIGIN).replace(/\/$/, "");
 
   if (!items || typeof items !== "object" || Array.isArray(items)) {
     return { statusCode: 400, headers, body: JSON.stringify({ error: "Missing basket items" }) };
