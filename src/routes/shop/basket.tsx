@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { ShopProductsState } from "@/components/ShopProductsState";
+import { CheckoutLegalNotice } from "@/components/CheckoutLegalNotice";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { useBasket } from "@/contexts/BasketContext";
@@ -157,6 +157,10 @@ function BasketPage() {
                   {checkoutError}
                 </p>
               )}
+
+              <div className="mt-6">
+                <CheckoutLegalNotice />
+              </div>
 
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <button

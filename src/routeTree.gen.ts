@@ -9,6 +9,8 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TermsAndConditionsRouteImport } from './routes/terms-and-conditions'
+import { Route as ReturnsPolicyRouteImport } from './routes/returns-policy'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
@@ -18,6 +20,16 @@ import { Route as ShopListingIdRouteImport } from './routes/shop/$listingId'
 import { Route as ShopCheckoutSuccessRouteImport } from './routes/shop/checkout/success'
 import { Route as ShopCheckoutCancelRouteImport } from './routes/shop/checkout/cancel'
 
+const TermsAndConditionsRoute = TermsAndConditionsRouteImport.update({
+  id: '/terms-and-conditions',
+  path: '/terms-and-conditions',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReturnsPolicyRoute = ReturnsPolicyRouteImport.update({
+  id: '/returns-policy',
+  path: '/returns-policy',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
@@ -63,6 +75,8 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
+  '/returns-policy': typeof ReturnsPolicyRoute
+  '/terms-and-conditions': typeof TermsAndConditionsRoute
   '/shop/$listingId': typeof ShopListingIdRoute
   '/shop/basket': typeof ShopBasketRoute
   '/shop/': typeof ShopIndexRoute
@@ -73,6 +87,8 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
+  '/returns-policy': typeof ReturnsPolicyRoute
+  '/terms-and-conditions': typeof TermsAndConditionsRoute
   '/shop/$listingId': typeof ShopListingIdRoute
   '/shop/basket': typeof ShopBasketRoute
   '/shop': typeof ShopIndexRoute
@@ -84,6 +100,8 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
+  '/returns-policy': typeof ReturnsPolicyRoute
+  '/terms-and-conditions': typeof TermsAndConditionsRoute
   '/shop/$listingId': typeof ShopListingIdRoute
   '/shop/basket': typeof ShopBasketRoute
   '/shop/': typeof ShopIndexRoute
@@ -96,6 +114,8 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/contact'
+    | '/returns-policy'
+    | '/terms-and-conditions'
     | '/shop/$listingId'
     | '/shop/basket'
     | '/shop/'
@@ -106,6 +126,8 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/contact'
+    | '/returns-policy'
+    | '/terms-and-conditions'
     | '/shop/$listingId'
     | '/shop/basket'
     | '/shop'
@@ -116,6 +138,8 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/contact'
+    | '/returns-policy'
+    | '/terms-and-conditions'
     | '/shop/$listingId'
     | '/shop/basket'
     | '/shop/'
@@ -127,6 +151,8 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   ContactRoute: typeof ContactRoute
+  ReturnsPolicyRoute: typeof ReturnsPolicyRoute
+  TermsAndConditionsRoute: typeof TermsAndConditionsRoute
   ShopListingIdRoute: typeof ShopListingIdRoute
   ShopBasketRoute: typeof ShopBasketRoute
   ShopIndexRoute: typeof ShopIndexRoute
@@ -136,6 +162,20 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/terms-and-conditions': {
+      id: '/terms-and-conditions'
+      path: '/terms-and-conditions'
+      fullPath: '/terms-and-conditions'
+      preLoaderRoute: typeof TermsAndConditionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/returns-policy': {
+      id: '/returns-policy'
+      path: '/returns-policy'
+      fullPath: '/returns-policy'
+      preLoaderRoute: typeof ReturnsPolicyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/contact': {
       id: '/contact'
       path: '/contact'
@@ -199,6 +239,8 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   ContactRoute: ContactRoute,
+  ReturnsPolicyRoute: ReturnsPolicyRoute,
+  TermsAndConditionsRoute: TermsAndConditionsRoute,
   ShopListingIdRoute: ShopListingIdRoute,
   ShopBasketRoute: ShopBasketRoute,
   ShopIndexRoute: ShopIndexRoute,

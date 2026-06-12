@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import type { MouseEvent } from "react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import { ReturnsSummary } from "@/components/ReturnsSummary";
 import { useBasket } from "@/contexts/BasketContext";
 import {
   canPurchase,
@@ -142,6 +143,7 @@ export function ListingBasketActions({
               ? "Pre-order in basket — go to basket"
               : "In basket — go to basket"}
         </Link>
+        <ReturnsSummary compact={compact} />
       </div>
     );
   }
@@ -159,6 +161,7 @@ export function ListingBasketActions({
       <button type="button" onClick={handleAdd} className={buttonClass}>
         {preorder ? "Pre-order" : showStepper ? `Add ${displayQty} to basket` : "Add to basket"}
       </button>
+      <ReturnsSummary compact={compact} />
     </div>
   );
 }

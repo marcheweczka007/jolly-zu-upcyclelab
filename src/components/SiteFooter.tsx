@@ -1,11 +1,12 @@
 import { Link } from "@tanstack/react-router";
 import { SHOW_SHOP, SHOP_URL } from "@/constants/shop";
+import { RETURNS_POLICY_PATH, TERMS_PATH } from "@/lib/legal";
 
 export function SiteFooter() {
   return (
     <footer className="bg-ink text-cream">
       <div className="mx-auto max-w-7xl px-5 py-16 md:px-8 md:py-24">
-        <div className="grid gap-12 md:grid-cols-[2fr_1fr_1fr]">
+        <div className="grid gap-12 md:grid-cols-[2fr_1fr_1fr_1fr]">
           <div>
             <p className="text-display text-5xl leading-[0.9] md:text-7xl">
               Wear
@@ -52,6 +53,22 @@ export function SiteFooter() {
                   </li>
                 </>
               )}
+            </ul>
+          </div>
+
+          <div>
+            <p className="mb-4 text-xs font-bold uppercase tracking-widest text-cream/50">Legal</p>
+            <ul className="space-y-2">
+              <li>
+                <Link to={RETURNS_POLICY_PATH} className="hover:text-mustard">
+                  Returns Policy
+                </Link>
+              </li>
+              <li>
+                <Link to={TERMS_PATH} className="hover:text-mustard">
+                  Terms &amp; Conditions
+                </Link>
+              </li>
             </ul>
           </div>
 
