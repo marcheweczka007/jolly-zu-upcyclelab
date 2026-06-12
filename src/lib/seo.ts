@@ -21,9 +21,6 @@ export const ABOUT_TITLE = "About JollyZu | Handmade Bags from Scotland";
 export const ABOUT_DESCRIPTION =
   "Meet Zuza, Edinburgh maker behind JollyZu. She sews handmade upcycled bags from reclaimed textiles — sustainable, one-of-a-kind pieces from Scotland.";
 
-export const CONTACT_TITLE = "Contact JollyZu | Custom Upcycled Bags, UK";
-export const CONTACT_DESCRIPTION =
-  "Ask about custom upcycled bags, collaborations, or press. JollyZu makes handmade bags from reclaimed textiles in Edinburgh — eco-friendly, UK-based.";
 export const DEFAULT_OG_IMAGE_PATH = "/og-image.jpg";
 export const DEFAULT_OG_IMAGE = `${SITE_URL}${DEFAULT_OG_IMAGE_PATH}`;
 export const OG_IMAGE_WIDTH = 1734;

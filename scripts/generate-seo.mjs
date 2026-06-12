@@ -13,8 +13,6 @@ import {
   ABOUT_DESCRIPTION,
   ABOUT_TITLE,
   buildMetaTags,
-  CONTACT_DESCRIPTION,
-  CONTACT_TITLE,
   HOME_DESCRIPTION,
   HOME_TITLE,
   organizationJsonLd,
@@ -49,12 +47,6 @@ const STATIC_PAGES = [
     outPath: "about/index.html",
     title: ABOUT_TITLE,
     description: ABOUT_DESCRIPTION,
-  },
-  {
-    path: "/contact",
-    outPath: "contact/index.html",
-    title: CONTACT_TITLE,
-    description: CONTACT_DESCRIPTION,
   },
   {
     path: "/shop",

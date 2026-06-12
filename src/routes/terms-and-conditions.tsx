@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { LegalPageShell, LegalSection } from "@/components/LegalPageShell";
+import { CONTACT_FORM_URL } from "@/constants/contact";
 import { RETURNS_POLICY_PATH } from "@/lib/legal";
 import { pageHead, SITE_FULL_NAME } from "@/lib/seo";
 
@@ -114,9 +115,14 @@ function TermsPage() {
       <LegalSection title="Contact">
         <p>
           Questions about an order or these terms?{" "}
-          <Link to="/contact" className="font-semibold underline underline-offset-2 hover:text-purple-deep">
+          <a
+            href={CONTACT_FORM_URL}
+            target="_blank"
+            rel="noreferrer"
+            className="font-semibold underline underline-offset-2 hover:text-purple-deep"
+          >
             Get in touch
-          </Link>
+          </a>
           .
         </p>
       </LegalSection>

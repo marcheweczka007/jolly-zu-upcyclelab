@@ -3,6 +3,9 @@
 import { absoluteUrl, INSTAGRAM_URL, SITE_FULL_NAME } from "./seo-meta.mjs";
 
 const VINTED_URL = "https://www.vinted.co.uk/member/128740025";
+const CONTACT_FORM_URL = (
+  process.env.VITE_CONTACT_FORM_URL ?? "https://tally.so/r/your-form-id"
+).replace(/\/$/, "");
 
 function formatPrice(pence, currency = "gbp") {
   return new Intl.NumberFormat("en-GB", {
@@ -61,7 +64,7 @@ ${SITE_FULL_NAME} is a small-batch bag brand (also known as JollyZu). Each piece
 - [Home](${absoluteUrl(siteUrl, "/")}): Brand story, making process, testimonials, pricing from £40
 - [Shop](${absoluteUrl(siteUrl, "/shop")}): Current drop — browse and buy one-of-a-kind bags
 - [About](${absoluteUrl(siteUrl, "/about")}): Meet Zuza, the Edinburgh-based maker and studio ethos
-- [Contact](${absoluteUrl(siteUrl, "/contact")}): Custom orders, collaborations, press, general enquiries
+- [Contact](${CONTACT_FORM_URL}): Custom orders, collaborations, press, general enquiries
 
 ## Products (current drop)
 
@@ -140,7 +143,7 @@ ${productBlocks}
 
 - Sold-out items stay listed but marked unavailable; watch Instagram for next drop
 - Pre-orders: shipping in 2–3 weeks unless listing states otherwise
-- Custom orders: contact form at ${absoluteUrl(siteUrl, "/contact")}
-- Returns: contact via ${absoluteUrl(siteUrl, "/contact")} — indie maker, case-by-case
+- Custom orders: contact form at ${CONTACT_FORM_URL}
+- Returns: contact via ${CONTACT_FORM_URL} — indie maker, case-by-case
 `;
 }

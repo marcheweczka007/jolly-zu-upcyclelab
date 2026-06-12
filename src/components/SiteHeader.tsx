@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { ShoppingBag } from "lucide-react";
 import { useState } from "react";
+import { CONTACT_FORM_URL } from "@/constants/contact";
 import { SHOW_SHOP } from "@/constants/shop";
 import { useBasket } from "@/contexts/BasketContext";
 import { useVintedShop } from "@/contexts/VintedShopContext";
@@ -36,13 +37,14 @@ export function SiteHeader() {
           >
             About
           </Link>
-          <Link
-            to="/contact"
+          <a
+            href={CONTACT_FORM_URL}
+            target="_blank"
+            rel="noreferrer"
             className="text-sm font-medium uppercase tracking-wider hover:text-purple-deep"
-            activeProps={{ className: "text-purple-deep" }}
           >
             Contact
-          </Link>
+          </a>
           {SHOW_SHOP && (
             <Link
               to="/shop"
@@ -97,9 +99,15 @@ export function SiteHeader() {
             <Link to="/about" onClick={() => setOpen(false)} className="text-display text-2xl">
               About
             </Link>
-            <Link to="/contact" onClick={() => setOpen(false)} className="text-display text-2xl">
+            <a
+              href={CONTACT_FORM_URL}
+              target="_blank"
+              rel="noreferrer"
+              onClick={() => setOpen(false)}
+              className="text-display text-2xl"
+            >
               Contact
-            </Link>
+            </a>
             {SHOW_SHOP && (
               <>
                 <Link to="/shop" onClick={() => setOpen(false)} className="text-display text-2xl">

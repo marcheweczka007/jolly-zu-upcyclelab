@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { LegalPageShell, LegalSection } from "@/components/LegalPageShell";
+import { CONTACT_FORM_URL } from "@/constants/contact";
 import { TERMS_PATH } from "@/lib/legal";
 import { pageHead } from "@/lib/seo";
 
@@ -30,9 +31,14 @@ function ReturnsPolicyPage() {
         <p>
           To exercise this right, contact us clearly before the 14-day period ends — for example via
           our{" "}
-          <Link to="/contact" className="font-semibold underline underline-offset-2 hover:text-purple-deep">
+          <a
+            href={CONTACT_FORM_URL}
+            target="_blank"
+            rel="noreferrer"
+            className="font-semibold underline underline-offset-2 hover:text-purple-deep"
+          >
             contact form
-          </Link>{" "}
+          </a>{" "}
           or Instagram{" "}
           <a
             href="https://instagram.com/upcycle.lab.jollyzu"
@@ -113,9 +119,14 @@ function ReturnsPolicyPage() {
             Terms &amp; Conditions
           </Link>
           . For questions about a specific order, use the{" "}
-          <Link to="/contact" className="font-semibold underline underline-offset-2 hover:text-purple-deep">
-            contact page
-          </Link>
+          <a
+            href={CONTACT_FORM_URL}
+            target="_blank"
+            rel="noreferrer"
+            className="font-semibold underline underline-offset-2 hover:text-purple-deep"
+          >
+            contact form
+          </a>
           .
         </p>
       </LegalSection>

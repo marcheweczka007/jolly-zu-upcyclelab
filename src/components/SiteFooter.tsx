@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router";
+import { CONTACT_FORM_URL } from "@/constants/contact";
 import { SHOW_SHOP, SHOP_URL } from "@/constants/shop";
 import { RETURNS_POLICY_PATH, TERMS_PATH } from "@/lib/legal";
 
@@ -35,9 +36,9 @@ export function SiteFooter() {
                 </Link>
               </li>
               <li>
-                <Link to="/contact" className="hover:text-mustard">
+                <a href={CONTACT_FORM_URL} target="_blank" rel="noreferrer" className="hover:text-mustard">
                   Contact
-                </Link>
+                </a>
               </li>
               {SHOW_SHOP && (
                 <>
