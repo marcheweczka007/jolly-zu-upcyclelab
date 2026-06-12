@@ -4,7 +4,7 @@ import { absoluteUrl, INSTAGRAM_URL, SITE_FULL_NAME } from "./seo-meta.mjs";
 
 const VINTED_URL = "https://www.vinted.co.uk/member/128740025";
 const CONTACT_FORM_URL = (
-  process.env.VITE_CONTACT_FORM_URL ?? "https://tally.so/r/your-form-id"
+  process.env.VITE_CONTACT_FORM_URL ?? "https://tally.so/r/Eka0LL"
 ).replace(/\/$/, "");
 
 function formatPrice(pence, currency = "gbp") {

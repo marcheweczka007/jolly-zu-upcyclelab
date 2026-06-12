@@ -36,5 +36,5 @@ _No products in catalog._
 
 - Sold-out items stay listed but marked unavailable; watch Instagram for next drop
 - Pre-orders: shipping in 2–3 weeks unless listing states otherwise
-- Custom orders: contact form at https://tally.so/r/your-form-id
-- Returns: contact via https://tally.so/r/your-form-id — indie maker, case-by-case
+- Custom orders: contact form at https://tally.so/r/Eka0LL
+- Returns: contact via https://tally.so/r/Eka0LL — indie maker, case-by-case
