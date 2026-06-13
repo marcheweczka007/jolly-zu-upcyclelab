@@ -87,9 +87,7 @@ export function SiteFooter() {
                 </a>
               </li>
               <li>
-                <a href={SHOP_URL} target="_blank" rel="noreferrer" className="hover:text-mustard">
-                  Vinted ↗
-                </a>
+               
               </li>
             </ul>
           </div>
