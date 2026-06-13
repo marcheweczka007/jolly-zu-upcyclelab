@@ -71,14 +71,14 @@ function ShopIndex() {
           <p className="mt-12 text-center text-sm text-ink/55">
             Also on{" "}
             <a
-              href="https://www.vinted.co.uk/member/128740025"
+              href="https://upcyclelabjollyzu.etsy.com"
               target="_blank"
               rel="noreferrer"
               className="font-semibold underline-offset-2 hover:underline"
             >
-              Vinted
+              Etsy
             </a>{" "}
-            — same studio, different platform.
+            - same studio, different platform.
           </p>
         </section>
 
