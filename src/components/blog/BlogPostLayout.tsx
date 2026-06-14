@@ -18,8 +18,17 @@ export function BlogPostLayout({ post, relatedPosts }: BlogPostLayoutProps) {
       <SiteHeader />
 
       <article>
+        <div className="mx-auto max-w-7xl px-5 pt-8 md:px-8 md:pt-10">
+          <Link
+            to="/blog"
+            className="inline-flex text-sm font-bold uppercase tracking-wider text-purple-deep hover:underline"
+          >
+            ← Back to blog
+          </Link>
+        </div>
+
         {post.coverImage && (
-          <div className="mx-auto max-w-7xl px-5 pt-8 md:px-8 md:pt-12">
+          <div className="mx-auto max-w-7xl px-5 pt-4 md:px-8 md:pt-6">
             <div className="overflow-hidden rounded-2xl border-2 border-ink shadow-brutal">
               <img
                 src={post.coverImage}

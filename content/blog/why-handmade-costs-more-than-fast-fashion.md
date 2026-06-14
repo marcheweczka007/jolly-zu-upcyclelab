@@ -3,7 +3,7 @@ title: "Why Handmade Costs More Than Fast Fashion"
 description: "Handmade upcycled bags take hours of skilled work - not minutes on a factory line. A honest look at what you are paying for when you choose slow fashion."
 date: "2026-06-14"
 author: "Zuza"
-coverImage: "/images/blog/handmade-costs.webp"
+coverImage: "/images/blog/handmadeCosts.png"
 tags:
   - sustainability
   - handmade
