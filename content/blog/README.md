@@ -8,7 +8,7 @@ Add a new post by creating a `.md` file in this folder. **No code changes needed
 2. Update the frontmatter at the top.
 3. Write your content in Markdown below the `---` block.
 4. Add a cover image to `public/images/blog/` and reference it in `coverImage`.
-5. Restart dev (`npm run dev`) or run `npm run generate:blog` if the server is already running.
+5. Save the file — during local dev, changes rebuild automatically. If they do not appear, run `npm run generate:blog` or restart `npm run dev`.
 
 ## Frontmatter template
 
