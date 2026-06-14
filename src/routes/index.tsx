@@ -197,7 +197,7 @@ function Index() {
                   <span className="text-xs font-bold uppercase tracking-widest text-cream/60">
                     Starting from
                   </span>
-                  <span className="text-display text-3xl text-mustard">£40</span>
+                  <span className="text-display text-3xl text-mustard">£60</span>
                 </div>
               </div>
               <div className="flex flex-col justify-between rounded-2xl border-2 border-ink/10 bg-mustard p-8 text-ink">
@@ -215,7 +215,7 @@ function Index() {
                   <span className="text-xs font-bold uppercase tracking-widest text-ink/60">
                     Starting from
                   </span>
-                  <span className="text-display text-3xl text-purple-deep">£45</span>
+                  <span className="text-display text-3xl text-purple-deep">£65</span>
                 </div>
               </div>
             </div>
