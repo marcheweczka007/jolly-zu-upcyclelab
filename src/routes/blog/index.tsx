@@ -44,7 +44,7 @@ function BlogIndex() {
             <span className="bg-mustard px-3 inline-block -rotate-1">on slow fashion.</span>
           </h1>
           <p className="max-w-md text-lg text-ink/70">
-            Upcycling, rescued textiles, and the honest maths of handmade — from my Edinburgh studio.
+            Upcycling, rescued textiles, and the honest maths of handmade - from my studio.
           </p>
         </div>
 
