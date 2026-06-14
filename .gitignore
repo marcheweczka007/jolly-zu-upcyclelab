@@ -32,5 +32,7 @@ dist-ssr
 *.sw?
 
 .env
+# Generated at build/dev from content/blog/*.md
+src/generated/blog-manifest.json
 # Local Netlify folder
 .netlify

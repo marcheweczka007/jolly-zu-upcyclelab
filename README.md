@@ -29,6 +29,17 @@ Copy the `whsec_…` signing secret it prints into `.env` as `STRIPE_WEBHOOK_SEC
 
 Production webhook setup (live keys, Netlify env vars) → [docs/stripe-products.md](docs/stripe-products.md).
 
+### Blog
+
+Posts live in `content/blog/` as Markdown files with YAML frontmatter. **No code changes** to publish — add a `.md` file and restart dev (or run `npm run generate:blog`).
+
+See `content/blog/README.md` for the frontmatter template.
+
+- Listing: `/blog` (paginated via `?page=2`)
+- Post: `/blog/your-slug`
+- Tags: `/blog/tag/sustainability`
+- RSS: `/blog/rss.xml`
+
 ---
 
 ## How to add product images

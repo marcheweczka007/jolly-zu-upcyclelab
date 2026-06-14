@@ -6,12 +6,18 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { fetchCatalogProducts } from "./lib/fetch-catalog.mjs";
+import { buildBlogManifest } from "./lib/blog-build.mjs";
 import { buildLlmsFullTxt, buildLlmsTxt } from "./lib/llms-txt.mjs";
 import { buildRobotsTxt } from "./lib/robots-txt.mjs";
+import { buildRssFeed } from "./lib/rss-feed.mjs";
 import {
   absoluteUrl,
   ABOUT_DESCRIPTION,
   ABOUT_TITLE,
+  BLOG_DESCRIPTION,
+  BLOG_TITLE,
+  blogPostJsonLd,
+  blogPostSeoTitle,
   buildMetaTags,
   HOME_DESCRIPTION,
   HOME_TITLE,
@@ -47,6 +53,12 @@ const STATIC_PAGES = [
     outPath: "about/index.html",
     title: ABOUT_TITLE,
     description: ABOUT_DESCRIPTION,
+  },
+  {
+    path: "/blog",
+    outPath: "blog/index.html",
+    title: BLOG_TITLE,
+    description: BLOG_DESCRIPTION,
   },
   {
     path: "/shop",
@@ -91,12 +103,17 @@ async function fetchProducts() {
   return products;
 }
 
-function buildSitemap(siteUrl, products) {
+function buildSitemap(siteUrl, products, blogPosts) {
   const today = new Date().toISOString().slice(0, 10);
   const urls = [
     ...STATIC_PAGES.map((p) => ({
       loc: absoluteUrl(siteUrl, p.path),
       priority: p.path === "/" ? "1.0" : "0.8",
+    })),
+    ...blogPosts.map((post) => ({
+      loc: absoluteUrl(siteUrl, `/blog/${post.slug}`),
+      priority: "0.7",
+      lastmod: post.date,
     })),
     ...products
       .filter((p) => p.availability !== "sold_out")
@@ -110,7 +127,7 @@ function buildSitemap(siteUrl, products) {
     .map(
       (u) => `  <url>
     <loc>${u.loc}</loc>
-    <lastmod>${today}</lastmod>
+    <lastmod>${u.lastmod ?? today}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>${u.priority}</priority>
   </url>`,
@@ -134,6 +151,7 @@ async function main() {
   const defaultOgImage = absoluteUrl(siteUrl, DEFAULT_OG);
   const template = await readFile(join(DIST, "index.html"), "utf8");
   const products = await fetchProducts();
+  const { posts: blogPosts } = await buildBlogManifest();
 
   for (const page of STATIC_PAGES) {
     const metaTags = buildMetaTags({
@@ -168,8 +186,32 @@ async function main() {
     console.log(`generate-seo: ${outPath}`);
   }
 
-  await writeFile(join(DIST, "sitemap.xml"), buildSitemap(siteUrl, products), "utf8");
+  for (const post of blogPosts) {
+    const title = blogPostSeoTitle(post.title);
+    const metaTags = buildMetaTags({
+      siteUrl,
+      title,
+      description: post.description,
+      path: `/blog/${post.slug}`,
+      ogImage: post.coverImage || DEFAULT_OG,
+      ogType: "article",
+      jsonLd: blogPostJsonLd(siteUrl, post),
+    });
+    const html = injectSeo(template, { title, metaTags });
+    const outPath = `blog/${post.slug}/index.html`;
+    await writeHtml(outPath, html);
+    console.log(`generate-seo: ${outPath}`);
+  }
+
+  await writeFile(join(DIST, "sitemap.xml"), buildSitemap(siteUrl, products, blogPosts), "utf8");
   console.log("generate-seo: sitemap.xml");
+
+  const rss = buildRssFeed(siteUrl, blogPosts);
+  await mkdir(join(DIST, "blog"), { recursive: true });
+  await mkdir(join(PUBLIC, "blog"), { recursive: true });
+  await writeFile(join(DIST, "blog/rss.xml"), rss, "utf8");
+  await writeFile(join(PUBLIC, "blog/rss.xml"), rss, "utf8");
+  console.log("generate-seo: blog/rss.xml");
 
   const robots = buildRobotsTxt(siteUrl);
   await writeFile(join(DIST, "robots.txt"), robots, "utf8");

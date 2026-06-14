@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>JollyZu Blog</title>
+    <link>https://jollyzu.com/blog</link>
+    <description>Stories about upcycling, slow fashion, and handmade bags from Edinburgh.</description>
+    <language>en-gb</language>
+    <lastBuildDate>Sun, 14 Jun 2026 13:14:48 GMT</lastBuildDate>
+    <atom:link href="https://jollyzu.com/blog/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Why Handmade Costs More Than Fast Fashion</title>
+      <link>https://jollyzu.com/blog/why-handmade-costs-more-than-fast-fashion</link>
+      <guid isPermaLink="true">https://jollyzu.com/blog/why-handmade-costs-more-than-fast-fashion</guid>
+      <description>Handmade upcycled bags take hours of skilled work — not minutes on a factory line. A honest look at what you are paying for when you choose slow fashion.</description>
+      <pubDate>Sun, 14 Jun 2026 00:00:00 GMT</pubDate>
+      <author>Zuza</author>
+    </item>
+    <item>
+      <title>Why Every JollyZu Bag Has a Previous Life</title>
+      <link>https://jollyzu.com/blog/why-every-jollyzu-bag-has-a-previous-life</link>
+      <guid isPermaLink="true">https://jollyzu.com/blog/why-every-jollyzu-bag-has-a-previous-life</guid>
+      <description>Every JollyZu bag starts as rescued fabric — old jeans, rain coats, curtains. Here&apos;s why upcycling matters and what a previous life really means.</description>
+      <pubDate>Wed, 10 Jun 2026 00:00:00 GMT</pubDate>
+      <author>Zuza</author>
+    </item>
+  </channel>
+</rss>

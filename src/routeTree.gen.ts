@@ -14,10 +14,13 @@ import { Route as ReturnsPolicyRouteImport } from './routes/returns-policy'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ShopIndexRouteImport } from './routes/shop/index'
+import { Route as BlogIndexRouteImport } from './routes/blog/index'
 import { Route as ShopBasketRouteImport } from './routes/shop/basket'
 import { Route as ShopListingIdRouteImport } from './routes/shop/$listingId'
+import { Route as BlogSlugRouteImport } from './routes/blog/$slug'
 import { Route as ShopCheckoutSuccessRouteImport } from './routes/shop/checkout/success'
 import { Route as ShopCheckoutCancelRouteImport } from './routes/shop/checkout/cancel'
+import { Route as BlogTagTagRouteImport } from './routes/blog/tag.$tag'
 
 const TermsAndConditionsRoute = TermsAndConditionsRouteImport.update({
   id: '/terms-and-conditions',
@@ -44,6 +47,11 @@ const ShopIndexRoute = ShopIndexRouteImport.update({
   path: '/shop/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BlogIndexRoute = BlogIndexRouteImport.update({
+  id: '/blog/',
+  path: '/blog/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ShopBasketRoute = ShopBasketRouteImport.update({
   id: '/shop/basket',
   path: '/shop/basket',
@@ -52,6 +60,11 @@ const ShopBasketRoute = ShopBasketRouteImport.update({
 const ShopListingIdRoute = ShopListingIdRouteImport.update({
   id: '/shop/$listingId',
   path: '/shop/$listingId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BlogSlugRoute = BlogSlugRouteImport.update({
+  id: '/blog/$slug',
+  path: '/blog/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ShopCheckoutSuccessRoute = ShopCheckoutSuccessRouteImport.update({
@@ -64,15 +77,23 @@ const ShopCheckoutCancelRoute = ShopCheckoutCancelRouteImport.update({
   path: '/shop/checkout/cancel',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BlogTagTagRoute = BlogTagTagRouteImport.update({
+  id: '/blog/tag/$tag',
+  path: '/blog/tag/$tag',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/returns-policy': typeof ReturnsPolicyRoute
   '/terms-and-conditions': typeof TermsAndConditionsRoute
+  '/blog/$slug': typeof BlogSlugRoute
   '/shop/$listingId': typeof ShopListingIdRoute
   '/shop/basket': typeof ShopBasketRoute
+  '/blog/': typeof BlogIndexRoute
   '/shop/': typeof ShopIndexRoute
+  '/blog/tag/$tag': typeof BlogTagTagRoute
   '/shop/checkout/cancel': typeof ShopCheckoutCancelRoute
   '/shop/checkout/success': typeof ShopCheckoutSuccessRoute
 }
@@ -81,9 +102,12 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/returns-policy': typeof ReturnsPolicyRoute
   '/terms-and-conditions': typeof TermsAndConditionsRoute
+  '/blog/$slug': typeof BlogSlugRoute
   '/shop/$listingId': typeof ShopListingIdRoute
   '/shop/basket': typeof ShopBasketRoute
+  '/blog': typeof BlogIndexRoute
   '/shop': typeof ShopIndexRoute
+  '/blog/tag/$tag': typeof BlogTagTagRoute
   '/shop/checkout/cancel': typeof ShopCheckoutCancelRoute
   '/shop/checkout/success': typeof ShopCheckoutSuccessRoute
 }
@@ -93,9 +117,12 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/returns-policy': typeof ReturnsPolicyRoute
   '/terms-and-conditions': typeof TermsAndConditionsRoute
+  '/blog/$slug': typeof BlogSlugRoute
   '/shop/$listingId': typeof ShopListingIdRoute
   '/shop/basket': typeof ShopBasketRoute
+  '/blog/': typeof BlogIndexRoute
   '/shop/': typeof ShopIndexRoute
+  '/blog/tag/$tag': typeof BlogTagTagRoute
   '/shop/checkout/cancel': typeof ShopCheckoutCancelRoute
   '/shop/checkout/success': typeof ShopCheckoutSuccessRoute
 }
@@ -106,9 +133,12 @@ export interface FileRouteTypes {
     | '/about'
     | '/returns-policy'
     | '/terms-and-conditions'
+    | '/blog/$slug'
     | '/shop/$listingId'
     | '/shop/basket'
+    | '/blog/'
     | '/shop/'
+    | '/blog/tag/$tag'
     | '/shop/checkout/cancel'
     | '/shop/checkout/success'
   fileRoutesByTo: FileRoutesByTo
@@ -117,9 +147,12 @@ export interface FileRouteTypes {
     | '/about'
     | '/returns-policy'
     | '/terms-and-conditions'
+    | '/blog/$slug'
     | '/shop/$listingId'
     | '/shop/basket'
+    | '/blog'
     | '/shop'
+    | '/blog/tag/$tag'
     | '/shop/checkout/cancel'
     | '/shop/checkout/success'
   id:
@@ -128,9 +161,12 @@ export interface FileRouteTypes {
     | '/about'
     | '/returns-policy'
     | '/terms-and-conditions'
+    | '/blog/$slug'
     | '/shop/$listingId'
     | '/shop/basket'
+    | '/blog/'
     | '/shop/'
+    | '/blog/tag/$tag'
     | '/shop/checkout/cancel'
     | '/shop/checkout/success'
   fileRoutesById: FileRoutesById
@@ -140,9 +176,12 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   ReturnsPolicyRoute: typeof ReturnsPolicyRoute
   TermsAndConditionsRoute: typeof TermsAndConditionsRoute
+  BlogSlugRoute: typeof BlogSlugRoute
   ShopListingIdRoute: typeof ShopListingIdRoute
   ShopBasketRoute: typeof ShopBasketRoute
+  BlogIndexRoute: typeof BlogIndexRoute
   ShopIndexRoute: typeof ShopIndexRoute
+  BlogTagTagRoute: typeof BlogTagTagRoute
   ShopCheckoutCancelRoute: typeof ShopCheckoutCancelRoute
   ShopCheckoutSuccessRoute: typeof ShopCheckoutSuccessRoute
 }
@@ -184,6 +223,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ShopIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/blog/': {
+      id: '/blog/'
+      path: '/blog'
+      fullPath: '/blog/'
+      preLoaderRoute: typeof BlogIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/shop/basket': {
       id: '/shop/basket'
       path: '/shop/basket'
@@ -196,6 +242,13 @@ declare module '@tanstack/react-router' {
       path: '/shop/$listingId'
       fullPath: '/shop/$listingId'
       preLoaderRoute: typeof ShopListingIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blog/$slug': {
+      id: '/blog/$slug'
+      path: '/blog/$slug'
+      fullPath: '/blog/$slug'
+      preLoaderRoute: typeof BlogSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/shop/checkout/success': {
@@ -212,6 +265,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ShopCheckoutCancelRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/blog/tag/$tag': {
+      id: '/blog/tag/$tag'
+      path: '/blog/tag/$tag'
+      fullPath: '/blog/tag/$tag'
+      preLoaderRoute: typeof BlogTagTagRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -220,9 +280,12 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   ReturnsPolicyRoute: ReturnsPolicyRoute,
   TermsAndConditionsRoute: TermsAndConditionsRoute,
+  BlogSlugRoute: BlogSlugRoute,
   ShopListingIdRoute: ShopListingIdRoute,
   ShopBasketRoute: ShopBasketRoute,
+  BlogIndexRoute: BlogIndexRoute,
   ShopIndexRoute: ShopIndexRoute,
+  BlogTagTagRoute: BlogTagTagRoute,
   ShopCheckoutCancelRoute: ShopCheckoutCancelRoute,
   ShopCheckoutSuccessRoute: ShopCheckoutSuccessRoute,
 }

@@ -16,6 +16,35 @@ export const ABOUT_TITLE = "About JollyZu | Handmade Bags from Scotland";
 export const ABOUT_DESCRIPTION =
   "Meet Zuza, Edinburgh maker behind JollyZu. She sews handmade upcycled bags from reclaimed textiles — sustainable, one-of-a-kind pieces from Scotland.";
 
+export const BLOG_TITLE = "Blog | Upcycling & Slow Fashion — JollyZu";
+export const BLOG_DESCRIPTION =
+  "Stories about upcycling, rescued textiles, and handmade bags from Edinburgh. Slow fashion notes from JollyZu studio.";
+
+export function blogPostSeoTitle(title) {
+  return `${title} — ${SITE_NAME} Blog`;
+}
+
+export function blogPostJsonLd(siteUrl, post) {
+  const url = absoluteUrl(siteUrl, `/blog/${post.slug}`);
+  return {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.title,
+    description: post.description,
+    datePublished: post.date,
+    author: { "@type": "Person", name: post.author },
+    image: post.coverImage ? absoluteUrl(siteUrl, post.coverImage) : defaultOgImageUrl(siteUrl),
+    url,
+    mainEntityOfPage: url,
+    publisher: {
+      "@type": "Organization",
+      name: SITE_FULL_NAME,
+      logo: defaultOgImageUrl(siteUrl),
+    },
+    keywords: (post.tags ?? []).join(", "),
+  };
+}
+
 export function productSeoTitle(product) {
   return `${product.name} | Upcycled Bag — ${SITE_NAME}`;
 }

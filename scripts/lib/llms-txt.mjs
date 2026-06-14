@@ -63,6 +63,7 @@ ${SITE_FULL_NAME} is a small-batch bag brand (also known as JollyZu). Each piece
 
 - [Home](${absoluteUrl(siteUrl, "/")}): Brand story, making process, testimonials, pricing from £40
 - [Shop](${absoluteUrl(siteUrl, "/shop")}): Current drop — browse and buy one-of-a-kind bags
+- [Blog](${absoluteUrl(siteUrl, "/blog")}): Upcycling, slow fashion, and studio notes
 - [About](${absoluteUrl(siteUrl, "/about")}): Meet Zuza, the Edinburgh-based maker and studio ethos
 - [Contact](${CONTACT_FORM_URL}): Custom orders, collaborations, press, general enquiries
 

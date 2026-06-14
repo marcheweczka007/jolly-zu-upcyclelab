@@ -36,6 +36,11 @@ export function SiteFooter() {
                 </Link>
               </li>
               <li>
+                <Link to="/blog" className="hover:text-mustard">
+                  Blog
+                </Link>
+              </li>
+              <li>
                 <a href={CONTACT_FORM_URL} target="_blank" rel="noreferrer" className="hover:text-mustard">
                   Contact
                 </a>

@@ -37,6 +37,13 @@ export function SiteHeader() {
           >
             About
           </Link>
+          <Link
+            to="/blog"
+            className="text-sm font-medium uppercase tracking-wider hover:text-purple-deep"
+            activeProps={{ className: "text-purple-deep" }}
+          >
+            Blog
+          </Link>
           <a
             href={CONTACT_FORM_URL}
             target="_blank"
@@ -98,6 +105,9 @@ export function SiteHeader() {
             </Link>
             <Link to="/about" onClick={() => setOpen(false)} className="text-display text-2xl">
               About
+            </Link>
+            <Link to="/blog" onClick={() => setOpen(false)} className="text-display text-2xl">
+              Blog
             </Link>
             <a
               href={CONTACT_FORM_URL}

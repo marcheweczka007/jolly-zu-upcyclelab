@@ -30,6 +30,7 @@ export const Route = createRootRoute({
       { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
       { rel: "apple-touch-icon", href: "/og-default.webp" },
       { rel: "alternate", type: "text/plain", href: "/llms.txt", title: "LLM-readable site summary" },
+      { rel: "alternate", type: "application/rss+xml", href: "/blog/rss.xml", title: "JollyZu Blog RSS" },
     ],
   }),
   component: RootComponent,

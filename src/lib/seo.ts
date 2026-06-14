@@ -21,6 +21,10 @@ export const ABOUT_TITLE = "About JollyZu | Handmade Bags from Scotland";
 export const ABOUT_DESCRIPTION =
   "Meet Zuza, Edinburgh maker behind JollyZu. She sews handmade upcycled bags from reclaimed textiles — sustainable, one-of-a-kind pieces from Scotland.";
 
+export const BLOG_TITLE = "Blog | Upcycling & Slow Fashion — JollyZu";
+export const BLOG_DESCRIPTION =
+  "Stories about upcycling, rescued textiles, and handmade bags from Edinburgh. Slow fashion notes from JollyZu studio.";
+
 export const DEFAULT_OG_IMAGE_PATH = "/og-image.jpg";
 export const DEFAULT_OG_IMAGE = `${SITE_URL}${DEFAULT_OG_IMAGE_PATH}`;
 export const OG_IMAGE_WIDTH = 1734;
@@ -34,7 +38,7 @@ type PageHeadOptions = {
   description?: string;
   path: string;
   ogImage?: string;
-  ogType?: "website" | "product";
+  ogType?: "website" | "product" | "article";
   noindex?: boolean;
   jsonLd?: Record<string, unknown> | Record<string, unknown>[];
 };
@@ -255,5 +259,72 @@ export function productHead(product: Product) {
     ogType: "product",
     noindex,
     jsonLd: [productJsonLd(product), productBreadcrumbJsonLd(product)],
+  });
+}
+
+type BlogPostSeo = {
+  slug: string;
+  title: string;
+  description: string;
+  date: string;
+  author: string;
+  coverImage: string;
+  tags: string[];
+};
+
+export function blogPostSeoTitle(title: string): string {
+  return `${title} — ${SITE_NAME} Blog`;
+}
+
+export function blogPostJsonLd(post: BlogPostSeo) {
+  const url = absoluteUrl(`/blog/${post.slug}`);
+  return {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.title,
+    description: post.description,
+    datePublished: post.date,
+    author: { "@type": "Person", name: post.author },
+    image: post.coverImage ? absoluteUrl(post.coverImage) : DEFAULT_OG_IMAGE,
+    url,
+    mainEntityOfPage: url,
+    publisher: {
+      "@type": "Organization",
+      name: SITE_FULL_NAME,
+      logo: DEFAULT_OG_IMAGE,
+    },
+    keywords: post.tags.join(", "),
+  };
+}
+
+export function blogPostBreadcrumbJsonLd(post: BlogPostSeo) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
+      { "@type": "ListItem", position: 2, name: "Blog", item: absoluteUrl("/blog") },
+      { "@type": "ListItem", position: 3, name: post.title, item: absoluteUrl(`/blog/${post.slug}`) },
+    ],
+  };
+}
+
+export function blogPostHead(post: BlogPostSeo) {
+  return pageHead({
+    title: blogPostSeoTitle(post.title),
+    description: post.description,
+    path: `/blog/${post.slug}`,
+    ogImage: post.coverImage || DEFAULT_OG_IMAGE,
+    ogType: "article",
+    jsonLd: [blogPostJsonLd(post), blogPostBreadcrumbJsonLd(post)],
+  });
+}
+
+export function blogTagHead(tag: string) {
+  const label = tag.replace(/-/g, " ");
+  return pageHead({
+    title: `${label} — JollyZu Blog`,
+    description: `Articles tagged “${label}” from JollyZu — upcycling, slow fashion, and handmade bags from Edinburgh.`,
+    path: `/blog/tag/${tag}`,
   });
 }
