@@ -1,6 +1,6 @@
 ---
-title: "Why Every JollyZu Bag Has a Previous Life"
-description: "Every JollyZu bag starts as rescued fabric - old jeans, rain coats, curtains. Here's why upcycling matters and what a previous life really means."
+title: "Every piece has a story: The idea behind JollyZu"
+description: "Every JollyZu bag starts as rescued fabric - old jeans, rain coats, pre-loved materials. Here's why upcycling matters and what a previous life really means."
 date: "2026-06-10"
 author: "Zuza"
 coverImage: "/images/blog/previousLife.png"
@@ -8,10 +8,10 @@ tags:
   - sustainability
   - upcycling
   - handmade
-slug: "why-every-jollyzu-bag-has-a-previous-life"
+slug: "from-rainproof-jakcet-to-funky-bag"
 ---
 
-**Every raincoat starts with excitement.**
+**Every new piece of clothing starts with excitement.**
 
 We buy it, we love it, we wear it. Then, one day, it gets pushed to the back of a wardrobe, donated, or simply forgotten.
 For many clothing items, there comes a point when they are no longer wanted. That's where JollyZu begins.
@@ -22,7 +22,7 @@ My job is to find these unwanted raincoats, jackets, waterproof fabrics, and oth
 
 ## Why I Started JollyZu
 
-The idea of creating something beautiful from discarded materials has been with me for years. I finally had the opportunity to turn that passion into reality and build a business around it. My goal isn't to claim that I can save the world, but to make a small, meaningful contribution by reducing textile waste and keeping valuable materials out of landfill.
+The idea of creating something beautiful from discarded materials has been with me for years. I finally had the opportunity to turn it into reality and build a business around it. I'm not trying to claim that I can save the world, but I can proudly say - every reclaimed raincoat means less waste on our planet and oceans. I believe big change comes from the small contributions we can all make today - by reducing textile waste and keeping valuable materials out of landfill.
 
 ## What Happens to Unwanted Clothing?
 

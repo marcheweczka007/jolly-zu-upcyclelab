@@ -1,5 +1,5 @@
 ---
-title: "Why Handmade Costs More Than Fast Fashion"
+title: "What you're actually paying for"
 description: "Handmade upcycled bags take hours of skilled work - not minutes on a factory line. A honest look at what you are paying for when you choose slow fashion."
 date: "2026-06-14"
 author: "Zuza"
@@ -15,15 +15,15 @@ A handmade bag and a £15 high-street tote are not the same product wearing diff
 
 ## Time is the main ingredient
 
-Every JollyZu bag is cut, stabilised, lined, and finished by one person: me, in my Edinburgh studio.
+Every JollyZu bag is designed, cut, sewn, and packed by one person: me, in my Edinburgh studio.
 
-A single crossbody can take **four to eight hours** from sorting fabric to final stitch. There is no assembly line splitting the work across dozens of hands. There is no machine set up to sew the same seam ten thousand times.
+A single crossbody can take **four to six hours** from sorting fabric to final stitch. I make every bag myself, start to finish. There is no machine set up to sew the same seam ten thousand times.
 
-You are paying for skilled hours, not just material.
+Every hour spend on jollyzu bag is intentional, I trully enjoy this creative process where I make a product that is unique, fun, and sustainable. 
 
-## Rescued fabric is not free
+## The "cost" of rescued fabric
 
-Upcycling avoids *new* fabric production, but rescued textiles still cost:
+Upcycling avoids *new* fabric production, but it doesn't come for free:
 
 - **Sourcing time** - hunting deadstock, sorting donations, testing weight and wear
 - **Preparation** - washing, deconstructing, pressing, matching pieces that will actually work together
@@ -52,8 +52,6 @@ When you choose handmade over fast fashion, you are investing in:
 
 ## The honest comparison
 
-Fast fashion prices are kept low by volume, cheap labour, and synthetic fabrics designed for short lives. Handmade prices reflect real time, real skill, and materials chosen for longevity.
+Fast fashion is cheap because the people making it often aren't paid fairly and work in conditions most of us wouldn't accept. The real cost was always there - it was just never on the label.
 
-Neither is "wrong" for every situation. But they are not interchangeable - and the gap between them is mostly **human time and care**.
-
-If you want a bag that carries that story, browse the current drop.
+If you want a bag that makes the difference, check my latest drop in the store.
