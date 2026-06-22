@@ -108,13 +108,13 @@ function About() {
 
           <div className="mt-14 space-y-6 text-lg leading-relaxed text-ink/80 md:col-span-7 md:order-1 md:mt-0">
             <p className="text-display text-3xl text-ink md:text-4xl">
-              JollyZu Upcycle Lab started quietly — with a simple idea: if the fabric is still good,
+              JollyZu Upcycle Lab started with a simple idea: if the fabric is still good,
               it deserves another life.
             </p>
             <p>
-              What began as a side project - sewing rave fanny packs for friends - turned into a
+              What began as a fun side project - sewing rave fanny packs for friends - turned into a
               small studio in Edinburgh making bags entirely from rescued textiles. Denim offcuts,
-              pre-loved clothes, old rain coats, your nan&apos;s curtains. If it can be cut and
+              pre-loved clothes, old rain coats. If it can be cut and
               stitched, it can become a bag.
             </p>
             <p>
@@ -124,8 +124,8 @@ function About() {
               from.
             </p>
             <p>
-              I sew everything myself. I package everything myself. 100% recycled packaging, posted
-              direct from Edinburgh.
+              I sew everything myself. I package everything myself - 100% recycled packaging, posted
+              direct from Scotland.
             </p>
             <div className="pt-6">
               <a
