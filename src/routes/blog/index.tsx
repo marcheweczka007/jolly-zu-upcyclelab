@@ -39,12 +39,12 @@ function BlogIndex() {
         <p className="mb-4 text-xs font-bold uppercase tracking-[0.2em] text-purple-deep">Blog</p>
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <h1 className="text-display max-w-3xl text-[10vw] leading-[0.88] md:text-[4rem]">
-            Studio notes
+            My reflections
             <br />
-            <span className="bg-mustard px-3 inline-block -rotate-1">on slow fashion.</span>
+            <span className="bg-mustard px-3 inline-block -rotate-1">on sustainability, fashion and more.</span>
           </h1>
           <p className="max-w-md text-lg text-ink/70">
-            Upcycling, rescued textiles, and the honest maths of handmade - from my studio.
+            Upcycling, rescued textiles, and behind the scenes of handmade - from my jollyzu studio.
           </p>
         </div>
 
