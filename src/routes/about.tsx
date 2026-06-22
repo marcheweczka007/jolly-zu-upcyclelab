@@ -57,7 +57,7 @@ function About() {
       <section className="mx-auto max-w-7xl px-5 pb-10 pt-8 md:px-8 md:pb-16 md:pt-14">
         <p className="mb-4 text-xs font-bold uppercase tracking-[0.2em] text-purple-deep">About</p>
         <div className="max-w-5xl">
-          <h1 className="text-display text-[10vw] leading-[0.88] md:text-[4.75rem] lg:text-[5.25rem]">
+          <h1 className="text-display text-[10vw] leading-[0.88] md:text-[3.75rem] lg:text-[4.25rem]">
             One person, stitching every piece.
             <br />
             <span className="bg-mustard px-3 inline-block -rotate-1">No new fabric - ever.</span>

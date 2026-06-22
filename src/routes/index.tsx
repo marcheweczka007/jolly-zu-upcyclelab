@@ -65,14 +65,14 @@ function Index() {
 
           <div className="relative md:col-span-5">
             <div className="absolute -left-4 -top-4 z-10 hidden h-24 w-24 rotate-12 items-center justify-center rounded-full bg-leaf text-center text-xs font-black uppercase leading-tight text-ink md:flex">
-              Zero
+              Reclaimed
               <br />
-              Waste
+              &
               <br />
-              Promise
+              upcycled
             </div>
             <div className="absolute -bottom-4 -right-4 z-10 rotate-[8deg] bg-purple-deep px-4 py-2 text-xs font-bold uppercase tracking-wider text-cream shadow-brutal">
-              New drop · live now
+              New drop · every week
             </div>
             {/* Replace src/assets/hero-product.jpg with your own product photo */}
             <div className="aspect-[3/4] w-full overflow-hidden rounded-2xl border-2 border-ink bg-muted shadow-brutal-lg">

@@ -36,25 +36,31 @@ function BlogTagPage() {
     <div className="min-h-screen bg-cream text-ink">
       <SiteHeader />
 
-      <section className="mx-auto max-w-7xl px-5 pb-20 pt-8 md:px-8 md:pt-14">
+      <section className="mx-auto max-w-7xl px-5 pb-10 pt-8 md:px-8 md:pb-16 md:pt-14">
         <Link
           to="/blog"
           className="mb-6 inline-flex text-sm font-bold uppercase tracking-wider text-purple-deep hover:underline"
         >
-          ← All posts
+          ← Back to blog
         </Link>
         <p className="mb-4 text-xs font-bold uppercase tracking-[0.2em] text-purple-deep">Tag</p>
-        <h1 className="text-display max-w-3xl text-[10vw] capitalize leading-[0.88] md:text-[4rem]">
-          {label}
-        </h1>
-        <p className="mt-4 max-w-xl text-lg text-ink/70">
-          {pagination.totalItems} article{pagination.totalItems === 1 ? "" : "s"} tagged &ldquo;{label}&rdquo;
-        </p>
+        <div className="max-w-5xl">
+          <h1 className="text-display text-[10vw] capitalize leading-[0.88] md:text-[3.75rem] lg:text-[4.25rem]">
+            {label}
+          </h1>
+          <p className="mt-8 max-w-2xl text-xl font-medium leading-snug text-ink/85 md:text-2xl">
+            {pagination.totalItems} article{pagination.totalItems === 1 ? "" : "s"} tagged &ldquo;
+            {label}&rdquo;
+          </p>
+        </div>
+      </section>
 
+      <section className="border-t-2 border-ink/10">
+        <div className="mx-auto max-w-7xl px-5 py-16 md:px-8 md:py-24">
         {pagination.items.length === 0 ? (
-          <p className="mt-12 text-center text-ink/70">No posts with this tag yet.</p>
+          <p className="text-center text-ink/70">No posts with this tag yet.</p>
         ) : (
-          <ul className="mt-12 grid auto-rows-fr gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          <ul className="grid auto-rows-fr gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {pagination.items.map((post) => (
               <li key={post.slug} className="h-full min-h-0">
                 <BlogCard post={post} />
@@ -70,6 +76,7 @@ function BlogTagPage() {
           to="/blog/tag/$tag"
           tag={tag}
         />
+        </div>
       </section>
 
       <SiteFooter />
