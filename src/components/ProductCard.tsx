@@ -19,10 +19,17 @@ function featureStrip(product: Product) {
       ? "Small Batch"
       : "Only One Available";
 
-  return [
+  const features = [
     { emoji: "✨", label: uniqueLabel },
     ...DEFAULT_FEATURES.slice(1),
   ];
+
+  // Chalk bags aren't rain-proof — omit that highlight
+  if (product.category === "chalk-bags") {
+    return features.filter((feature) => feature.label !== "Rain Proof");
+  }
+
+  return features;
 }
 
 function ProductGallery({ product }: { product: Product }) {
