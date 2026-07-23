@@ -24,8 +24,13 @@ function featureStrip(product: Product) {
     ...DEFAULT_FEATURES.slice(1),
   ];
 
-  // Chalk bags aren't rain-proof — omit that highlight
-  if (product.category === "chalk-bags") {
+  // Omit rain-proof when it doesn't apply (chalk bags, Green OG, etc.)
+  const hideRainProof =
+    product.category === "chalk-bags" ||
+    product.stripeProductId === "prod_Ut9LpKVSUVvF6B" ||
+    /\bgreen og\b/i.test(product.name);
+
+  if (hideRainProof) {
     return features.filter((feature) => feature.label !== "Rain Proof");
   }
 
