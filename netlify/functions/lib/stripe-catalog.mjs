@@ -64,12 +64,21 @@ export function parseMaterials(raw) {
 }
 
 /** Normalize Stripe metadata category → shop filter id. */
-export function parseCategory(raw) {
+export function parseCategory(raw, productName = "") {
   const value = String(raw ?? "")
     .trim()
     .toLowerCase()
     .replace(/[\s_]+/g, "-");
-  if (value === "chalk-bags" || value === "chalkbags" || value === "chalk-bag") {
+  if (
+    value === "chalk-bags" ||
+    value === "chalkbags" ||
+    value === "chalk-bag" ||
+    value === "chalk"
+  ) {
+    return "chalk-bags";
+  }
+  // Fallback: detect from product name when metadata is missing
+  if (/\bchalk\b/i.test(String(productName ?? ""))) {
     return "chalk-bags";
   }
   return "bags";
@@ -114,7 +123,7 @@ export function toListing(product, price) {
     materials: parseMaterials(metadata.materials),
     dimensions: metadata.dimensions?.trim() ?? "",
     availability: parseAvailability(metadata, product.active, price?.active !== false, stock),
-    category: parseCategory(metadata.category),
+    category: parseCategory(metadata.category, product.name),
     preorderNote: metadata.preorder_note?.trim() || undefined,
     sortOrder: Number(metadata.sort_order) || 0,
     stockTotal: stock.stockTotal,
