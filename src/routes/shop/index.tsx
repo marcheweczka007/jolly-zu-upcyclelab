@@ -75,7 +75,7 @@ function ShopIndex() {
             <h1 className="text-display text-[10vw] leading-[0.88] md:text-[3.75rem] lg:text-[4.25rem]">
               The current drop.
               <br />
-              <span className="bg-mustard px-3 inline-block -rotate-1">One of each - kind.</span>
+              <span className="bg-mustard px-3 inline-block -rotate-1">One of a kind.</span>
             </h1>
             <p className="mt-8 max-w-2xl text-xl font-medium leading-snug text-ink/85 md:text-2xl">
               Each piece is its own story. Browse slowly - then take one home.

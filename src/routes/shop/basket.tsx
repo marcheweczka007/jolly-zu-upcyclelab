@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { CheckoutLegalNotice } from "@/components/CheckoutLegalNotice";
+import { ShopProductsState } from "@/components/ShopProductsState";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { useBasket } from "@/contexts/BasketContext";
