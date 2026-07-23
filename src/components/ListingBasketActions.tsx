@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router";
+import { ArrowRight } from "lucide-react";
 import type { MouseEvent } from "react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -133,15 +134,12 @@ export function ListingBasketActions({
           to="/shop/basket"
           onClick={(e) => e.stopPropagation()}
           className={cn(
-            "inline-flex w-full items-center justify-center rounded-full border-2 border-ink bg-mustard font-bold uppercase tracking-wider text-ink leading-normal shadow-brutal transition-all hover:-translate-y-0.5 hover:bg-cream",
+            "inline-flex w-full items-center justify-center gap-2 rounded-full border-2 border-ink bg-mustard font-bold uppercase tracking-wider text-ink leading-normal shadow-brutal transition-all hover:-translate-y-0.5 hover:bg-cream",
             compact ? "px-4 py-2.5 text-xs" : "px-8 py-4 text-sm md:text-base",
           )}
         >
-          {basketQty > 1
-            ? `${basketQty} in basket — checkout`
-            : preorder
-              ? "Pre-order in basket — go to basket"
-              : "In basket — go to basket"}
+          View basket
+          <ArrowRight className={cn("shrink-0", compact ? "h-3.5 w-3.5" : "h-5 w-5")} strokeWidth={3} aria-hidden />
         </Link>
         <ReturnsSummary compact={compact} />
       </div>

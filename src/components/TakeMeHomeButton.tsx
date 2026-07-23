@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router";
+import { ArrowRight } from "lucide-react";
 import type { MouseEvent } from "react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -21,7 +22,6 @@ type TakeMeHomeButtonProps = {
 export function TakeMeHomeButton({ product, className }: TakeMeHomeButtonProps) {
   const { items, setItemQty } = useBasket();
   const inBasket = (items[product.id] ?? 0) > 0;
-  const basketQty = items[product.id] ?? 0;
   const preorder = isPreorder(product);
   const batch = isBatchProduct(product);
   const maxQty = maxPurchaseQty(product);
@@ -45,7 +45,7 @@ export function TakeMeHomeButton({ product, className }: TakeMeHomeButtonProps) 
   }
 
   const buttonClass = cn(
-    "inline-flex items-center justify-center rounded-full border-2 border-ink bg-ink px-8 py-4 text-base font-black uppercase tracking-wider text-cream shadow-brutal transition-all hover:-translate-y-0.5 hover:bg-purple-deep md:text-lg",
+    "inline-flex items-center justify-center gap-2 rounded-full border-2 border-ink bg-ink px-8 py-4 text-base font-black uppercase tracking-wider text-cream shadow-brutal transition-all hover:-translate-y-0.5 hover:bg-purple-deep md:text-lg",
     className,
   );
 
@@ -56,7 +56,8 @@ export function TakeMeHomeButton({ product, className }: TakeMeHomeButtonProps) 
         onClick={(e) => e.stopPropagation()}
         className={cn(buttonClass, "bg-mustard text-ink hover:bg-cream hover:text-ink")}
       >
-        {basketQty > 1 ? `${basketQty} in basket` : "In basket — checkout"}
+        View basket
+        <ArrowRight className="h-5 w-5 shrink-0" strokeWidth={3} aria-hidden />
       </Link>
     );
   }
