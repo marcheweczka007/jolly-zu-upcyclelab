@@ -175,7 +175,7 @@ export function ProductCard({ product }: { product: Product }) {
             </p>
           </div>
 
-          <div className="flex shrink-0 items-start justify-between gap-5 sm:justify-end">
+          <div className="flex shrink-0 items-start gap-5 sm:gap-6">
             <p className="text-condensed pt-1 text-[clamp(2rem,3.5vw,3.25rem)] uppercase leading-none text-ink">
               {formatPrice(product.pricePence, product.currency)}
             </p>

@@ -77,14 +77,14 @@ export function TakeMeHomeButton({ product, className }: TakeMeHomeButtonProps) 
 
   return (
     <div
-      className="flex w-full flex-col items-stretch gap-3 md:w-auto md:items-end"
+      className="flex w-[min(100%,13rem)] flex-col items-center gap-3 sm:w-auto"
       onClick={(e) => e.stopPropagation()}
     >
-      <button type="button" onClick={handleAdd} className={buttonClass}>
+      <button type="button" onClick={handleAdd} className={cn(buttonClass, "w-full")}>
         {preorder ? "Pre-order" : "Take me home"}
       </button>
       {batch && maxQty > 1 && (
-        <div className="flex items-center justify-center gap-3 md:justify-end">
+        <div className="flex items-center justify-center gap-3">
           <button
             type="button"
             aria-label="Decrease quantity"
