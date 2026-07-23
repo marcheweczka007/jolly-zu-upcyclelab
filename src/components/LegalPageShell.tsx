@@ -20,7 +20,7 @@ export function LegalPageShell({
         <p className="mb-4 text-xs font-bold uppercase tracking-[0.2em] text-purple-deep">
           {eyebrow}
         </p>
-        <h1 className="text-display text-4xl leading-[0.95] md:text-5xl">{title}</h1>
+        <h1 className="text-display text-4xl md:text-5xl">{title}</h1>
         <p className="mt-6 text-lg leading-relaxed text-ink/75">{intro}</p>
 
         <div className="mt-12 space-y-10 text-base leading-relaxed text-ink/80">{children}</div>

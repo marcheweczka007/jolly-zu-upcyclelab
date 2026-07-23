@@ -45,7 +45,7 @@ export function BlogPostLayout({ post, relatedPosts }: BlogPostLayoutProps) {
 
         <header className="mx-auto max-w-3xl px-5 py-10 md:px-8 md:py-14">
           <p className="mb-4 text-xs font-bold uppercase tracking-[0.2em] text-purple-deep">Blog</p>
-          <h1 className="text-display text-[9vw] leading-[0.9] md:text-5xl lg:text-6xl">{post.title}</h1>
+          <h1 className="text-display text-[9vw] md:text-5xl lg:text-6xl">{post.title}</h1>
           <div className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm font-medium text-ink/70">
             <time dateTime={post.date}>{formatBlogDate(post.date)}</time>
             <span aria-hidden>·</span>

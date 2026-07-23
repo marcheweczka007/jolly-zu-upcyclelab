@@ -38,7 +38,7 @@ export function ListingCard({ product }: { product: Product }) {
               {product.tagline}
             </p>
           )}
-          <h2 className="text-display text-xl leading-tight text-ink">{product.name}</h2>
+          <h2 className="text-display text-xl text-ink">{product.name}</h2>
           <p className="flex-1 text-sm text-ink/65 line-clamp-2">{product.description}</p>
           <p className="text-display text-lg text-ink">{formatPrice(product.pricePence)}</p>
         </div>

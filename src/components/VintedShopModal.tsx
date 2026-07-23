@@ -62,7 +62,7 @@ export function VintedShopModal({ open, onOpenChange }: VintedShopModalProps) {
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-purple-deep">
               Curated on Vinted
             </p>
-            <DialogTitle className="text-display mt-3 text-2xl leading-tight text-ink md:text-[1.65rem]">
+            <DialogTitle className="text-display mt-3 text-2xl text-ink md:text-[1.65rem]">
               Every JollyZu piece is one-of-one ♡
             </DialogTitle>
             <DialogDescription

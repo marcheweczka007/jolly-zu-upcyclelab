@@ -9,7 +9,7 @@ export function SiteFooter() {
       <div className="mx-auto max-w-7xl px-5 py-16 md:px-8 md:py-24">
         <div className="grid gap-12 md:grid-cols-[2fr_1fr_1fr_1fr]">
           <div>
-            <p className="text-display text-5xl leading-[0.9] md:text-7xl">
+            <p className="text-display text-5xl md:text-7xl">
               Wear
               <br />
               the

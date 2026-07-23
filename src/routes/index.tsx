@@ -40,7 +40,7 @@ function Index() {
               <span className="h-2 w-2 rounded-full bg-leaf" />
               Made in Scotland · 0% new fabric
             </div>
-            <h1 className="text-display text-[11vw] leading-[0.9] md:text-[5.5rem] lg:text-[6.5rem]">
+            <h1 className="text-display text-[11vw] md:text-[5.5rem] lg:text-[6.5rem]">
               One-of-kind bags
               <br />
               made from{" "}
@@ -64,7 +64,7 @@ function Index() {
           </div>
 
           <div className="relative md:col-span-5">
-            <div className="absolute -left-4 -top-4 z-10 hidden h-24 w-24 rotate-12 items-center justify-center rounded-full bg-leaf text-center text-xs font-black uppercase leading-tight text-ink md:flex">
+            <div className="absolute -left-4 -top-4 z-10 hidden h-24 w-24 rotate-12 items-center justify-center rounded-full bg-leaf text-center text-xs font-black uppercase text-ink md:flex">
               Reclaimed
               <br />
               &
@@ -346,7 +346,7 @@ function Index() {
       <section className="relative overflow-hidden bg-purple-deep text-cream">
         <div className="mx-auto max-w-7xl px-5 py-24 md:px-8 md:py-40">
           <p className="mb-6 text-xs font-bold uppercase tracking-widest text-mustard">Last call</p>
-          <h2 className="text-display text-[16vw] leading-[0.85] md:text-[12rem]">
+          <h2 className="text-display text-[16vw] md:text-[12rem]">
             Ready
             <br />
             to wear

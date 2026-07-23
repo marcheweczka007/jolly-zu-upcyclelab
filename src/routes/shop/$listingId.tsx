@@ -78,7 +78,7 @@ function ListingDetailContent({
                 {product.tagline}
               </p>
             )}
-            <h1 className="text-display mt-3 text-4xl leading-[0.95] md:text-5xl">{product.name}</h1>
+            <h1 className="text-display mt-3 text-4xl md:text-5xl">{product.name}</h1>
             <p className="text-display mt-4 text-3xl">{formatPrice(product.pricePence)}</p>
 
             <p className="mt-6 text-lg leading-relaxed text-ink/80">{product.description}</p>

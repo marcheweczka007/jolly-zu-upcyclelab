@@ -25,7 +25,7 @@ export function BlogCard({ post }: { post: BlogPost }) {
           <p className="text-xs font-bold uppercase tracking-widest text-purple-deep">
             {formatBlogDate(post.date)} · {post.readingTimeMinutes} min read
           </p>
-          <h2 className="text-display text-2xl leading-tight text-ink">{post.title}</h2>
+          <h2 className="text-display text-2xl text-ink">{post.title}</h2>
           <p className="flex-1 text-sm leading-relaxed text-ink/70 line-clamp-3">{post.description}</p>
           <span className="text-display inline-flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-ink group-hover:text-purple-deep">
             Read more →

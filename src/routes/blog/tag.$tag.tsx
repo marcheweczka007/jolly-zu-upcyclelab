@@ -45,7 +45,7 @@ function BlogTagPage() {
         </Link>
         <p className="mb-4 text-xs font-bold uppercase tracking-[0.2em] text-purple-deep">Tag</p>
         <div className="max-w-5xl">
-          <h1 className="text-display text-[10vw] capitalize leading-[0.88] md:text-[3.75rem] lg:text-[4.25rem]">
+          <h1 className="text-display text-[10vw] capitalize md:text-[3.75rem] lg:text-[4.25rem]">
             {label}
           </h1>
           <p className="mt-8 max-w-2xl text-xl font-medium leading-snug text-ink/85 md:text-2xl">

@@ -43,7 +43,7 @@
   --color-coral: var(--coral);
   --color-hot-pink: var(--hot-pink);
 
-  --font-display: "Archivo Black", "Arial Black", sans-serif;
+  --font-display: "Anton", "Impact", "Haettenschweiler", sans-serif;
   --font-condensed: "Anton", "Impact", "Haettenschweiler", sans-serif;
   --font-sans: "Inter", system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
@@ -131,8 +131,9 @@
 
   h1, h2, h3, h4 {
     font-family: var(--font-display);
-    letter-spacing: -0.02em;
-    line-height: 0.95;
+    letter-spacing: 0.04em;
+    line-height: 1.05;
+    text-transform: uppercase;
   }
 
   ::selection {
@@ -144,14 +145,16 @@
 @layer utilities {
   .text-display {
     font-family: var(--font-display);
-    letter-spacing: -0.03em;
-    line-height: 0.9;
+    letter-spacing: 0.04em;
+    line-height: 1.05;
+    text-transform: uppercase;
   }
 
   .text-condensed {
     font-family: var(--font-condensed);
-    letter-spacing: 0.02em;
-    line-height: 0.88;
+    letter-spacing: 0.04em;
+    line-height: 1.05;
+    text-transform: uppercase;
   }
 
   .text-pride {

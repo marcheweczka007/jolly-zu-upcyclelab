@@ -18,7 +18,7 @@ export function SiteHeader() {
     <header className="sticky top-0 z-50 border-b border-ink/10 bg-cream/90 backdrop-blur-md">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 md:px-8">
         <Link to="/" className="group">
-          <span className="text-display text-pride text-2xl tracking-tighter">JOLLYZU</span>
+          <span className="text-display text-2xl uppercase text-ink">JOLLYZU</span>
         </Link>
 
         <nav className="hidden items-center gap-8 md:flex">

@@ -57,7 +57,7 @@ function About() {
       <section className="mx-auto max-w-7xl px-5 pb-10 pt-8 md:px-8 md:pb-16 md:pt-14">
         <p className="mb-4 text-xs font-bold uppercase tracking-[0.2em] text-purple-deep">About</p>
         <div className="max-w-5xl">
-          <h1 className="text-display text-[10vw] leading-[0.88] md:text-[3.75rem] lg:text-[4.25rem]">
+          <h1 className="text-display text-[10vw] md:text-[3.75rem] lg:text-[4.25rem]">
             One person, stitching every piece.
             <br />
             <span className="bg-mustard px-3 inline-block -rotate-1">No new fabric - ever.</span>
@@ -159,7 +159,7 @@ function About() {
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-mustard">
               Where the fabrics come from
             </p>
-            <h2 className="text-display mt-4 text-4xl leading-[0.95] md:text-6xl">
+            <h2 className="text-display mt-4 text-4xl md:text-6xl">
               Rescued textiles - not rolls from a warehouse.
             </h2>
             <p className="mt-6 text-lg leading-relaxed text-cream/75 md:text-xl">
@@ -201,7 +201,7 @@ function About() {
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-purple-deep">
               Why every bag is different
             </p>
-            <h2 className="text-display mt-4 text-4xl leading-[0.95] md:text-6xl">
+            <h2 className="text-display mt-4 text-4xl md:text-6xl">
               Designed around the materials - not the other way around.
             </h2>
           </div>
@@ -228,7 +228,7 @@ function About() {
               <p className="text-xs font-bold uppercase tracking-[0.2em] text-purple-deep">
                 No new fabric
               </p>
-              <h2 className="text-display mt-4 text-4xl leading-[0.95] md:text-5xl">
+              <h2 className="text-display mt-4 text-4xl md:text-5xl">
                 Bags entirely from rescued textiles.
               </h2>
               <p className="mt-6 text-lg leading-relaxed text-ink/80">
@@ -297,7 +297,7 @@ function About() {
       {/* Closing */}
       <section className="bg-ink py-20 text-cream md:py-28">
         <div className="mx-auto max-w-7xl px-5 text-center md:px-8">
-          <h2 className="text-display text-5xl leading-[0.92] md:text-7xl lg:text-8xl">
+          <h2 className="text-display text-5xl md:text-7xl lg:text-8xl">
             Wear something
             <br />
             <span className="text-mustard">no one else has.</span>
