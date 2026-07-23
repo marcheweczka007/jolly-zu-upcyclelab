@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router";
+import { Marquee } from "@/components/Marquee";
 import { TakeMeHomeButton } from "@/components/TakeMeHomeButton";
 import { isBatchProduct, formatPrice, stockLabel } from "@/lib/product-utils";
 import { cn } from "@/lib/utils";
@@ -66,10 +67,10 @@ function ProductGallery({ product }: { product: Product }) {
     );
   }
 
-  // One supporting image — tall side panel with brand bars (mockup fallback)
+  // One supporting image — tall side panel
   if (supporting.length === 1) {
     return (
-      <div className="grid gap-3 md:grid-cols-[minmax(0,2fr)_minmax(0,1fr)] md:gap-4">
+      <div className="grid gap-3 md:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)] md:gap-4">
         <div className="overflow-hidden rounded-2xl border-2 border-ink bg-muted">
           <img
             src={hero}
@@ -82,32 +83,31 @@ function ProductGallery({ product }: { product: Product }) {
             decoding="async"
           />
         </div>
-        <div className="flex min-h-[200px] flex-col overflow-hidden rounded-2xl border-2 border-ink md:min-h-[320px]">
-          <div className="h-8 shrink-0 bg-hot-pink md:h-10" aria-hidden />
-          <div className="min-h-0 flex-1 bg-muted">
-            <img
-              src={supporting[0]}
-              alt=""
-              className={cn("h-full w-full object-cover", soldOut && "opacity-75 saturate-50")}
-              loading="lazy"
-              decoding="async"
-            />
-          </div>
-          <div className="h-8 shrink-0 bg-hot-pink md:h-10" aria-hidden />
+        <div className="overflow-hidden rounded-2xl border-2 border-ink bg-muted">
+          <img
+            src={supporting[0]}
+            alt=""
+            className={cn(
+              "aspect-square h-full w-full object-cover md:aspect-auto md:min-h-[320px]",
+              soldOut && "opacity-75 saturate-50",
+            )}
+            loading="lazy"
+            decoding="async"
+          />
         </div>
       </div>
     );
   }
 
-  // Hero + two supporting images
+  // Hero + two supporting images (mockup bento)
   return (
-    <div className="grid gap-3 md:grid-cols-[minmax(0,2fr)_minmax(0,1fr)] md:gap-4">
+    <div className="grid gap-3 md:grid-cols-[minmax(0,1.65fr)_minmax(0,1fr)] md:gap-4">
       <div className="overflow-hidden rounded-2xl border-2 border-ink bg-muted">
         <img
           src={hero}
           alt={product.imageAlt}
           className={cn(
-            "aspect-[4/3] h-full w-full object-cover md:aspect-auto md:min-h-[360px]",
+            "aspect-[4/3] h-full w-full object-cover md:aspect-auto md:min-h-[380px]",
             soldOut && "opacity-75 saturate-50",
           )}
           loading="lazy"
@@ -115,13 +115,13 @@ function ProductGallery({ product }: { product: Product }) {
         />
       </div>
       <div className="grid grid-cols-2 gap-3 md:grid-cols-1 md:gap-4">
-        {supporting.map((src, i) => (
+        {supporting.map((src) => (
           <div key={src} className="overflow-hidden rounded-2xl border-2 border-ink bg-muted">
             <img
               src={src}
               alt=""
               className={cn(
-                "aspect-square w-full object-cover md:aspect-[4/3] md:h-full",
+                "aspect-square w-full object-cover md:aspect-[5/4] md:h-full",
                 soldOut && "opacity-75 saturate-50",
               )}
               loading="lazy"
@@ -134,9 +134,10 @@ function ProductGallery({ product }: { product: Product }) {
   );
 }
 
-/** Full-width premium listing card — gallery-first, one piece per row. */
+/** Full-width premium listing card — matches shop mockup. */
 export function ProductCard({ product }: { product: Product }) {
   const features = featureStrip(product);
+  const marqueeItems = features.map((feature) => `${feature.emoji} ${feature.label}`);
   const shortDescription =
     product.description?.trim() ||
     product.tagline ||
@@ -144,74 +145,52 @@ export function ProductCard({ product }: { product: Product }) {
 
   return (
     <article className="overflow-hidden rounded-2xl border-2 border-ink bg-cream shadow-brutal">
-      {/* Feature banner */}
-      <div
-        className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 bg-hot-pink px-4 py-3.5 text-center text-sm font-black uppercase tracking-wider text-cream sm:gap-x-8 sm:py-4 sm:text-base md:justify-between md:px-6 md:text-lg"
-        aria-label="Product highlights"
-      >
-        {features.map((feature) => (
-          <span key={feature.label} className="inline-flex items-center gap-1.5 whitespace-nowrap">
-            <span aria-hidden>{feature.emoji}</span>
-            {feature.label}
-          </span>
-        ))}
-      </div>
+      <Marquee
+        items={marqueeItems}
+        className="border-0 border-b-2 border-ink bg-hot-pink py-5 md:py-6"
+        trackClassName="gap-10 md:gap-14"
+        itemClassName="text-display gap-10 text-lg font-black tracking-[0.06em] text-ink [-webkit-text-stroke:1.15px_currentColor] [paint-order:stroke_fill] md:gap-14 md:text-2xl lg:text-3xl"
+        separator={<span className="select-none text-ink/30">·</span>}
+      />
 
-      <div className="flex flex-col gap-6 p-5 md:gap-8 md:p-8">
-        {/* Mobile: gallery first; desktop: info then gallery via order */}
-        <div className="order-2 md:order-1">
-          <div className="flex flex-col gap-5 md:flex-row md:items-start md:justify-between md:gap-8">
-            <div className="min-w-0 flex-1">
-              <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1">
-                <h2 className="text-display text-3xl uppercase leading-[0.95] text-ink md:text-4xl lg:text-5xl">
-                  <Link
-                    to="/shop/$listingId"
-                    params={{ listingId: product.id }}
-                    className="hover:text-purple-deep"
-                  >
-                    {product.name}
-                  </Link>
-                </h2>
-                <p className="text-display text-2xl text-ink md:text-3xl">
-                  {formatPrice(product.pricePence, product.currency)}
-                </p>
-              </div>
-              {product.tagline && (
-                <p className="mt-2 text-sm font-semibold text-ink/70 md:text-base">{product.tagline}</p>
-              )}
-              <p className="mt-3 max-w-2xl text-base leading-relaxed text-ink/80 line-clamp-3 md:text-lg">
-                {shortDescription}
-              </p>
+      <div className="flex flex-col gap-8 p-5 md:gap-10 md:p-8 lg:p-10">
+        <div className="flex flex-col gap-5 md:gap-6 lg:flex-row lg:items-start lg:justify-between lg:gap-8">
+          <div className="min-w-0 flex-1">
+            <h2 className="text-condensed text-[clamp(2.35rem,5.2vw,4.75rem)] uppercase text-ink">
               <Link
                 to="/shop/$listingId"
                 params={{ listingId: product.id }}
-                className="mt-3 inline-flex text-sm font-bold uppercase tracking-wider text-purple-deep underline-offset-4 hover:underline"
+                className="hover:text-purple-deep"
               >
-                See full details →
+                {product.name}
               </Link>
-            </div>
+            </h2>
+            {product.tagline && (
+              <p className="mt-3 text-base font-bold text-ink/80 md:mt-4 md:text-lg">
+                {product.tagline}
+              </p>
+            )}
+            <p className="mt-2 max-w-xl text-[0.95rem] leading-snug text-ink/70 md:mt-3 md:text-base md:leading-relaxed">
+              {shortDescription}
+            </p>
+          </div>
 
-            <div className="hidden shrink-0 md:block">
-              <TakeMeHomeButton product={product} className="min-w-[11rem]" />
-            </div>
+          <div className="flex shrink-0 items-center justify-between gap-5 sm:justify-end lg:pt-1">
+            <p className="text-condensed text-[clamp(2rem,3.5vw,3.25rem)] uppercase text-ink">
+              {formatPrice(product.pricePence, product.currency)}
+            </p>
+            <TakeMeHomeButton product={product} className="min-w-[11.5rem] sm:min-w-[13rem]" />
           </div>
         </div>
 
-        <div className="order-1 md:order-2">
-          <Link
-            to="/shop/$listingId"
-            params={{ listingId: product.id }}
-            className="block"
-            aria-label={`View ${product.name}`}
-          >
-            <ProductGallery product={product} />
-          </Link>
-        </div>
-
-        {/* Mobile CTA — full width under gallery/info */}
-        <div className="order-3 md:hidden">
-          <TakeMeHomeButton product={product} className="w-full" />
-        </div>
+        <Link
+          to="/shop/$listingId"
+          params={{ listingId: product.id }}
+          className="block"
+          aria-label={`View ${product.name}`}
+        >
+          <ProductGallery product={product} />
+        </Link>
       </div>
     </article>
   );

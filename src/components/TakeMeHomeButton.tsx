@@ -45,7 +45,7 @@ export function TakeMeHomeButton({ product, className }: TakeMeHomeButtonProps) 
   }
 
   const buttonClass = cn(
-    "inline-flex items-center justify-center rounded-full bg-ink px-8 py-4 text-base font-bold lowercase tracking-wide text-cream shadow-brutal transition-all hover:-translate-y-0.5 hover:bg-purple-deep md:text-lg",
+    "inline-flex items-center justify-center rounded-full border-2 border-ink bg-ink px-8 py-4 text-base font-black uppercase tracking-wider text-cream shadow-brutal transition-all hover:-translate-y-0.5 hover:bg-purple-deep md:text-lg",
     className,
   );
 
@@ -54,9 +54,9 @@ export function TakeMeHomeButton({ product, className }: TakeMeHomeButtonProps) 
       <Link
         to="/shop/basket"
         onClick={(e) => e.stopPropagation()}
-        className={cn(buttonClass, "border-2 border-ink bg-mustard text-ink hover:bg-cream hover:text-ink")}
+        className={cn(buttonClass, "bg-mustard text-ink hover:bg-cream hover:text-ink")}
       >
-        {basketQty > 1 ? `${basketQty} in basket` : "in basket — checkout"}
+        {basketQty > 1 ? `${basketQty} in basket` : "In basket — checkout"}
       </Link>
     );
   }
@@ -100,7 +100,7 @@ export function TakeMeHomeButton({ product, className }: TakeMeHomeButtonProps) 
         </div>
       )}
       <button type="button" onClick={handleAdd} className={buttonClass}>
-        {preorder ? "pre-order" : "take me home"}
+        {preorder ? "Pre-order" : "Take me home"}
       </button>
     </div>
   );

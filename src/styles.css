@@ -44,6 +44,7 @@
   --color-hot-pink: var(--hot-pink);
 
   --font-display: "Archivo Black", "Arial Black", sans-serif;
+  --font-condensed: "Anton", "Impact", "Haettenschweiler", sans-serif;
   --font-sans: "Inter", system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
 }
@@ -58,7 +59,7 @@
   --purple-deep: oklch(0.42 0.18 305);
   --leaf: oklch(0.7 0.17 145);
   --coral: oklch(0.72 0.18 30);
-  --hot-pink: oklch(0.62 0.24 350);
+  --hot-pink: oklch(0.82 0.16 350);
 
   /* Semantic */
   --background: var(--cream);
@@ -147,6 +148,12 @@
     line-height: 0.9;
   }
 
+  .text-condensed {
+    font-family: var(--font-condensed);
+    letter-spacing: 0.02em;
+    line-height: 0.88;
+  }
+
   .text-pride {
     background: var(--gradient-pride);
     -webkit-background-clip: text;
@@ -167,6 +174,12 @@
 
   .marquee {
     animation: marquee 30s linear infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .marquee {
+      animation: none;
+    }
   }
 
   .ticker-rotate {
