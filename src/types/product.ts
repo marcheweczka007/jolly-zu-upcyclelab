@@ -1,5 +1,8 @@
 export type ProductAvailability = "available" | "preorder" | "sold_out";
 
+/** Shop category — set via Stripe metadata `category`. Defaults to bags. */
+export type ProductCategory = "bags" | "chalk-bags";
+
 export type Product = {
   id: string;
   stripeProductId: string;
@@ -15,6 +18,7 @@ export type Product = {
   materials: string[];
   dimensions: string;
   availability: ProductAvailability;
+  category: ProductCategory;
   preorderNote?: string;
   sortOrder: number;
   /** Set when metadata stock_total is present (batch listing). */

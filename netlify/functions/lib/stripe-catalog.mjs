@@ -18,6 +18,7 @@ import { localGalleryUrls } from "./local-product-images.mjs";
  *   stock_total      — batch size, e.g. 5 (omit for one-of-a-kind)
  *   stock_available  — remaining units (defaults to stock_total; webhook decrements)
  *   force_hide       — `true` hides the product from the shop and checkout
+ *   category         — `bags` (default) | `chalk-bags` — shop category filter
  */
 
 function sanitizeImageUrl(url) {
@@ -62,6 +63,18 @@ export function parseMaterials(raw) {
     .filter(Boolean);
 }
 
+/** Normalize Stripe metadata category → shop filter id. */
+export function parseCategory(raw) {
+  const value = String(raw ?? "")
+    .trim()
+    .toLowerCase()
+    .replace(/[\s_]+/g, "-");
+  if (value === "chalk-bags" || value === "chalkbags" || value === "chalk-bag") {
+    return "chalk-bags";
+  }
+  return "bags";
+}
+
 export function parseAvailability(metadata, productActive, priceActive, stock) {
   if (!productActive || !priceActive) return "sold_out";
   if (stock.isBatch && stock.stockAvailable <= 0) return "sold_out";
@@ -101,6 +114,7 @@ export function toListing(product, price) {
     materials: parseMaterials(metadata.materials),
     dimensions: metadata.dimensions?.trim() ?? "",
     availability: parseAvailability(metadata, product.active, price?.active !== false, stock),
+    category: parseCategory(metadata.category),
     preorderNote: metadata.preorder_note?.trim() || undefined,
     sortOrder: Number(metadata.sort_order) || 0,
     stockTotal: stock.stockTotal,

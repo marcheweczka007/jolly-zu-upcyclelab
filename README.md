@@ -86,6 +86,7 @@ In Stripe Dashboard → **Product** → **Additional options** → **Metadata**:
 | `stock_total` | Optional | `5` | Batch size — enables multi-quantity (see below) |
 | `stock_available` | Optional | `3` | Units left. Webhook decrements on sale. Defaults to `stock_total`. |
 | `force_hide` | Optional | `true` | Hides product from shop and blocks checkout (see below) |
+| `category` | Optional | `bags` or `chalk-bags` | Shop filter pills. Defaults to `bags` if omitted. |
 
 ---
 

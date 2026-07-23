@@ -41,6 +41,7 @@
   --color-purple-deep: var(--purple-deep);
   --color-leaf: var(--leaf);
   --color-coral: var(--coral);
+  --color-hot-pink: var(--hot-pink);
 
   --font-display: "Archivo Black", "Arial Black", sans-serif;
   --font-sans: "Inter", system-ui, sans-serif;
@@ -57,6 +58,7 @@
   --purple-deep: oklch(0.42 0.18 305);
   --leaf: oklch(0.7 0.17 145);
   --coral: oklch(0.72 0.18 30);
+  --hot-pink: oklch(0.62 0.24 350);
 
   /* Semantic */
   --background: var(--cream);
