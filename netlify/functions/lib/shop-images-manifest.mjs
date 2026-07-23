@@ -52,6 +52,12 @@ export default {
     "/shop-images/prod_Uhjk5w7k7RqNDb/03.png",
     "/shop-images/prod_Uhjk5w7k7RqNDb/04.png"
   ],
+  "prod_UkZ24rrB4bhV65": [
+    "/shop-images/prod_UkZ24rrB4bhV65/01.png",
+    "/shop-images/prod_UkZ24rrB4bhV65/02.png",
+    "/shop-images/prod_UkZ24rrB4bhV65/03.png",
+    "/shop-images/prod_UkZ24rrB4bhV65/04.png"
+  ],
   "prod_Ut9LpKVSUVvF6B": [
     "/shop-images/prod_Ut9LpKVSUVvF6B/01.png",
     "/shop-images/prod_Ut9LpKVSUVvF6B/02.png",
