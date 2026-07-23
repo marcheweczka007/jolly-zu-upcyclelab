@@ -1,5 +1,6 @@
+# Do not use immutable — galleries are often replaced in place (same filename).
 /shop-images/*
-  Cache-Control: public, max-age=31536000, immutable
+  Cache-Control: public, max-age=3600, must-revalidate
 
 /assets/*
   Cache-Control: public, max-age=31536000, immutable
