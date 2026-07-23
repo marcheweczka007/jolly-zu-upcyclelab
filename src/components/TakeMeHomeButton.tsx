@@ -76,7 +76,13 @@ export function TakeMeHomeButton({ product, className }: TakeMeHomeButtonProps) 
   };
 
   return (
-    <div className="flex w-full flex-col items-stretch gap-3 md:w-auto md:items-end" onClick={(e) => e.stopPropagation()}>
+    <div
+      className="flex w-full flex-col items-stretch gap-3 md:w-auto md:items-end"
+      onClick={(e) => e.stopPropagation()}
+    >
+      <button type="button" onClick={handleAdd} className={buttonClass}>
+        {preorder ? "Pre-order" : "Take me home"}
+      </button>
       {batch && maxQty > 1 && (
         <div className="flex items-center justify-center gap-3 md:justify-end">
           <button
@@ -99,9 +105,6 @@ export function TakeMeHomeButton({ product, className }: TakeMeHomeButtonProps) 
           </button>
         </div>
       )}
-      <button type="button" onClick={handleAdd} className={buttonClass}>
-        {preorder ? "Pre-order" : "Take me home"}
-      </button>
     </div>
   );
 }
