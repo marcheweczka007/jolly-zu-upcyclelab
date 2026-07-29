@@ -91,7 +91,7 @@ function ShopIndex() {
             </p>
           </div>
 
-          <ul
+          {/* <ul
             className="mt-10 flex flex-wrap gap-3 md:mt-12"
             aria-label="What you get when you shop JollyZu"
           >
@@ -100,10 +100,10 @@ function ShopIndex() {
                 key={label}
                 className="rounded-full border-2 border-ink bg-cream px-4 py-2 text-xs font-black uppercase tracking-wider shadow-brutal"
               >
-                {label}
+                
               </li>
             ))}
-          </ul>
+          </ul> */}
         </section>
 
         <section className="border-t-2 border-ink/10">
