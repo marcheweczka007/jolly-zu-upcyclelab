@@ -19,6 +19,7 @@ import { localGalleryUrls } from "./local-product-images.mjs";
  *   stock_available  — remaining units (defaults to stock_total; webhook decrements)
  *   force_hide       — `true` hides the product from the shop and checkout
  *   category         — `bags` (default) | `chalk-bags` | `backpacks` — shop category filter
+ *   is_new           — `true` shows a New tag on the product card and category pill
  */
 
 function sanitizeImageUrl(url) {
@@ -101,6 +102,21 @@ export function parseCategory(raw, productName = "", productId = "") {
   return "bags";
 }
 
+/** Stripe metadata `is_new=true` (or known new product ids). */
+export function parseIsNew(raw, productId = "") {
+  const value = String(raw ?? "")
+    .trim()
+    .toLowerCase();
+  if (value === "true" || value === "1" || value === "yes" || value === "new") {
+    return true;
+  }
+  // Temporary fallback until metadata is set in Stripe Live
+  if (String(productId ?? "") === "prod_UyTmrRJeigudgO") {
+    return true;
+  }
+  return false;
+}
+
 export function parseAvailability(metadata, productActive, priceActive, stock) {
   if (!productActive || !priceActive) return "sold_out";
   if (stock.isBatch && stock.stockAvailable <= 0) return "sold_out";
@@ -141,6 +157,7 @@ export function toListing(product, price) {
     dimensions: metadata.dimensions?.trim() ?? "",
     availability: parseAvailability(metadata, product.active, price?.active !== false, stock),
     category: parseCategory(metadata.category, product.name, product.id),
+    isNew: parseIsNew(metadata.is_new ?? metadata.new, product.id),
     preorderNote: metadata.preorder_note?.trim() || undefined,
     sortOrder: Number(metadata.sort_order) || 0,
     stockTotal: stock.stockTotal,

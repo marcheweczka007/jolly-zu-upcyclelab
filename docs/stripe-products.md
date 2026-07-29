@@ -31,6 +31,7 @@ For each bag, create a **Product** with a **one-time GBP Price**.
 | `stock_available` | Optional | Units left (defaults to `stock_total`; webhook decrements on sale) |
 | `force_hide` | Optional | `true` — hide from shop and block checkout (product stays in Stripe) |
 | `category` | Optional | `bags` (default), `chalk-bags`, or `backpacks` — shop listing filter |
+| `is_new` | Optional | `true` — New tag on product card + category pill |
 
 If `listing_id` is omitted, the Stripe product id is used in URLs.
 

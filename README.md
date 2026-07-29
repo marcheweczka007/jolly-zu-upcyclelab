@@ -87,6 +87,7 @@ In Stripe Dashboard → **Product** → **Additional options** → **Metadata**:
 | `stock_available` | Optional | `3` | Units left. Webhook decrements on sale. Defaults to `stock_total`. |
 | `force_hide` | Optional | `true` | Hides product from shop and blocks checkout (see below) |
 | `category` | Optional | `bags` or `chalk-bags` or `backpacks` | Shop filter pills. Defaults to `bags` if omitted. |
+| `is_new` | Optional | `true` | Shows a New tag on the product card and its category pill |
 
 ---
 

@@ -55,6 +55,15 @@ function ShopIndex() {
     return counts;
   }, [displayProducts]);
 
+  const newCategories = useMemo(() => {
+    const flags: Partial<Record<ProductCategory, boolean>> = {};
+    for (const product of displayProducts) {
+      if (!product.isNew) continue;
+      flags[product.category ?? DEFAULT_SHOP_CATEGORY] = true;
+    }
+    return flags;
+  }, [displayProducts]);
+
   const filteredProducts = useMemo(
     () =>
       displayProducts.filter(
@@ -105,6 +114,7 @@ function ShopIndex() {
                   active={category}
                   onChange={setCategory}
                   counts={categoryCounts}
+                  newCategories={newCategories}
                 />
               </div>
             )}

@@ -19,6 +19,8 @@ export type Product = {
   dimensions: string;
   availability: ProductAvailability;
   category: ProductCategory;
+  /** Highlight as a new drop — Stripe metadata `is_new=true`. */
+  isNew: boolean;
   preorderNote?: string;
   sortOrder: number;
   /** Set when metadata stock_total is present (batch listing). */

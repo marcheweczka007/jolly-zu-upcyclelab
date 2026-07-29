@@ -156,6 +156,11 @@ export function ProductCard({ product }: { product: Product }) {
       <div className="flex flex-col gap-8 p-5 md:gap-10 md:p-8 lg:p-10">
         <div className="flex flex-col gap-5 md:gap-6 lg:flex-row lg:items-start lg:justify-between lg:gap-8">
           <div className="min-w-0 flex-1">
+            {product.isNew && (
+              <span className="mb-3 inline-flex items-center rounded-full border-2 border-ink bg-hot-pink px-3 py-1 text-[11px] font-black uppercase tracking-wider text-ink shadow-brutal">
+                New drop
+              </span>
+            )}
             <h2 className="text-condensed text-[clamp(2.35rem,5.2vw,4.75rem)] uppercase text-ink">
               <Link
                 to="/shop/$listingId"
