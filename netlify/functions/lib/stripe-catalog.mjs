@@ -18,7 +18,7 @@ import { localGalleryUrls } from "./local-product-images.mjs";
  *   stock_total      — batch size, e.g. 5 (omit for one-of-a-kind)
  *   stock_available  — remaining units (defaults to stock_total; webhook decrements)
  *   force_hide       — `true` hides the product from the shop and checkout
- *   category         — `bags` (default) | `chalk-bags` — shop category filter
+ *   category         — `bags` (default) | `chalk-bags` | `backpacks` — shop category filter
  */
 
 function sanitizeImageUrl(url) {
@@ -64,7 +64,7 @@ export function parseMaterials(raw) {
 }
 
 /** Normalize Stripe metadata category → shop filter id. */
-export function parseCategory(raw, productName = "") {
+export function parseCategory(raw, productName = "", productId = "") {
   const value = String(raw ?? "")
     .trim()
     .toLowerCase()
@@ -77,9 +77,26 @@ export function parseCategory(raw, productName = "") {
   ) {
     return "chalk-bags";
   }
-  // Fallback: detect from product name when metadata is missing
-  if (/\bchalk\b/i.test(String(productName ?? ""))) {
+  if (
+    value === "backpacks" ||
+    value === "backpack" ||
+    value === "packs" ||
+    value === "pack"
+  ) {
+    return "backpacks";
+  }
+  const name = String(productName ?? "");
+  const id = String(productId ?? "");
+  // Fallback: detect from product name / known ids when metadata is missing
+  if (/\bchalk\b/i.test(name)) {
     return "chalk-bags";
+  }
+  if (
+    /\bbackpacks?\b/i.test(name) ||
+    /\bdaypack\b/i.test(name) ||
+    id === "prod_UyTmrRJeigudgO"
+  ) {
+    return "backpacks";
   }
   return "bags";
 }
@@ -123,7 +140,7 @@ export function toListing(product, price) {
     materials: parseMaterials(metadata.materials),
     dimensions: metadata.dimensions?.trim() ?? "",
     availability: parseAvailability(metadata, product.active, price?.active !== false, stock),
-    category: parseCategory(metadata.category, product.name),
+    category: parseCategory(metadata.category, product.name, product.id),
     preorderNote: metadata.preorder_note?.trim() || undefined,
     sortOrder: Number(metadata.sort_order) || 0,
     stockTotal: stock.stockTotal,

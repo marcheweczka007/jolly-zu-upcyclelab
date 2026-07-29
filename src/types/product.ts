@@ -1,7 +1,7 @@
 export type ProductAvailability = "available" | "preorder" | "sold_out";
 
 /** Shop category — set via Stripe metadata `category`. Defaults to bags. */
-export type ProductCategory = "bags" | "chalk-bags";
+export type ProductCategory = "bags" | "chalk-bags" | "backpacks";
 
 export type Product = {
   id: string;

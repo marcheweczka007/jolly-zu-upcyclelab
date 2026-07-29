@@ -67,5 +67,15 @@ export default {
     "/shop-images/prod_Ut9LpKVSUVvF6B/06.png",
     "/shop-images/prod_Ut9LpKVSUVvF6B/07.png",
     "/shop-images/prod_Ut9LpKVSUVvF6B/08.png"
+  ],
+  "prod_UyTmrRJeigudgO": [
+    "/shop-images/prod_UyTmrRJeigudgO/01.png",
+    "/shop-images/prod_UyTmrRJeigudgO/02.png",
+    "/shop-images/prod_UyTmrRJeigudgO/03.png",
+    "/shop-images/prod_UyTmrRJeigudgO/04.png",
+    "/shop-images/prod_UyTmrRJeigudgO/05.png",
+    "/shop-images/prod_UyTmrRJeigudgO/06.png",
+    "/shop-images/prod_UyTmrRJeigudgO/07.png",
+    "/shop-images/prod_UyTmrRJeigudgO/08.png"
   ]
 };
