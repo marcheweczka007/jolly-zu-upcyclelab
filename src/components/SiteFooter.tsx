@@ -98,9 +98,19 @@ export function SiteFooter() {
           </div>
         </div>
 
-        <div className="mt-16 flex flex-col items-start justify-between gap-4 border-t border-cream/10 pt-8 text-xs text-cream/50 md:flex-row md:items-center">
+        <div className="mt-16 grid gap-4 border-t border-cream/10 pt-8 text-xs text-cream/50 md:grid-cols-3 md:items-center">
           <p>© {new Date().getFullYear()} JollyZu Upcycle Lab · Edinburgh</p>
-          <p>Made from what was thrown away.</p>
+          <p className="md:text-center">Made from what was thrown away.</p>
+          <p className="md:text-right">
+            <a
+              href="https://www.ix-design.uk/"
+              target="_blank"
+              rel="noreferrer"
+              className="hover:text-mustard"
+            >
+              Built by IX Design UK LTD
+            </a>
+          </p>
         </div>
       </div>
     </footer>
