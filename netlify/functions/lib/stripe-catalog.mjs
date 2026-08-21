@@ -111,7 +111,10 @@ export function parseIsNew(raw, productId = "") {
     return true;
   }
   // Temporary fallback until metadata is set in Stripe Live
-  if (String(productId ?? "") === "prod_UyTmrRJeigudgO") {
+  if (
+    String(productId ?? "") === "prod_UyTmrRJeigudgO" ||
+    String(productId ?? "") === "prod_V77To9qTXjLztg"
+  ) {
     return true;
   }
   return false;
