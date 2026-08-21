@@ -28,6 +28,9 @@ export default {
     "/shop-images/prod_UeCvPh9ieyi47z/07.webp",
     "/shop-images/prod_UeCvPh9ieyi47z/08.webp"
   ],
+  "prod_UeDMxD9YW7XooH": [
+    "/shop-images/prod_UeDMxD9YW7XooH/01.png"
+  ],
   "prod_UeEWDyiqwazT4i": [
     "/shop-images/prod_UeEWDyiqwazT4i/01.webp",
     "/shop-images/prod_UeEWDyiqwazT4i/02.webp",
