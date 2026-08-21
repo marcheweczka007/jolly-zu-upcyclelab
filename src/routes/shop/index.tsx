@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, type ReactNode } from "react";
+import { ListingCard } from "@/components/ListingCard";
 import { ProductCard } from "@/components/ProductCard";
 import { ShopCategoryPills } from "@/components/ShopCategoryPills";
 import { ShopProductsState } from "@/components/ShopProductsState";
@@ -10,6 +11,7 @@ import { DEFAULT_SHOP_CATEGORY } from "@/constants/shop-categories";
 import { shopRouteGuard } from "@/constants/shop";
 import { useProducts } from "@/contexts/ProductsContext";
 import { fetchProducts } from "@/lib/products-api";
+import { isOgSquareBag } from "@/lib/product-utils";
 import { consumeCatalogFreshFlag } from "@/lib/refresh-catalog-after-checkout";
 import { pageHead, SHOP_DESCRIPTION, SHOP_TITLE, shopItemListJsonLd } from "@/lib/seo";
 import type { Product, ProductCategory } from "@/types/product";
@@ -64,13 +66,21 @@ function ShopIndex() {
     return flags;
   }, [displayProducts]);
 
-  const filteredProducts = useMemo(
-    () =>
-      displayProducts.filter(
-        (product) => (product.category ?? DEFAULT_SHOP_CATEGORY) === category,
-      ),
-    [displayProducts, category],
-  );
+  const filteredProducts = useMemo(() => {
+    const filtered = displayProducts.filter(
+      (product) => (product.category ?? DEFAULT_SHOP_CATEGORY) === category,
+    );
+    // Keep OG square bags together, New first within that group
+    return [...filtered].sort((a, b) => {
+      const aOg = isOgSquareBag(a) ? 0 : 1;
+      const bOg = isOgSquareBag(b) ? 0 : 1;
+      if (aOg !== bOg) return aOg - bOg;
+      const aNew = a.isNew ? 0 : 1;
+      const bNew = b.isNew ? 0 : 1;
+      if (aNew !== bNew) return aNew - bNew;
+      return a.sortOrder - b.sortOrder || a.name.localeCompare(b.name);
+    });
+  }, [displayProducts, category]);
 
   return (
     <ShopProductsState>
@@ -130,11 +140,7 @@ function ShopIndex() {
               </p>
             ) : (
               <ul className="flex flex-col gap-10 md:gap-14">
-                {filteredProducts.map((product) => (
-                  <li key={product.id}>
-                    <ProductCard product={product} />
-                  </li>
-                ))}
+                {renderShopListings(filteredProducts)}
               </ul>
             )}
 
@@ -157,4 +163,42 @@ function ShopIndex() {
       </div>
     </ShopProductsState>
   );
+}
+
+/** Group consecutive OG square bags into one comparison row; other products stay full-width. */
+function renderShopListings(products: Product[]): ReactNode[] {
+  const nodes: ReactNode[] = [];
+  let i = 0;
+
+  while (i < products.length) {
+    if (isOgSquareBag(products[i])) {
+      const group: Product[] = [];
+      while (i < products.length && isOgSquareBag(products[i])) {
+        group.push(products[i]);
+        i += 1;
+      }
+      nodes.push(
+        <li key={`og-row-${group.map((p) => p.id).join("-")}`}>
+          <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
+            {group.map((product) => (
+              <li key={product.id} className="min-h-0">
+                <ListingCard product={product} />
+              </li>
+            ))}
+          </ul>
+        </li>,
+      );
+      continue;
+    }
+
+    const product = products[i];
+    nodes.push(
+      <li key={product.id}>
+        <ProductCard product={product} />
+      </li>,
+    );
+    i += 1;
+  }
+
+  return nodes;
 }

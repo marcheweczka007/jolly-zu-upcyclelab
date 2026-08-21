@@ -51,3 +51,15 @@ export function formatPrice(pence: number, currency = "GBP"): string {
 export function getProductById(products: Product[], id: string): Product | undefined {
   return products.find((p) => p.id === id);
 }
+
+/** Square OG crossbodies — shown as a single comparison row on /shop. */
+const OG_SQUARE_PRODUCT_IDS = new Set([
+  "prod_V77To9qTXjLztg", // Purple OG
+  "prod_Ut9LpKVSUVvF6B", // Green OG
+  "prod_Uc1rZsLk8dsaLF", // Jolly OG
+]);
+
+export function isOgSquareBag(product: Product): boolean {
+  if (OG_SQUARE_PRODUCT_IDS.has(product.stripeProductId)) return true;
+  return /\bog\b/i.test(product.name);
+}

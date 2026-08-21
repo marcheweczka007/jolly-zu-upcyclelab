@@ -157,7 +157,7 @@ export function ProductCard({ product }: { product: Product }) {
         <div className="flex flex-col gap-5 md:gap-6">
           {product.isNew && (
             <span className="inline-flex w-fit items-center rounded-full border-2 border-ink bg-hot-pink px-3 py-1 text-[11px] font-black uppercase tracking-wider text-ink shadow-brutal">
-              New drop
+              New
             </span>
           )}
 

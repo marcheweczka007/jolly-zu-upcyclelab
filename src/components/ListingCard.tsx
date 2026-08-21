@@ -13,7 +13,7 @@ export function ListingCard({ product }: { product: Product }) {
         params={{ listingId: product.id }}
         className="flex min-h-0 flex-1 flex-col"
       >
-        <div className="relative aspect-[4/5] overflow-hidden bg-muted">
+        <div className="relative aspect-square overflow-hidden bg-muted">
           {product.image ? (
             <img
               src={product.image}
@@ -29,6 +29,11 @@ export function ListingCard({ product }: { product: Product }) {
             <div className="flex h-full items-center justify-center text-sm text-ink/40">
               No image
             </div>
+          )}
+          {product.isNew && (
+            <span className="absolute right-3 top-3 z-10 rounded-full border-2 border-ink bg-hot-pink px-3 py-1 text-xs font-black uppercase tracking-wide text-ink shadow-brutal">
+              New
+            </span>
           )}
           <ListingAvailabilityBadge product={product} />
         </div>

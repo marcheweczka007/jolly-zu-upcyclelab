@@ -221,6 +221,10 @@ export async function listCatalog(stripe, { shopOnly = false } = {}) {
     const aSold = a.availability === "sold_out" ? 1 : 0;
     const bSold = b.availability === "sold_out" ? 1 : 0;
     if (aSold !== bSold) return aSold - bSold;
+    // New drops first (e.g. Purple OG)
+    const aNew = a.isNew ? 0 : 1;
+    const bNew = b.isNew ? 0 : 1;
+    if (aNew !== bNew) return aNew - bNew;
     return a.sortOrder - b.sortOrder || a.name.localeCompare(b.name);
   });
   return listings;
