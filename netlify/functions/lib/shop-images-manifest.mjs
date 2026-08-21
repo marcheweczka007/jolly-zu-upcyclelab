@@ -9,7 +9,7 @@ export default {
     "/shop-images/prod_Uc1qJJNoAQve2f/06.webp"
   ],
   "prod_Uc1rZsLk8dsaLF": [
-    "/shop-images/prod_Uc1rZsLk8dsaLF/01.webp",
+    "/shop-images/prod_Uc1rZsLk8dsaLF/01.png",
     "/shop-images/prod_Uc1rZsLk8dsaLF/02.webp",
     "/shop-images/prod_Uc1rZsLk8dsaLF/03.webp",
     "/shop-images/prod_Uc1rZsLk8dsaLF/04.webp",
